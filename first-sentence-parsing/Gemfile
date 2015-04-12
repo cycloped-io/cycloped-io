@@ -1,0 +1,21 @@
+source "http://rubygems.org"
+
+gem 'rdf-turtle'
+gem "rlp-wiki", :path => "../rlp"
+gem "slop"
+gem 'rod', :git => 'git://github.com/apohllo/rod.git', :tag => 'v0.7.2.4'
+gem 'rod-rest'
+gem 'colors'
+gem 'syntax', :path => '../category-parsing/'
+gem 'htmlentities'
+gem 'cycr'
+gem 'net-http-persistent'
+gem 'progress', :git => 'git://github.com/djstrong/progress.git'
+gem 'rr', '~> 1.1.2'
+gem 'rspec'
+gem 'ZenTest', '4.10.0'
+gem 'cyc-mapping', :path => '../category-mapping/'
+#gem 'ruby-graphviz'
+gem 'iconv'
+gem 'nokogiri'
+gem "typhoeus"

@@ -1,0 +1,17 @@
+source "http://rubygems.org"
+
+gem "rlp-wiki", :path => "../rlp"
+gem "slop"
+gem 'rod', :git => 'git://github.com/apohllo/rod.git', :tag => 'v0.7.2.4'
+gem 'syntax', :path => '../category-parsing/'
+gem 'progress', :git => 'git://github.com/djstrong/progress.git'
+gem 'rspec'
+gem 'colors'
+gem 'htmlentities'
+gem 'rr', '~> 1.1.2'
+gem 'sparql-client', '~> 0.0.11'
+gem 'rod-rest'
+gem 'rdf-rdfxml', '< 1.0.0'
+gem 'addressable'
+gem 'nokogiri'
+gem 'equivalent-xml'

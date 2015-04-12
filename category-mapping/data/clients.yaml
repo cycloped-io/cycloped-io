@@ -1,0 +1,34 @@
+---
+:pl:
+  :port: 2002
+  :host: jesion
+:nl:
+  :port: 2003
+  :host: jesion
+:de:
+  :port: 2004
+  :host: jesion
+:sv:
+  :port: 2005
+  :host: jesion
+:fr:
+  :port: 2006
+  :host: jesion
+:it:
+  :port: 2007
+  :host: jesion
+:es:
+  :port: 2008
+  :host: jesion
+:ru:
+  :port: 2009
+  :host: jesion
+:vi:
+  :port: 2010
+  :host: jesion
+:ceb:
+  :port: 2011
+  :host: jesion
+:var:
+  :port: 2012
+  :host: jesion

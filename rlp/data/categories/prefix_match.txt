@@ -1,0 +1,12 @@
+template
+user(?! interface)
+(?<!web )portal
+disambig
+ambig
+redirect
+infobox
+sockpuppet
+proofreader
+collaboration
+de-orphan from
+disputes from

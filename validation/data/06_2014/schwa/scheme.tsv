@@ -1,0 +1,154 @@
+Type	CoNLL	Fine	Super-Fine
+_Disambiguation	DAB	_Disambiguation	_Disambiguation
+_List	DAB	_Disambiguation	_List
+_Topic / Concept / Non-Entity	NON	Non-Entity	_Topic / Concept / Non-Entity
+Facility:Airport	LOC	Facility	Facility:Airport
+Facility:Attraction	LOC	Facility	Facility:Attraction
+Facility:Bridge	LOC	Facility	Facility:Bridge
+Facility:Building / Castle	LOC	Facility	Facility:Building / Castle
+Facility:Farm / Ranch	LOC	Facility	Facility:Other
+Facility:Library	LOC	Facility	Facility:Other
+Facility:Other	LOC	Facility	Facility:Other
+Facility:Road	LOC	Facility	Facility:Road
+Facility:Stadium	LOC	Facility	Facility:Other
+Facility:Station / Wharf	LOC	Facility	Facility:Station/Wharf
+Linguistic:Expression / Idiom	NON	Non-Entity	_Topic / Concept / Non-Entity
+Linguistic:Name	DAB	_Disambiguation	_Disambiguation
+Location:GPE:Admin Region / Borough / Commune	LOC	Location:GPE	Location:GPE:Other
+Location:GPE:Country	LOC	Location:GPE	Location:GPE:Country
+Location:GPE:Other	LOC	Location:GPE	Location:GPE:Other
+Location:GPE:Region	LOC	Location:GPE	Location:GPE:Other
+Location:GPE:Religious Diocese Parish	LOC	Location:GPE	Location:GPE:Other
+Location:GPE:State / Province	LOC	Location:GPE	Location:GPE:State / Province
+Location:GPE:Suburb / Quarter / Arrondissement	LOC	Location:GPE	Location:GPE:Other
+Location:GPE:Town / City	LOC	Location:Town / City	Location:GPE:Town / City
+Location:Location:Border	LOC	Location:Other	Location:Location:Other
+Location:Location:Continent	LOC	Location:Other	Location:Location:Other
+Location:Location:Forest / Park / Marine / Beach	LOC	Location:Other	Location:Location:Region
+Location:Location:Geolog. Region / Mountain/Valley	LOC	Location:Other	Location:Location:Geological
+Location:Location:Island	LOC	Location:Other	Location:Location:Island
+Location:Location:Latlong	LOC	Location:Other	Location:Location:Latlong
+Location:Location:Other	LOC	Location:Other	Location:Location:Other
+Location:Location:River / Glacier	LOC	Location:Other	Location:Location:River / Glacier
+Location:Location:Space / galaxy / star etc	LOC	Location:Other	Location:Location:Space / galaxy / star etc
+Location:Location:Water Lake / Ocean / Sea / Bay	LOC	Location:Other	Location:Location:Water Lake / Ocean / Sea / Bay
+Misc:Award	MISC	Miscellaneous	Misc:Other
+Misc:Courtcase	MISC	Miscellaneous	Misc:Other
+Misc:Currency / Stamp	NON	Non-Entity	Non-Entity
+Misc:Event:Concert	MISC	Event	Event:Concert
+Misc:Event:Natural Disaster / Famine / Plague	MISC	Event	Event:Natural Disaster
+Misc:Event:Other	MISC	Event	Event:Other
+Misc:Event:Season / football season etc	MISC	Event	Event:Sports
+Misc:Event:Sports	MISC	Event	Event:Sports
+Misc:Event:War / Battle / Military Operation/Riot	MISC	Event	Event:War / Battle
+Misc:Game / Sport	NON	Non-Entity	Game / Sport
+Misc:Genre	NON	Non-Entity	Misc:Genre
+Misc:Language	MISC	Miscellaneous	Misc:Language
+Misc:Law / Treaty	MISC	Miscellaneous	Misc:Law / Treaty
+Misc:NORP:Nationality	MISC	NORP	NORP:Nationality
+Misc:NORP:Other	MISC	NORP	NORP:Other
+Misc:NORP:Political	MISC	NORP	NORP:Political
+Misc:NORP:Religion	MISC	NORP	NORP:Religion
+Misc:Other	MISC	Miscellaneous	Misc:Other
+Misc:Product:Electronics / Cameras	MISC	Product	Misc:Product
+Misc:Product:Food / Drink	MISC	Product	Misc:Product
+Misc:Product:Franchise	MISC	Product	Misc:Product
+Misc:Product:Other	MISC	Product	Misc:Product
+Misc:Product:Protocol	MISC	Miscellaneous	Misc:Product
+Misc:Product:Software/Algorithm/ Video Game	MISC	Product	Misc:Product
+Misc:Product:Vehicle	MISC	Product	Misc:Product
+Misc:Product:Weapon	MISC	Product	Misc:Product
+Misc:Product:Website	MISC	Product	Misc:Product
+Misc:Treasure / Artefact	MISC	Miscellaneous	Misc:Other
+Misc:Vessel / named plane/spaceship etc	MISC	Miscellaneous	Misc:Vessel
+Misc:Work of Art:Album	MISC	Work of Art	Misc:Work of Art:Album
+Misc:Work of Art:Book / Chapter / Open Letter	MISC	Work of Art	Misc:Work of Art:Book / Chapter
+Misc:Work of Art:Film / Documentary	MISC	Work of Art	Misc:Work of Art:Film / Documentary
+Misc:Work of Art:Newspaper / Magazine / Journal	MISC	Work of Art	Misc:Work of Art:Newspaper / Magazine / Journal
+Misc:Work of Art:Other	MISC	Work of Art	Misc:Work of Art:Other
+Misc:Work of Art:Painting	MISC	Work of Art	Misc:Work of Art:Other
+Misc:Work of Art:Play / Opera / Ballet / Musical	MISC	Work of Art	Misc:Work of Art:Play / Opera / Ballet / Musical
+Misc:Work of Art:Sculpture / Fountain	MISC	Work of Art	Misc:Work of Art:Other
+Misc:Work of Art:Song / Poem / Prayer / Music	MISC	Work of Art	Misc:Work of Art:Song / Poem / Prayer
+Misc:Work of Art:TV Show / Series / Episode	MISC	Work of Art	Misc:Work of Art:TV Show / Series / Episode
+Numeric:Age	NON	Non-Entity	Numeric:Age
+Numeric:Cardinal	NON	Non-Entity	Numeric:Cardinal
+Numeric:Date	NON	Non-Entity	Numeric:Date
+Numeric:Duration	NON	Non-Entity	Numeric:Duration
+Numeric:Money	NON	Non-Entity	Numeric:Money
+Numeric:Ordinal	NON	Non-Entity	Numeric:Ordinal
+Numeric:Other	NON	Non-Entity	Numeric:Other
+Numeric:Percent	NON	Non-Entity	Numeric:Percent
+Numeric:Periodic	NON	Non-Entity	Numeric:Periodic
+Numeric:Quantity	NON	Non-Entity	Numeric:Quantity
+Numeric:Time	NON	Non-Entity	Numeric:Time
+Numeric:Unmarked	NON	Non-Entity	Numeric:Unmarked
+Organisation:Army / Military	ORG	Organisation:Other	Organisation:Army / Military
+Organisation:Band	ORG	Organisation:Band	Organisation:Band
+Organisation:Broadcaster:Radio / Television	ORG	Organisation:Other	Organisation:Other
+Organisation:Charity	ORG	Organisation:Other	Organisation:Other
+Organisation:Clan / Tribe	MISC	NORP	NORP:Other
+Organisation:Corporation	ORG	Organisation:Corporation	Organisation:Corporation
+Organisation:Educational / School / Uni / Research	ORG	Organisation:Other	Organisation:Educational
+Organisation:Environmental	ORG	Organisation:Other	Organisation:Other
+Organisation:Government / Police	ORG	Organisation:Other	Organisation:Government / Police
+Organisation:Hospital / Health Facilities	ORG	Organisation:Other	Organisation:Hospital / Health Facilities
+Organisation:Hotel	ORG	Organisation:Other	Organisation:Hotel
+Organisation:Museum	LOC	Facility	Organisation:Museum
+Organisation:Other	ORG	Organisation:Other	Organisation:Other
+Organisation:Political	ORG	Organisation:Other	Organisation:Political
+Organisation:Religious / Church / Temple / Mosque	ORG	Organisation:Other	Organisation:Religious / Church
+Organisation:Sport / team	ORG	Organisation:Other	Organisation:Sport / team
+Personal:Fictional / Myth	PER	Person:Other	Personal:Other
+Personal:Other / Racehorse	PER	Person:Other	Personal:Other
+Personal:Person / dude	PER	Person:Person	Personal:Person
+Personal:Spiritual / Religious	PER	Person:Other	Personal:Other
+Type of:Body Part or parts of other creatures	NON	Non-Entity	Generic
+Type of:Colour	NON	Non-Entity	Generic
+Type of:Disease / Disorder	NON	Non-Entity	Generic
+Type of:Event:Natural Disaster	NON	Non-Entity	Generic
+Type of:Event:Other	NON	Non-Entity	Generic
+Type of:Facility:Airport	NON	Non-Entity	Generic:Facility:Transport
+Type of:Facility:Attraction	NON	Non-Entity	Generic
+Type of:Facility:Bridge	NON	Non-Entity	Generic:Facility:Transport
+Type of:Facility:Building	NON	Non-Entity	Generic
+Type of:Facility:Other	NON	Non-Entity	Generic
+Type of:Facility:Road	NON	Non-Entity	Generic:Facility:Transport
+Type of:Facility:Station	NON	Non-Entity	Generic
+Type of:Game / Sport	NON	Non-Entity	Generic
+Type of:GPE:Country	NON	Non-Entity	Generic:GPE
+Type of:GPE:Other	NON	Non-Entity	Generic:GPE
+Type of:GPE:State	NON	Non-Entity	Generic:GPE
+Type of:GPE:Town / City / Village	NON	Non-Entity	Generic:GPE
+Type of:Language	NON	Non-Entity	Generic:GPE
+Type of:Life: Genus etc	NON	Non-Entity:Life	Generic:Life:Animal
+Type of:Life:Animal	NON	Non-Entity:Life	Generic:Life:Animal
+Type of:Life:Insect / Spider / Snail	NON	Non-Entity:Life	Generic:Life:Animal
+Type of:Life:Other	NON	Non-Entity:Life	Generic:Life:Other
+Type of:Life:Plant / Algae / Fungi	NON	Non-Entity:Life	Generic:Life:Plant
+Type of:Life:Protein / Enzymes / Organic Compound	NON	Non-Entity:Life	Generic:Life:Other
+Type of:Life:Virus / Bacteria	NON	Non-Entity:Life	Generic:Life:Other
+Type of:Location	NON	Non-Entity	Generic
+Type of:Organisation:Corporation	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Educational	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Government	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Hospital	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Hotel	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Museum	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Other	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Political / Union	NON	Non-Entity	Generic:Organisation
+Type of:Organisation:Religious	NON	Non-Entity	Generic:Organisation
+Type of:Person	NON	Non-Entity	Generic:Person
+Type of:Process / Method / Procedure	NON	Non-Entity	_Topic / Concept / Non-Entity
+Type of:Product:Musical Instrument	NON	Non-Entity	Generic
+Type of:Product:Software	NON	Non-Entity	Generic:Product
+Type of:Product:Vehicle	NON	Non-Entity	Generic:Product
+Type of:Product:Weapon	NON	Non-Entity	Generic:Product
+Type of:Product:Website	NON	Non-Entity	Generic:Product
+Type of:Substance:Chemical / Element	NON	Non-Entity:Substance	Substance
+Type of:Substance:Drug	NON	Non-Entity:Substance	Substance
+Type of:Substance:Food	NON	Non-Entity:Substance	Substance
+Type of:Substance:Other	NON	Non-Entity:Substance	Substance
+Type of:Symbol	NON	Non-Entity	_Topic / Concept / Non-Entity
+Type of:Vessel	NON	Non-Entity	Generic:Vessel
+Type of:Work of Art	NON	Non-Entity	Generic:Work of Art

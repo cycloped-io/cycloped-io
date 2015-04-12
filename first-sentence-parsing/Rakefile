@@ -1,0 +1,47 @@
+task :default => [:'first_sentences:download', :'first_sentences:filter', :'first_sentences:compile', :'first_sentences:parse']
+
+namespace :first_sentences do
+  parser = ENV['STANFORD_PARSER_PATH']
+  wikipedia_path = ENV['RLP_DATA_PATH']
+
+  if wikipedia_path.nil?
+    puts 'RLP_DATA_PATH has to be set'
+    exit
+  end
+
+  #TODO generate list of articles to download
+
+  task :download do
+    puts `utils/first_sentences_online.rb -i #{wikipedia_path}/articles_name.csv -o #{wikipedia_path}/articles_first_paragraphs.csv`
+  end
+
+  task :filter do
+    puts `utils/filter_brackets.rb -i #{wikipedia_path}/articles_first_paragraphs.csv -o #{wikipedia_path}/articles_first_paragraphs_filtered.csv`
+  end
+
+  desc 'Compile Java program. Need Stanford CoreNLP and Commons-CSV in STANFORD_PARSER_PATH.'
+  task :compile do
+    if parser.nil?
+      puts 'STANFORD_PARSER_PATH has to be set'
+      exit
+    end
+    models=`ls #{parser}/stanford-*-models.jar #{parser}/stanford-corenlp-?.?.?.jar #{parser}/commons-csv-*.jar`.gsub("\n", ':')
+    puts `javac -cp .:#{models} ParseFirstSentence.java`
+  end
+
+  desc 'Parse articles abstracts using Stanford Parser. Need Stanford CoreNLP and Commons-CSV in STANFORD_PARSER_PATH.'
+  task :parse do
+    if parser.nil?
+      puts 'STANFORD_PARSER_PATH has to be set'
+      exit
+    end
+    models=`ls #{parser}/stanford-*-models.jar #{parser}/stanford-corenlp-?.?.?.jar #{parser}/commons-csv-*.jar`.gsub("\n", ':')
+    puts `java -Xmx6g -cp .:#{models} ParseFirstSentence #{wikipedia_path}/articles_first_paragraphs_filtered.csv #{wikipedia_path}/articles_first_sentences_parsed.csv`
+  end
+
+  task :parse_definitions do
+    puts `./utils/parse_definitions.rb -c #{wikipedia_path}/articles_first_sentences_parsed.csv -o #{wikipedia_path}/articles_first_sentences_parsed_with_types.csv -e #{wikipedia_path}/articles_first_sentences_parsed_with_types_errors.csv`
+  end
+
+
+end

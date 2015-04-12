@@ -1,0 +1,213 @@
+Mx4rvVj-r5wpEbGdrcN5Y29ycA,Airport-Physical,Facility:Airport
+Mx4rwPfOMJwpEbGdrcN5Y29ycA,TouristAttraction,Facility:Attraction
+Mx4rvgD1IZwpEbGdrcN5Y29ycA,Bridge,Facility:Bridge
+Mx4rvVj7KJwpEbGdrcN5Y29ycA,Building,Facility:Building / Castle
+Mx4rvgEGtpwpEbGdrcN5Y29ycA,Castle,Facility:Building / Castle
+Mx8Ngh4rc6oKzFsKEdaAAACQJ5pZBx4rvVjmEpwpEbGdrcN5Y29ycA,"[:FacilityTypeOfOrganizationTypeFn, :LivestockFarm]",Facility:Farm / Ranch
+Mx4rvVjzh5wpEbGdrcN5Y29ycA,LibrarySpace,Facility:Library
+Mx4rvVidpZwpEbGdrcN5Y29ycA,ConstructionArtifact,Facility:Other
+Mx4rvyNjbZwpEbGdrcN5Y29ycA,Roadway,Facility:Road
+Mx4rvVjtnZwpEbGdrcN5Y29ycA,Stadium,Facility:Stadium
+Mx4rGyB6uGbnQdichKPFIDIErQ,BusStation,Facility:Station / Wharf
+Mx4rv6ZmoZwpEbGdrcN5Y29ycA,RailroadStation,Facility:Station / Wharf
+Mx4rvgES8pwpEbGdrcN5Y29ycA,Dock,Facility:Station / Wharf
+Mx4rvVjQ-5wpEbGdrcN5Y29ycA,LinguisticObject,Linguistic:Expression / Idiom
+Mx4rwB7x55wpEbGdrcN5Y29ycA,Name,Linguistic:Name
+Mx4rwMAYTJwpEbGdrcN5Y29ycA,CountrySubsidiary,Location:GPE:Admin Region / Borough / Commune
+Mx4row2WOHwNQdeFcucrvFV0yw,Borough,Location:GPE:Admin Region / Borough / Commune
+Mx4rvVi4_pwpEbGdrcN5Y29ycA,Neighborhood,Location:GPE:Admin Region / Borough / Commune
+Mx4rvViIeZwpEbGdrcN5Y29ycA,Country,Location:GPE:Country
+Mx4rvVjl2pwpEbGdrcN5Y29ycA,GeopoliticalEntity,Location:GPE:Other
+Mx4rv3aRYpwpEbGdrcN5Y29ycA,GeoculturalRegion,Location:GPE:Region
+Mx4rvViolJwpEbGdrcN5Y29ycA,LocalReligiousCongregation,Location:GPE:Religious Diocese Parish
+Mx4rvVjnqJwpEbGdrcN5Y29ycA,State-Geopolitical,Location:GPE:State / Province
+Mx4rvVjM45wpEbGdrcN5Y29ycA,Province,Location:GPE:State / Province
+Mx4rvVj8QZwpEbGdrcN5Y29ycA,SuburbanNeighborhood,Location:GPE:Suburb / Quarter / Arrondissement
+Mx4rvVjK7JwpEbGdrcN5Y29ycA,UrbanArea,Location:GPE:Suburb / Quarter / Arrondissement
+Mx4rW7nvfrgqEdmAAAACs0x8nw,Arrondissement,Location:GPE:Suburb / Quarter / Arrondissement
+Mx4rvuXm9JwpEbGdrcN5Y29ycA,Town,Location:GPE:Town / City
+Mx4rvVjnZ5wpEbGdrcN5Y29ycA,City,Location:GPE:Town / City
+Mx4rd7-FiskjEdmAAAACs6hRjg,Borderline,Location:Location:Border
+Mx4rvVkLu5wpEbGdrcN5Y29ycA,Continent,Location:Location:Continent
+Mx4rwVAaWpwpEbGdrcN5Y29ycA,Forest,Location:Location:Forest / Park / Marine / Beach
+Mx4rwQwoIJwpEbGdrcN5Y29ycA,Park,Location:Location:Forest / Park / Marine / Beach
+Mx4rvVjvKZwpEbGdrcN5Y29ycA,Beach,Location:Location:Forest / Park / Marine / Beach
+Mx4rvVjODZwpEbGdrcN5Y29ycA,Mountain,Location:Location:Geolog. Region / Mountain/Valley
+Mx4rvVkKGZwpEbGdrcN5Y29ycA,Valley,Location:Location:Geolog. Region / Mountain/Valley
+Mx4ryncJZCTfQdeEidQ7vusDfQ,Summit,Location:Location:Geolog. Region / Mountain/Valley
+Mx4rvVjlL5wpEbGdrcN5Y29ycA,MountainRange,Location:Location:Geolog. Region / Mountain/Valley
+Mx4rvVi7OZwpEbGdrcN5Y29ycA,Island,Location:Location:Island
+Mx4rwVGrQ5wpEbGdrcN5Y29ycA,LatitudeLine,Location:Location:Latlong
+Mx4rvdq0oZwpEbGdrcN5Y29ycA,LongitudeLine,Location:Location:Latlong
+Mx4rvVjORZwpEbGdrcN5Y29ycA,TopographicalFeature,Location:Location:Other
+Mx4rvVkHM5wpEbGdrcN5Y29ycA,River,Location:Location:River / Glacier
+Mx4rvgD8xJwpEbGdrcN5Y29ycA,Glacier,Location:Location:River / Glacier
+Mx4rvVjSdZwpEbGdrcN5Y29ycA,OuterSpace,Location:Location:Space / galaxy / star etc
+Mx4rvVjReJwpEbGdrcN5Y29ycA,AstronomicalObject,Location:Location:Space / galaxy / star etc
+Mx4rvViE_JwpEbGdrcN5Y29ycA,BodyOfWater,Location:Location:Water Lake / Ocean / Sea / Bay
+Mx4rvVi4IpwpEbGdrcN5Y29ycA,Lake,Location:Location:Water Lake / Ocean / Sea / Bay
+Mx4rvVjktpwpEbGdrcN5Y29ycA,Ocean,Location:Location:Water Lake / Ocean / Sea / Bay
+Mx4rvVjMf5wpEbGdrcN5Y29ycA,Sea,Location:Location:Water Lake / Ocean / Sea / Bay
+Mx4rvVi1YJwpEbGdrcN5Y29ycA,Bay,Location:Location:Water Lake / Ocean / Sea / Bay
+Mx4rvVjcNpwpEbGdrcN5Y29ycA,AwardPractice,Misc:Award
+Mx4rhvQ6SIDLQdeVyO222GNvJQ,CourtCase,Misc:Courtcase
+Mx4rvVjMQpwpEbGdrcN5Y29ycA,Currency,Misc:Currency / Stamp
+Mx4rwP1Ks5wpEbGdrcN5Y29ycA,PostageStamp,Misc:Currency / Stamp
+Mx4rvVjH1pwpEbGdrcN5Y29ycA,MusicalPerformance,Misc:Event:Concert
+Mx4rvfblKZwpEbGdrcN5Y29ycA,NaturalDisaster,Misc:Event:Natural Disaster / Famine / Plague
+Mx4rvlvvmZwpEbGdrcN5Y29ycA,Famine,Misc:Event:Natural Disaster / Famine / Plague
+Mx4rvViADZwpEbGdrcN5Y29ycA,Event,Misc:Event:Other
+Mx4rMZF1vrKQEd2AAAAhm0jtOQ,SportSeason,Misc:Event:Season / football season etc
+Mx4rvVjzBJwpEbGdrcN5Y29ycA,SportsEvent,Misc:Event:Sports
+Mx4rvVjfq5wpEbGdrcN5Y29ycA,War,Misc:Event:War / Battle / Military Operation/Riot
+Mx4rvViusJwpEbGdrcN5Y29ycA,Battle,Misc:Event:War / Battle / Military Operation/Riot
+Mx4rvnSeAJwpEbGdrcN5Y29ycA,MilitaryEvent,Misc:Event:War / Battle / Military Operation/Riot
+Mx4rvVi3uJwpEbGdrcN5Y29ycA,Rioting,Misc:Event:War / Battle / Military Operation/Riot
+Mx4rvkS9GZwpEbGdrcN5Y29ycA,Game,Misc:Game / Sport
+Mx4rwPySLpwpEbGdrcN5Y29ycA,Sport,Misc:Game / Sport
+Mx4rdUzR9nSwEdaAAACgyZzFrg,ObjectTypeByStyle,Misc:Genre
+Mx4rvVj0iZwpEbGdrcN5Y29ycA,Language,Misc:Language
+Mx4rvV1TLJwpEbGdrcN5Y29ycA,Law,Misc:Law / Treaty
+Mx4rwD8ghJwpEbGdrcN5Y29ycA,Treaty,Misc:Law / Treaty
+Mx4rvViWHZwpEbGdrcN5Y29ycA,PersonTypeByNationality,Misc:NORP:Nationality
+Mx4rvVkCHZwpEbGdrcN5Y29ycA,Religion,Misc:NORP:Religion
+Mx4rvViA9JwpEbGdrcN5Y29ycA,Thing,Misc:Other
+Mx4rvViQlZwpEbGdrcN5Y29ycA,ElectronicDevice,Misc:Product:Electronics / Cameras
+Mx4rvWAmAJwpEbGdrcN5Y29ycA,Camera,Misc:Product:Electronics / Cameras
+Mx4rvVi9i5wpEbGdrcN5Y29ycA,Food,Misc:Product:Food / Drink
+Mx4rvVj0CJwpEbGdrcN5Y29ycA,Drink,Misc:Product:Food / Drink
+Mx4r4QiLYCxMQdiUxYyN0h-ahA,Franchise,Misc:Product:Franchise
+Mx4rvf-bUJwpEbGdrcN5Y29ycA,ManufacturedGoods,Misc:Product:Other
+Mx4rxo_VAPHDEdaO6gABAkLVdg,Protocol,Misc:Product:Protocol
+Mx4rwJxiRJwpEbGdrcN5Y29ycA,ComputerProgram-CW,Misc:Product:Software/Algorithm/ Video Game
+Mx4rvVjuaJwpEbGdrcN5Y29ycA,Algorithm,Misc:Product:Software/Algorithm/ Video Game
+Mx4rvVjmOpwpEbGdrcN5Y29ycA,ComputerGameProgram-Graphical,Misc:Product:Software/Algorithm/ Video Game
+Mx4rwLzhaZwpEbGdrcN5Y29ycA,TransportationDevice-Vehicle,Misc:Product:Vehicle
+Mx4rvVj8V5wpEbGdrcN5Y29ycA,Weapon,Misc:Product:Weapon
+Mx4rJtdTVoJNQdeOqaFkQvl7dw,WebSite,Misc:Product:Website
+Mx4rEF23Gi9OQdiXeI8nguuGCA,Treasure,Misc:Treasure / Artefact
+Mx4rvVi-55wpEbGdrcN5Y29ycA,Watercraft,Misc:Vessel / named plane/spaceship etc
+Mx4rvViCi5wpEbGdrcN5Y29ycA,Airplane,Misc:Vessel / named plane/spaceship etc
+Mx4rwQtlDpwpEbGdrcN5Y29ycA,Spacecraft,Misc:Vessel / named plane/spaceship etc
+Mx4rwLmi3JwpEbGdrcN5Y29ycA,Album-CW,Misc:Work of Art:Album
+Mx4rvVjmq5wpEbGdrcN5Y29ycA,Book-CW,Misc:Work of Art:Book / Chapter / Open Letter
+Mx4rvpKfXpwpEbGdrcN5Y29ycA,Chapter-PCW,Misc:Work of Art:Book / Chapter / Open Letter
+Mx4rvq7pm5wpEbGdrcN5Y29ycA,Letter-CW,Misc:Work of Art:Book / Chapter / Open Letter
+Mx4rv973YpwpEbGdrcN5Y29ycA,Movie-CW,Misc:Work of Art:Film / Documentary
+Mx4rv4ByW5wpEbGdrcN5Y29ycA,NewspaperSeries,Misc:Work of Art:Newspaper / Magazine / Journal
+Mx4rwQ7-8pwpEbGdrcN5Y29ycA,MagazineSeries,Misc:Work of Art:Newspaper / Magazine / Journal
+Mx4rvVigHZwpEbGdrcN5Y29ycA,JournalSeries,Misc:Work of Art:Newspaper / Magazine / Journal
+Mx4rwClAZJwpEbGdrcN5Y29ycA,ConceptualWork,Misc:Work of Art:Other
+Mx4rvVjHfpwpEbGdrcN5Y29ycA,Painting-ArtForm,Misc:Work of Art:Painting
+Mx4rvViIrpwpEbGdrcN5Y29ycA,PlayScript,Misc:Work of Art:Play / Opera / Ballet / Musical
+Mx4rvcOKYJwpEbGdrcN5Y29ycA,Opera-CW,Misc:Work of Art:Play / Opera / Ballet / Musical
+Mx4rX7xb_nS_EdaAAACgyZzFrg,MusicalComposition-Opera,Misc:Work of Art:Play / Opera / Ballet / Musical
+Mx4rjQqWpHS9EdaAAACgyZzFrg,BalletDancing,Misc:Work of Art:Play / Opera / Ballet / Musical
+Mx4rv7vY45wpEbGdrcN5Y29ycA,Play-Musical-CW,Misc:Work of Art:Play / Opera / Ballet / Musical
+Mx4rvVis2pwpEbGdrcN5Y29ycA,Sculpture,Misc:Work of Art:Sculpture / Fountain
+Mx4rvvhy25wpEbGdrcN5Y29ycA,Fountain-ArtObject,Misc:Work of Art:Sculpture / Fountain
+Mx4rwP3teJwpEbGdrcN5Y29ycA,Song-CW,Misc:Work of Art:Song / Poem / Prayer / Music
+Mx4rvvm9OJwpEbGdrcN5Y29ycA,Poem-CW,Misc:Work of Art:Song / Poem / Prayer / Music
+Mx4rhqTzgscWEdmAAAACs6hRjg,Prayer-SacredText,Misc:Work of Art:Song / Poem / Prayer / Music
+Mx4rvVjOJpwpEbGdrcN5Y29ycA,Music,Misc:Work of Art:Song / Poem / Prayer / Music
+Mx4rvnewlpwpEbGdrcN5Y29ycA,TVShow-CW,Misc:Work of Art:TV Show / Series / Episode
+Mx4rvhz6_JwpEbGdrcN5Y29ycA,MediaSeriesProduct,Misc:Work of Art:TV Show / Series / Episode
+Mx4rC9z1jPRjQdeZxuKdrd9MTA,EditionOfCWSeries-Periodic,Misc:Work of Art:TV Show / Series / Episode
+Mx4rwIDbkJwpEbGdrcN5Y29ycA,Cardinal-Mathematical,Numeric:Cardinal
+Mx4rvVisWZwpEbGdrcN5Y29ycA,Date,Numeric:Date
+Mx4rmkGQFm3OEdaAAACgye-oRQ,Army-MilitaryEchelon,Organisation:Army / Military
+Mx4rvVjx75wpEbGdrcN5Y29ycA,MilitaryOrganization,Organisation:Army / Military
+Mx4rvgEZGJwpEbGdrcN5Y29ycA,Band-MusicGroup,Organisation:Band
+Mx4rvyCS5ZwpEbGdrcN5Y29ycA,Radio,Organisation:Broadcaster:Radio / Television
+Mx4rwQHEi5wpEbGdrcN5Y29ycA,TVBroadcasting,Organisation:Broadcaster:Radio / Television
+Mx4rvWVLEZwpEbGdrcN5Y29ycA,SocialAidOrganization,Organisation:Charity
+Mx4rwQB8YpwpEbGdrcN5Y29ycA,Tribe,Organisation:Clan / Tribe
+Mx4rvViS05wpEbGdrcN5Y29ycA,CommercialOrganization,Organisation:Corporation
+Mx4rvViNQZwpEbGdrcN5Y29ycA,EducationalOrganization,Organisation:Educational / School / Uni / Research
+Mx4rvViNhJwpEbGdrcN5Y29ycA,ResearchOrganization,Organisation:Educational / School / Uni / Research
+Mx4rvnDzV5wpEbGdrcN5Y29ycA,DegreeGrantingHigherEducationInstitution,Organisation:Educational / School / Uni / Research
+Mx4r5ysCLmtmEdqAAAACs0uFOQ,EnvironmentalProtectionGovernmentOrganization,Organisation:Environmental
+Mx4rwQrtFpwpEbGdrcN5Y29ycA,RegionalGovernment,Organisation:Government / Police
+Mx4rvzXOSZwpEbGdrcN5Y29ycA,PoliceOrganization,Organisation:Government / Police
+Mx4rvViRwZwpEbGdrcN5Y29ycA,Hospital,Organisation:Hospital / Health Facilities
+Mx4rwHkLf5wpEbGdrcN5Y29ycA,CommercialLodgingOrganization,Organisation:Hotel
+Mx4rvViEOJwpEbGdrcN5Y29ycA,Museum-Organization,Organisation:Museum
+Mx4rvVjVT5wpEbGdrcN5Y29ycA,Organization,Organisation:Other
+Mx4rvViNy5wpEbGdrcN5Y29ycA,PoliticalOrganization,Organisation:Political
+Mx4rvVjbBJwpEbGdrcN5Y29ycA,ReligiousOrganization,Organisation:Religious / Church / Temple / Mosque
+Mx4r9X3JKB5sQdeJgPo6IIltRQ,Church-LocalCongregation,Organisation:Religious / Church / Temple / Mosque
+Mx4r92FCJB5sQdeDIJL0mVOUHw,Synagogue-LocalCongregation,Organisation:Religious / Church / Temple / Mosque
+Mx4rLHhEAyBjEdiNYwACs6hnlQ,Mosque-LocalCongregation,Organisation:Religious / Church / Temple / Mosque
+Mx4rwIw695wpEbGdrcN5Y29ycA,SportsOrganization,Organisation:Sport / team
+Mx4rvZowY5wpEbGdrcN5Y29ycA,Team,Organisation:Sport / team
+Mx4rwQwwBZwpEbGdrcN5Y29ycA,FictionalThing,Personal:Fictional / Myth
+Mx4rdDJ92McaEdmAAAACs6hRjg,Racehorse,Personal:Other / Racehorse
+Mx4rvViAkpwpEbGdrcN5Y29ycA,Person,Personal:Person / dude
+Mx4rvVj4GZwpEbGdrcN5Y29ycA,ReligiousPerson,Personal:Spiritual / Religious
+Mx4rvViAzJwpEbGdrcN5Y29ycA,Collection,_Topic / Concept / Non-Entity
+Mx4rwQBXZpwpEbGdrcN5Y29ycA,OrganismPart,Type of:Body Part or parts of other creatures
+Mx4rr19QJHStEdaAAACgyZzFrg,Color,Type of:Colour
+Mx4rv6WBtZwpEbGdrcN5Y29ycA,DiseaseType,Type of:Disease / Disorder
+Mx4rwQwYVpwpEbGdrcN5Y29ycA,AilmentCondition,Type of:Disease / Disorder
+Mx4rvfblKZwpEbGdrcN5Y29ycA,NaturalDisaster,Type of:Event:Natural Disaster
+Mx4rvViADZwpEbGdrcN5Y29ycA,Event,Type of:Event:Other
+Mx4rvVj-r5wpEbGdrcN5Y29ycA,Airport-Physical,Type of:Facility:Airport
+Mx4rwPfOMJwpEbGdrcN5Y29ycA,TouristAttraction,Type of:Facility:Attraction
+Mx4rvgD1IZwpEbGdrcN5Y29ycA,Bridge,Type of:Facility:Bridge
+Mx4rvVj7KJwpEbGdrcN5Y29ycA,Building,Type of:Facility:Building
+Mx4rvVidpZwpEbGdrcN5Y29ycA,ConstructionArtifact,Type of:Facility:Other
+Mx4rvyNjbZwpEbGdrcN5Y29ycA,Roadway,Type of:Facility:Road
+Mx4rGyB6uGbnQdichKPFIDIErQ,BusStation,Type of:Facility:Station
+Mx4rv6ZmoZwpEbGdrcN5Y29ycA,RailroadStation,Type of:Facility:Station
+Mx4rvkS9GZwpEbGdrcN5Y29ycA,Game,Type of:Game / Sport
+Mx4rwPySLpwpEbGdrcN5Y29ycA,Sport,Type of:Game / Sport
+Mx4rvViIeZwpEbGdrcN5Y29ycA,Country,Type of:GPE:Country
+Mx4rvVjl2pwpEbGdrcN5Y29ycA,GeopoliticalEntity,Type of:GPE:Other
+Mx4rvVjnqJwpEbGdrcN5Y29ycA,State-Geopolitical,Type of:GPE:State
+Mx4rvuXm9JwpEbGdrcN5Y29ycA,Town,Type of:GPE:Town / City / Village
+Mx4rvVjnZ5wpEbGdrcN5Y29ycA,City,Type of:GPE:Town / City / Village
+Mx4rv33BppwpEbGdrcN5Y29ycA,Village,Type of:GPE:Town / City / Village
+Mx4rvVj0iZwpEbGdrcN5Y29ycA,Language,Type of:Language
+Mx4r5lNPkMLgQdeAzr878CoUZw,NonHumanAnimal,Type of:Life:Animal
+Mx4rvVi495wpEbGdrcN5Y29ycA,Insect,Type of:Life:Insect / Spider / Snail
+Mx4rvVjCnZwpEbGdrcN5Y29ycA,Spider,Type of:Life:Insect / Spider / Snail
+Mx4rvViUUJwpEbGdrcN5Y29ycA,Snail,Type of:Life:Insect / Spider / Snail
+Mx4rvVjE1pwpEbGdrcN5Y29ycA,Organism-Whole,Type of:Life:Other
+Mx4rvVjG4ZwpEbGdrcN5Y29ycA,Plant,Type of:Life:Plant / Algae / Fungi
+Mx4rvVkEeZwpEbGdrcN5Y29ycA,Algae,Type of:Life:Plant / Algae / Fungi
+Mx4rvViZCZwpEbGdrcN5Y29ycA,Fungus,Type of:Life:Plant / Algae / Fungi
+Mx4rvVjM3pwpEbGdrcN5Y29ycA,ProteinStuff,Type of:Life:Protein / Enzymes / Organic Compound
+Mx4rvfBoWZwpEbGdrcN5Y29ycA,EnzymeMolecule,Type of:Life:Protein / Enzymes / Organic Compound
+Mx4rv7aNXJwpEbGdrcN5Y29ycA,OrganicCompound,Type of:Life:Protein / Enzymes / Organic Compound
+Mx4rvViXQpwpEbGdrcN5Y29ycA,Virus,Type of:Life:Virus / Bacteria
+Mx4rvVjU-5wpEbGdrcN5Y29ycA,Bacterium,Type of:Life:Virus / Bacteria
+Mx4rvVian5wpEbGdrcN5Y29ycA,BiologicalGenus,Type of:Life: Genus etc
+Mx4rvVjORZwpEbGdrcN5Y29ycA,TopographicalFeature,Type of:Location
+Mx4rvViS05wpEbGdrcN5Y29ycA,CommercialOrganization,Type of:Organisation:Corporation
+Mx4rvViNQZwpEbGdrcN5Y29ycA,EducationalOrganization,Type of:Organisation:Educational
+Mx4rwQrtFpwpEbGdrcN5Y29ycA,RegionalGovernment,Type of:Organisation:Government
+Mx4rvViRwZwpEbGdrcN5Y29ycA,Hospital,Type of:Organisation:Hospital
+Mx4rwHkLf5wpEbGdrcN5Y29ycA,CommercialLodgingOrganization,Type of:Organisation:Hotel
+Mx4rvViEOJwpEbGdrcN5Y29ycA,Museum-Organization,Type of:Organisation:Museum
+Mx4rvViNy5wpEbGdrcN5Y29ycA,PoliticalOrganization,Type of:Organisation:Political / Union
+Mx4rvVjbBJwpEbGdrcN5Y29ycA,ReligiousOrganization,Type of:Organisation:Religious
+Mx4rvVjVT5wpEbGdrcN5Y29ycA,Organization,Type of:Organisation:Other
+Mx4rvViAkpwpEbGdrcN5Y29ycA,Person,Type of:Person
+Mx4rvhe7XpwpEbGdrcN5Y29ycA,ProcessingEvent,Type of:Process / Method / Procedure
+Mx4r-c445joZQdeL9clHkSkN2A,TechniqueType,Type of:Process / Method / Procedure
+Mx4rvVjI6JwpEbGdrcN5Y29ycA,MusicalInstrument,Type of:Product:Musical Instrument
+Mx4rwJxiRJwpEbGdrcN5Y29ycA,ComputerProgram-CW,Type of:Product:Software
+Mx4rwLzhaZwpEbGdrcN5Y29ycA,TransportationDevice-Vehicle,Type of:Product:Vehicle
+Mx4rvVj8V5wpEbGdrcN5Y29ycA,Weapon,Type of:Product:Weapon
+Mx4rJtdTVoJNQdeOqaFkQvl7dw,WebSite,Type of:Product:Website
+Mx4rvVjNlZwpEbGdrcN5Y29ycA,ChemicalSubstanceType,Type of:Substance:Chemical / Element
+Mx4rvVkIMJwpEbGdrcN5Y29ycA,ElementStuffTypeByNumberOfProtons,Type of:Substance:Chemical / Element
+Mx4rv8FjPpwpEbGdrcN5Y29ycA,DrugSubstance,Type of:Substance:Drug
+Mx4rwP1OWpwpEbGdrcN5Y29ycA,PharmaceuticalType,Type of:Substance:Drug
+Mx4rvVi9i5wpEbGdrcN5Y29ycA,Food,Type of:Substance:Food
+Mx4rvVkKBZwpEbGdrcN5Y29ycA,InorganicMaterial,Type of:Substance:Other
+Mx4rvVjD0JwpEbGdrcN5Y29ycA,OrganicMaterial,Type of:Substance:Other
+Mx4rvVny6pwpEbGdrcN5Y29ycA,ExistingStuffType,Type of:Substance:Other
+Mx4rwKrQNpwpEbGdrcN5Y29ycA,SymbolicThing,Type of:Symbol
+Mx4rvVi-55wpEbGdrcN5Y29ycA,Watercraft,Type of:Vessel
+Mx4rwClAZJwpEbGdrcN5Y29ycA,ConceptualWork,Type of:Work of Art

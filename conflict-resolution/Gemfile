@@ -1,0 +1,17 @@
+source "http://rubygems.org"
+
+gem "rlp-wiki", :path => "../rlp"
+gem "slop", "~> 3.4.7"
+gem 'rod', :git => 'git://github.com/apohllo/rod.git', :tag => 'v0.7.2.4'
+gem 'rod-rest'
+gem 'colors'
+gem 'syntax', :path => '../category-parsing/'
+gem 'htmlentities'
+gem 'cycr'
+gem 'net-http-persistent'
+gem 'progress', :git => 'git://github.com/djstrong/progress.git'
+gem 'rr', '~> 1.1.2'
+gem 'rspec'
+gem 'ZenTest', '4.11.0'
+gem 'ruby-graphviz'
+gem 'iconv'

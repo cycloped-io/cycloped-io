@@ -1,0 +1,165 @@
+require 'concurrent'
+require 'fileutils'
+
+namespace :test do
+  desc "Run integration tests"
+  task :int do
+    sh "bundle exec rspec test/int/cyc_name_service.rb"
+    sh "bundle exec rspec test/int/most_specific_filter.rb"
+    sh "bundle exec rspec test/int/pos_filter.rb"
+    sh "bundle exec rspec test/int/pos_service.rb"
+    sh "bundle exec rspec test/int/type_filter.rb"
+    sh "bundle exec rspec test/int/rewrite_of_filter.rb"
+    sh "bundle exec rspec test/int/function_filter.rb"
+    sh "bundle exec rspec test/int/black_list_filter.rb"
+    sh "bundle exec rspec test/int/lower_case_filter.rb"
+    sh "bundle exec rspec test/int/type_service.rb"
+    sh "bundle exec rspec test/int/term_provider.rb"
+  end
+
+  desc "Run specs"
+  task :spec do
+    sh "rspec test/spec/type_filter.rb"
+    sh "rspec test/spec/wikipedia_name_converter.rb"
+  end
+end
+
+
+
+
+namespace :semantic do
+  wikipedia_path = ENV['RLP_DATA_PATH']
+  db_path = ENV['RLP_DB_PATH']
+  cyc_host = ENV['CYC_HOST']
+
+  if wikipedia_path.nil?
+    puts 'RLP_DATA_PATH has to be set'
+    exit
+  end
+
+  if db_path.nil?
+    puts 'RLP_DB_PATH has to be set'
+    exit
+  end
+
+  desc 'Find semantic parents'
+  task :parents do
+    if cyc_host.nil?
+      cyc_host = "localhost"
+    end
+    puts `utils/semantic-parents/find_semantic_parents.rb -o #{wikipedia_path}/semantic_parents.csv -d #{db_path} -h #{cyc_host}`
+  end
+
+  desc 'Find semantic cycles'
+  task :cycles do
+    puts `utils/semantic-parents/find_semantic_cycles.rb -c #{wikipedia_path}/semantic_parents.csv -o #{wikipedia_path}/semantic_cycles.csv -d #{db_path}`
+  end
+
+  desc 'Resolve cycles'
+  task :resolve do
+    puts `utils/semantic-parents/resolve_cycles.rb -p #{wikipedia_path}/semantic_parents.csv -c #{wikipedia_path}/semantic_cycles.csv -o #{wikipedia_path}/resolve_cycles.csv -d #{db_path}`
+  end
+
+  desc 'Delete semantic cycles'
+  task :delete do
+    puts `utils/semantic-parents/delete_cycles.rb -c #{wikipedia_path}/semantic_parents.csv -o #{wikipedia_path}/semantic_parents_without_cycles.csv -r #{wikipedia_path}/resolve_cycles.csv -d #{db_path}`
+  end
+
+  desc 'Check cycles'
+  task :check do
+    puts `utils/semantic-parents/find_semantic_cycles.rb -c #{wikipedia_path}/semantic_parents_without_cycles.csv -o #{wikipedia_path}/semantic_cycles.csv -d #{db_path}`
+    cycles = `wc -l #{wikipedia_path}/semantic_cycles.csv`.strip.to_i
+    if cycles>0
+      puts 'Cycles exist!'
+      exit
+    end
+  end
+
+  desc 'Load semantic parents to ROD'
+  task :load do
+    puts `../rlp/utils/load/semantic_parents.rb  -w #{wikipedia_path}/semantic_parents_without_cycles.csv -d #{db_path}`
+  end
+
+  desc 'Load semantic children to ROD'
+  task :children do
+    puts `../rlp/utils/load/semantic_children.rb  -d #{db_path}`
+  end
+end
+
+namespace :mapping do
+  wikipedia_path = ENV['RLP_DATA_PATH']
+  db_path = ENV['RLP_DB_PATH']
+  cyc_host = ENV['CYC_HOST']
+
+  if wikipedia_path.nil?
+    puts 'RLP_DATA_PATH has to be set'
+    exit
+  end
+
+  if db_path.nil?
+    puts 'RLP_DB_PATH has to be set'
+    exit
+  end
+
+  if cyc_host.nil?
+    cyc_host = "localhost"
+  end
+
+  task :all => [:"mapping:local", :"mapping:global", :"mapping:export"]
+
+  desc 'Compute local support - category-specific disambiguation measure'
+  task :local do
+    ranges = [[0,20_000],[20_000,40_000],[60_000,80_000],[140_000,160_000],[300_000,320_000],[620_000,640_000],[1_260_000,1_280_000]]
+    thread_count = (ENV['PROCESS_COUNT'] || 5).to_i
+    pool = Concurrent::FixedThreadPool.new(thread_count)
+    tasks = ranges.map do |offset,limit|
+      Concurrent::Future.execute(executor: pool) do
+        puts `utils/local_support.rb -o #{wikipedia_path}/local_support.#{offset}.csv -d #{db_path} -c l:f:c:s:r:b -a l:f:b -b data/abstract_level.txt -h #{cyc_host} -l #{limit} -x #{offset} -s data/clients.yaml`
+      end
+    end
+    interrupted = false
+    loop do
+      begin
+        sleep(5)
+        break if tasks.all?{|t| t.state == :rejected || t.state == :fulfilled }
+      rescue Interrupt
+        interrupted = true
+        break
+      end
+    end
+    unless interrupted
+      if File.exist?("#{wikipedia_path}/local_support.csv")
+        FileUtils.rm("#{wikipedia_path}/local_support.csv")
+      end
+      ranges.each do |offset,limit|
+        `cat #{wikipedia_path}/local_support.#{offset}.csv >> #{wikipedia_path}/local_support.csv`
+        FileUtils.rm("#{wikipedia_path}/local_support.#{offset}.csv")
+      end
+    end
+  end
+
+  desc 'Compute local heuristic - take into account structural data'
+  task :extend do
+    puts `utils/local_heuristic.rb -f #{wikipedia_path}/local_support.csv -o #{wikipedia_path}/local_heuristic.csv -d #{db_path} -h #{cyc_host}`
+  end
+
+  desc 'Print mapping statistics'
+  task :stats do
+    puts 'Local support'
+    puts `utils/show_mapping_stats.rb -f #{wikipedia_path}/local_support.csv`
+    if File.exist?("#{wikipedia_path}/local_heuristic.csv")
+      puts 'Local heuristic'
+      puts `utils/show_mapping_stats.rb -f #{wikipedia_path}/local_heuristic.csv`
+    end
+  end
+
+  desc 'Global support'
+  task :global do
+    puts `utils/global_support.rb -f #{wikipedia_path}/local_support.csv -o #{wikipedia_path}/global_support.csv -d #{db_path} -c #{wikipedia_path}/queue2.marshall -h #{cyc_host}`
+  end
+
+  desc 'Export mapping'
+  task :export do
+    puts `utils/export_disambiguated_results.rb -f #{wikipedia_path}/global_support.csv -d #{db_path} -o #{wikipedia_path}/global_support_exported.csv -h #{cyc_host}`
+  end
+end

@@ -1,0 +1,594 @@
+--- 
+_Disambiguation: []
+
+Facility:Airport: 
+- :cyc_id: Mx4rvVj-r5wpEbGdrcN5Y29ycA
+  :cyc_name: Airport-Physical
+Facility:Attraction: 
+- :cyc_id: Mx4rwPfOMJwpEbGdrcN5Y29ycA
+  :cyc_name: TouristAttraction
+Facility:Bridge: 
+- :cyc_id: Mx4rvgD1IZwpEbGdrcN5Y29ycA
+  :cyc_name: Bridge
+Facility:Building / Castle: 
+- :cyc_id: Mx4rvVj7KJwpEbGdrcN5Y29ycA
+  :cyc_name: Building
+- :cyc_id: Mx4rvgEGtpwpEbGdrcN5Y29ycA
+  :cyc_name: Castle
+Facility:Farm / Ranch: 
+- :cyc_id: Mx8Ngh4rc6oKzFsKEdaAAACQJ5pZBx4rvVjmEpwpEbGdrcN5Y29ycA
+  :cyc_name: "[:FacilityTypeOfOrganizationTypeFn, :LivestockFarm]"
+Facility:Library: 
+- :cyc_id: Mx4rvVjzh5wpEbGdrcN5Y29ycA
+  :cyc_name: LibrarySpace
+Facility:Other: 
+- :cyc_id: Mx4rvVidpZwpEbGdrcN5Y29ycA
+  :cyc_name: ConstructionArtifact
+Facility:Road: 
+- :cyc_id: Mx4rvyNjbZwpEbGdrcN5Y29ycA
+  :cyc_name: Roadway
+Facility:Stadium: 
+- :cyc_id: Mx4rvVjtnZwpEbGdrcN5Y29ycA
+  :cyc_name: Stadium
+Facility:Station / Wharf: 
+- :cyc_id: Mx4rGyB6uGbnQdichKPFIDIErQ
+  :cyc_name: BusStation
+- :cyc_id: Mx4rv6ZmoZwpEbGdrcN5Y29ycA
+  :cyc_name: RailroadStation
+- :cyc_id: Mx4rvgES8pwpEbGdrcN5Y29ycA
+  :cyc_name: Dock
+Linguistic:Expression / Idiom: 
+- :cyc_id: Mx4rvVjQ-5wpEbGdrcN5Y29ycA
+  :cyc_name: LinguisticObject
+Linguistic:Name: 
+- :cyc_id: Mx4rwB7x55wpEbGdrcN5Y29ycA
+  :cyc_name: Name
+_List: []
+
+Location:GPE:Admin Region / Borough / Commune: 
+- :cyc_id: Mx4rwMAYTJwpEbGdrcN5Y29ycA
+  :cyc_name: CountrySubsidiary
+- :cyc_id: Mx4row2WOHwNQdeFcucrvFV0yw
+  :cyc_name: Borough
+- :cyc_id: Mx4rvVi4_pwpEbGdrcN5Y29ycA
+  :cyc_name: Neighborhood
+Location:GPE:Country: 
+- :cyc_id: Mx4rvViIeZwpEbGdrcN5Y29ycA
+  :cyc_name: Country
+Location:GPE:Other: 
+- :cyc_id: Mx4rvVjl2pwpEbGdrcN5Y29ycA
+  :cyc_name: GeopoliticalEntity
+Location:GPE:Region: 
+- :cyc_id: Mx4rv3aRYpwpEbGdrcN5Y29ycA
+  :cyc_name: GeoculturalRegion
+Location:GPE:Religious Diocese Parish: 
+- :cyc_id: Mx4rvViolJwpEbGdrcN5Y29ycA
+  :cyc_name: LocalReligiousCongregation
+Location:GPE:State / Province: 
+- :cyc_id: Mx4rvVjnqJwpEbGdrcN5Y29ycA
+  :cyc_name: State-Geopolitical
+- :cyc_id: Mx4rvVjM45wpEbGdrcN5Y29ycA
+  :cyc_name: Province
+Location:GPE:Suburb / Quarter / Arrondissement: 
+- :cyc_id: Mx4rvVj8QZwpEbGdrcN5Y29ycA
+  :cyc_name: SuburbanNeighborhood
+- :cyc_id: Mx4rvVjK7JwpEbGdrcN5Y29ycA
+  :cyc_name: UrbanArea
+- :cyc_id: Mx4rW7nvfrgqEdmAAAACs0x8nw
+  :cyc_name: Arrondissement
+Location:GPE:Town / City: 
+- :cyc_id: Mx4rvuXm9JwpEbGdrcN5Y29ycA
+  :cyc_name: Town
+- :cyc_id: Mx4rvVjnZ5wpEbGdrcN5Y29ycA
+  :cyc_name: City
+Location:Location:Border:
+- :cyc_id: Mx4rd7-FiskjEdmAAAACs6hRjg
+  :cyc_name: Borderline
+Location:Location:Continent:
+- :cyc_id: Mx4rvVkLu5wpEbGdrcN5Y29ycA
+  :cyc_name: Continent
+Location:Location:Forest / Park / Marine / Beach: 
+- :cyc_id: Mx4rwVAaWpwpEbGdrcN5Y29ycA
+  :cyc_name: Forest
+- :cyc_id: Mx4rwQwoIJwpEbGdrcN5Y29ycA
+  :cyc_name: Park
+- :cyc_id: Mx4rvVjvKZwpEbGdrcN5Y29ycA
+  :cyc_name: Beach
+Location:Location:Geolog. Region / Mountain/Valley: 
+- :cyc_id: Mx4rvVjODZwpEbGdrcN5Y29ycA
+  :cyc_name: Mountain
+- :cyc_id: Mx4rvVkKGZwpEbGdrcN5Y29ycA
+  :cyc_name: Valley
+- :cyc_id: Mx4ryncJZCTfQdeEidQ7vusDfQ
+  :cyc_name: Summit
+- :cyc_id: Mx4rvVjlL5wpEbGdrcN5Y29ycA
+  :cyc_name: MountainRange
+Location:Location:Island: 
+- :cyc_id: Mx4rvVi7OZwpEbGdrcN5Y29ycA
+  :cyc_name: Island
+Location:Location:Latlong:
+- :cyc_id: Mx4rwVGrQ5wpEbGdrcN5Y29ycA
+  :cyc_name: LatitudeLine
+- :cyc_id: Mx4rvdq0oZwpEbGdrcN5Y29ycA
+  :cyc_name: LongitudeLine
+Location:Location:Other: 
+- :cyc_id: Mx4rvVjORZwpEbGdrcN5Y29ycA
+  :cyc_name: TopographicalFeature
+Location:Location:River / Glacier: 
+- :cyc_id: Mx4rvVkHM5wpEbGdrcN5Y29ycA
+  :cyc_name: River
+- :cyc_id: Mx4rvgD8xJwpEbGdrcN5Y29ycA
+  :cyc_name: Glacier
+Location:Location:Space / galaxy / star etc: 
+- :cyc_id: Mx4rvVjSdZwpEbGdrcN5Y29ycA
+  :cyc_name: OuterSpace
+- :cyc_id: Mx4rvVjReJwpEbGdrcN5Y29ycA
+  :cyc_name: AstronomicalObject
+Location:Location:Water Lake / Ocean / Sea / Bay: 
+- :cyc_id: Mx4rvViE_JwpEbGdrcN5Y29ycA
+  :cyc_name: BodyOfWater
+- :cyc_id: Mx4rvVi4IpwpEbGdrcN5Y29ycA
+  :cyc_name: Lake
+- :cyc_id: Mx4rvVjktpwpEbGdrcN5Y29ycA
+  :cyc_name: Ocean
+- :cyc_id: Mx4rvVjMf5wpEbGdrcN5Y29ycA
+  :cyc_name: Sea
+- :cyc_id: Mx4rvVi1YJwpEbGdrcN5Y29ycA
+  :cyc_name: Bay
+Misc:Award: 
+- :cyc_id: Mx4rvVjcNpwpEbGdrcN5Y29ycA
+  :cyc_name: AwardPractice
+Misc:Courtcase:
+- :cyc_id: Mx4rhvQ6SIDLQdeVyO222GNvJQ
+  :cyc_name: CourtCase
+Misc:Currency / Stamp: 
+- :cyc_id: Mx4rvVjMQpwpEbGdrcN5Y29ycA
+  :cyc_name: Currency
+- :cyc_id: Mx4rwP1Ks5wpEbGdrcN5Y29ycA
+  :cyc_name: PostageStamp
+Misc:Event:Concert: 
+- :cyc_id: Mx4rvVjH1pwpEbGdrcN5Y29ycA
+  :cyc_name: MusicalPerformance
+Misc:Event:Natural Disaster / Famine / Plague: 
+- :cyc_id: Mx4rvfblKZwpEbGdrcN5Y29ycA
+  :cyc_name: NaturalDisaster
+- :cyc_id: Mx4rvlvvmZwpEbGdrcN5Y29ycA
+  :cyc_name: Famine
+Misc:Event:Other: 
+- :cyc_id: Mx4rvViADZwpEbGdrcN5Y29ycA
+  :cyc_name: Event
+Misc:Event:Season / football season etc:
+- :cyc_id: Mx4rMZF1vrKQEd2AAAAhm0jtOQ
+  :cyc_name: SportSeason
+Misc:Event:Sports: 
+- :cyc_id: Mx4rvVjzBJwpEbGdrcN5Y29ycA
+  :cyc_name: SportsEvent
+Misc:Event:War / Battle / Military Operation/Riot: 
+- :cyc_id: Mx4rvVjfq5wpEbGdrcN5Y29ycA
+  :cyc_name: War
+- :cyc_id: Mx4rvViusJwpEbGdrcN5Y29ycA
+  :cyc_name: Battle
+- :cyc_id: Mx4rvnSeAJwpEbGdrcN5Y29ycA
+  :cyc_name: MilitaryEvent
+- :cyc_id: Mx4rvVi3uJwpEbGdrcN5Y29ycA
+  :cyc_name: Rioting
+Misc:Game / Sport: 
+- :cyc_id: Mx4rvkS9GZwpEbGdrcN5Y29ycA
+  :cyc_name: Game
+- :cyc_id: Mx4rwPySLpwpEbGdrcN5Y29ycA
+  :cyc_name: Sport
+Misc:Genre: 
+- :cyc_id: Mx4rdUzR9nSwEdaAAACgyZzFrg
+  :cyc_name: ObjectTypeByStyle
+Misc:Language: 
+- :cyc_id: Mx4rvVj0iZwpEbGdrcN5Y29ycA
+  :cyc_name: Language
+Misc:Law / Treaty: 
+- :cyc_id: Mx4rvV1TLJwpEbGdrcN5Y29ycA
+  :cyc_name: Law
+- :cyc_id: Mx4rwD8ghJwpEbGdrcN5Y29ycA
+  :cyc_name: Treaty
+Misc:NORP:Nationality: 
+- :cyc_id: Mx4rvViWHZwpEbGdrcN5Y29ycA
+  :cyc_name: PersonTypeByNationality
+Misc:NORP:Other: []
+
+Misc:NORP:Political: []
+
+Misc:NORP:Religion: 
+- :cyc_id: Mx4rvVkCHZwpEbGdrcN5Y29ycA
+  :cyc_name: Religion
+Misc:Other: 
+- :cyc_id: Mx4rvViA9JwpEbGdrcN5Y29ycA
+  :cyc_name: Thing
+Misc:Product:Electronics / Cameras: 
+- :cyc_id: Mx4rvViQlZwpEbGdrcN5Y29ycA
+  :cyc_name: ElectronicDevice
+- :cyc_id: Mx4rvWAmAJwpEbGdrcN5Y29ycA
+  :cyc_name: Camera
+Misc:Product:Food / Drink: 
+- :cyc_id: Mx4rvVi9i5wpEbGdrcN5Y29ycA
+  :cyc_name: Food
+- :cyc_id: Mx4rvVj0CJwpEbGdrcN5Y29ycA
+  :cyc_name: Drink
+Misc:Product:Franchise: 
+- :cyc_id: Mx4r4QiLYCxMQdiUxYyN0h-ahA
+  :cyc_name: Franchise
+Misc:Product:Other: 
+- :cyc_id: Mx4rvf-bUJwpEbGdrcN5Y29ycA
+  :cyc_name: ManufacturedGoods
+Misc:Product:Protocol: 
+- :cyc_id: Mx4rxo_VAPHDEdaO6gABAkLVdg
+  :cyc_name: Protocol
+Misc:Product:Software/Algorithm/ Video Game: 
+- :cyc_id: Mx4rwJxiRJwpEbGdrcN5Y29ycA
+  :cyc_name: ComputerProgram-CW
+- :cyc_id: Mx4rvVjuaJwpEbGdrcN5Y29ycA
+  :cyc_name: Algorithm
+- :cyc_id: Mx4rvVjmOpwpEbGdrcN5Y29ycA
+  :cyc_name: ComputerGameProgram-Graphical
+Misc:Product:Vehicle: 
+- :cyc_id: Mx4rwLzhaZwpEbGdrcN5Y29ycA
+  :cyc_name: TransportationDevice-Vehicle
+Misc:Product:Weapon: 
+- :cyc_id: Mx4rvVj8V5wpEbGdrcN5Y29ycA
+  :cyc_name: Weapon
+Misc:Product:Website: 
+- :cyc_id: Mx4rJtdTVoJNQdeOqaFkQvl7dw
+  :cyc_name: WebSite
+Misc:Treasure / Artefact: 
+- :cyc_id: Mx4rEF23Gi9OQdiXeI8nguuGCA
+  :cyc_name: Treasure
+Misc:Vessel / named plane/spaceship etc: 
+- :cyc_id: Mx4rvVi-55wpEbGdrcN5Y29ycA
+  :cyc_name: Watercraft
+- :cyc_id: Mx4rvViCi5wpEbGdrcN5Y29ycA
+  :cyc_name: Airplane
+- :cyc_id: Mx4rwQtlDpwpEbGdrcN5Y29ycA
+  :cyc_name: Spacecraft
+Misc:Work of Art:Album: 
+- :cyc_id: Mx4rwLmi3JwpEbGdrcN5Y29ycA
+  :cyc_name: Album-CW
+Misc:Work of Art:Book / Chapter / Open Letter: 
+- :cyc_id: Mx4rvVjmq5wpEbGdrcN5Y29ycA
+  :cyc_name: Book-CW
+- :cyc_id: Mx4rvpKfXpwpEbGdrcN5Y29ycA
+  :cyc_name: Chapter-PCW
+- :cyc_id: Mx4rvq7pm5wpEbGdrcN5Y29ycA
+  :cyc_name: Letter-CW
+Misc:Work of Art:Film / Documentary: 
+- :cyc_id: Mx4rv973YpwpEbGdrcN5Y29ycA
+  :cyc_name: Movie-CW
+Misc:Work of Art:Newspaper / Magazine / Journal: 
+- :cyc_id: Mx4rv4ByW5wpEbGdrcN5Y29ycA
+  :cyc_name: NewspaperSeries
+- :cyc_id: Mx4rwQ7-8pwpEbGdrcN5Y29ycA
+  :cyc_name: MagazineSeries
+- :cyc_id: Mx4rvVigHZwpEbGdrcN5Y29ycA
+  :cyc_name: JournalSeries
+Misc:Work of Art:Other: 
+- :cyc_id: Mx4rwClAZJwpEbGdrcN5Y29ycA
+  :cyc_name: ConceptualWork
+Misc:Work of Art:Painting: 
+- :cyc_id: Mx4rvVjHfpwpEbGdrcN5Y29ycA
+  :cyc_name: Painting-ArtForm
+Misc:Work of Art:Play / Opera / Ballet / Musical: 
+- :cyc_id: Mx4rvViIrpwpEbGdrcN5Y29ycA
+  :cyc_name: PlayScript
+- :cyc_id: Mx4rvcOKYJwpEbGdrcN5Y29ycA
+  :cyc_name: Opera-CW
+- :cyc_id: Mx4rX7xb_nS_EdaAAACgyZzFrg
+  :cyc_name: MusicalComposition-Opera
+- :cyc_id: Mx4rjQqWpHS9EdaAAACgyZzFrg
+  :cyc_name: BalletDancing
+- :cyc_id: Mx4rv7vY45wpEbGdrcN5Y29ycA
+  :cyc_name: Play-Musical-CW
+Misc:Work of Art:Sculpture / Fountain: 
+- :cyc_id: Mx4rvVis2pwpEbGdrcN5Y29ycA
+  :cyc_name: Sculpture
+- :cyc_id: Mx4rvvhy25wpEbGdrcN5Y29ycA
+  :cyc_name: Fountain-ArtObject
+Misc:Work of Art:Song / Poem / Prayer / Music: 
+- :cyc_id: Mx4rwP3teJwpEbGdrcN5Y29ycA
+  :cyc_name: Song-CW
+- :cyc_id: Mx4rvvm9OJwpEbGdrcN5Y29ycA
+  :cyc_name: Poem-CW
+- :cyc_id: Mx4rhqTzgscWEdmAAAACs6hRjg
+  :cyc_name: Prayer-SacredText
+- :cyc_id: Mx4rvVjOJpwpEbGdrcN5Y29ycA
+  :cyc_name: Music
+Misc:Work of Art:TV Show / Series / Episode: 
+- :cyc_id: Mx4rvnewlpwpEbGdrcN5Y29ycA
+  :cyc_name: TVShow-CW
+- :cyc_id: Mx4rvhz6_JwpEbGdrcN5Y29ycA
+  :cyc_name: MediaSeriesProduct
+- :cyc_id: Mx4rC9z1jPRjQdeZxuKdrd9MTA
+  :cyc_name: EditionOfCWSeries-Periodic
+Numeric:Age: []
+
+Numeric:Cardinal: 
+- :cyc_id: Mx4rwIDbkJwpEbGdrcN5Y29ycA
+  :cyc_name: Cardinal-Mathematical
+Numeric:Date: 
+- :cyc_id: Mx4rvVisWZwpEbGdrcN5Y29ycA
+  :cyc_name: Date
+Numeric:Duration: []
+
+Numeric:Money: []
+
+Numeric:Ordinal: []
+
+Numeric:Other: []
+
+Numeric:Percent: []
+
+Numeric:Periodic: []
+
+Numeric:Quantity: []
+
+Numeric:Time: []
+
+Numeric:Unmarked: []
+
+Organisation:Army / Military: 
+- :cyc_id: Mx4rmkGQFm3OEdaAAACgye-oRQ
+  :cyc_name: Army-MilitaryEchelon
+- :cyc_id: Mx4rvVjx75wpEbGdrcN5Y29ycA
+  :cyc_name: MilitaryOrganization
+Organisation:Band: 
+- :cyc_id: Mx4rvgEZGJwpEbGdrcN5Y29ycA
+  :cyc_name: Band-MusicGroup
+Organisation:Broadcaster:Radio / Television: 
+- :cyc_id: Mx4rvyCS5ZwpEbGdrcN5Y29ycA
+  :cyc_name: Radio
+- :cyc_id: Mx4rwQHEi5wpEbGdrcN5Y29ycA
+  :cyc_name: TVBroadcasting
+Organisation:Charity: 
+- :cyc_id: Mx4rvWVLEZwpEbGdrcN5Y29ycA
+  :cyc_name: SocialAidOrganization
+Organisation:Clan / Tribe: 
+- :cyc_id: Mx4rwQB8YpwpEbGdrcN5Y29ycA
+  :cyc_name: Tribe
+Organisation:Corporation: 
+- :cyc_id: Mx4rvViS05wpEbGdrcN5Y29ycA
+  :cyc_name: CommercialOrganization
+Organisation:Educational / School / Uni / Research: 
+- :cyc_id: Mx4rvViNQZwpEbGdrcN5Y29ycA
+  :cyc_name: EducationalOrganization
+- :cyc_id: Mx4rvViNhJwpEbGdrcN5Y29ycA
+  :cyc_name: ResearchOrganization
+- :cyc_id: Mx4rvnDzV5wpEbGdrcN5Y29ycA
+  :cyc_name: DegreeGrantingHigherEducationInstitution
+Organisation:Environmental:
+- :cyc_id: Mx4r5ysCLmtmEdqAAAACs0uFOQ
+  :cyc_name: EnvironmentalProtectionGovernmentOrganization
+Organisation:Government / Police: 
+- :cyc_id: Mx4rwQrtFpwpEbGdrcN5Y29ycA
+  :cyc_name: RegionalGovernment
+- :cyc_id: Mx4rvzXOSZwpEbGdrcN5Y29ycA
+  :cyc_name: PoliceOrganization
+Organisation:Hospital / Health Facilities: 
+- :cyc_id: Mx4rvViRwZwpEbGdrcN5Y29ycA
+  :cyc_name: Hospital
+Organisation:Hotel: 
+- :cyc_id: Mx4rwHkLf5wpEbGdrcN5Y29ycA
+  :cyc_name: CommercialLodgingOrganization
+Organisation:Museum: 
+- :cyc_id: Mx4rvViEOJwpEbGdrcN5Y29ycA
+  :cyc_name: Museum-Organization
+Organisation:Other: 
+- :cyc_id: Mx4rvVjVT5wpEbGdrcN5Y29ycA
+  :cyc_name: Organization
+Organisation:Political:
+- :cyc_id: Mx4rvViNy5wpEbGdrcN5Y29ycA
+  :cyc_name: PoliticalOrganization
+Organisation:Religious / Church / Temple / Mosque: 
+- :cyc_id: Mx4rvVjbBJwpEbGdrcN5Y29ycA
+  :cyc_name: ReligiousOrganization
+- :cyc_id: Mx4r9X3JKB5sQdeJgPo6IIltRQ
+  :cyc_name: Church-LocalCongregation
+- :cyc_id: Mx4r92FCJB5sQdeDIJL0mVOUHw
+  :cyc_name: Synagogue-LocalCongregation
+- :cyc_id: Mx4rLHhEAyBjEdiNYwACs6hnlQ
+  :cyc_name: Mosque-LocalCongregation
+Organisation:Sport / team: 
+- :cyc_id: Mx4rwIw695wpEbGdrcN5Y29ycA
+  :cyc_name: SportsOrganization
+- :cyc_id: Mx4rvZowY5wpEbGdrcN5Y29ycA
+  :cyc_name: Team
+Personal:Fictional / Myth: 
+- :cyc_id: Mx4rwQwwBZwpEbGdrcN5Y29ycA
+  :cyc_name: FictionalThing
+Personal:Other / Racehorse: 
+- :cyc_id: Mx4rdDJ92McaEdmAAAACs6hRjg
+  :cyc_name: Racehorse
+Personal:Person / dude: 
+- :cyc_id: Mx4rvViAkpwpEbGdrcN5Y29ycA
+  :cyc_name: Person
+Personal:Spiritual / Religious: 
+- :cyc_id: Mx4rvVj4GZwpEbGdrcN5Y29ycA
+  :cyc_name: ReligiousPerson
+_Topic / Concept / Non-Entity:
+- :cyc_id: Mx4rvViAzJwpEbGdrcN5Y29ycA
+  :cyc_name: Collection
+Type of:Body Part or parts of other creatures:
+- :cyc_id: Mx4rwQBXZpwpEbGdrcN5Y29ycA
+  :cyc_name: OrganismPart
+Type of:Colour: 
+- :cyc_id: Mx4rr19QJHStEdaAAACgyZzFrg
+  :cyc_name: Color
+Type of:Disease / Disorder: 
+- :cyc_id: Mx4rv6WBtZwpEbGdrcN5Y29ycA
+  :cyc_name: DiseaseType
+- :cyc_id: Mx4rwQwYVpwpEbGdrcN5Y29ycA
+  :cyc_name: AilmentCondition
+Type of:Event:Natural Disaster: 
+- :cyc_id: Mx4rvfblKZwpEbGdrcN5Y29ycA
+  :cyc_name: NaturalDisaster
+Type of:Event:Other: 
+- :cyc_id: Mx4rvViADZwpEbGdrcN5Y29ycA
+  :cyc_name: Event
+Type of:Facility:Airport: 
+- :cyc_id: Mx4rvVj-r5wpEbGdrcN5Y29ycA
+  :cyc_name: Airport-Physical
+Type of:Facility:Attraction: 
+- :cyc_id: Mx4rwPfOMJwpEbGdrcN5Y29ycA
+  :cyc_name: TouristAttraction
+Type of:Facility:Bridge: 
+- :cyc_id: Mx4rvgD1IZwpEbGdrcN5Y29ycA
+  :cyc_name: Bridge
+Type of:Facility:Building: 
+- :cyc_id: Mx4rvVj7KJwpEbGdrcN5Y29ycA
+  :cyc_name: Building
+Type of:Facility:Other: 
+- :cyc_id: Mx4rvVidpZwpEbGdrcN5Y29ycA
+  :cyc_name: ConstructionArtifact
+Type of:Facility:Road: 
+- :cyc_id: Mx4rvyNjbZwpEbGdrcN5Y29ycA
+  :cyc_name: Roadway
+Type of:Facility:Station: 
+- :cyc_id: Mx4rGyB6uGbnQdichKPFIDIErQ
+  :cyc_name: BusStation
+- :cyc_id: Mx4rv6ZmoZwpEbGdrcN5Y29ycA
+  :cyc_name: RailroadStation
+Type of:Game / Sport: 
+- :cyc_id: Mx4rvkS9GZwpEbGdrcN5Y29ycA
+  :cyc_name: Game
+- :cyc_id: Mx4rwPySLpwpEbGdrcN5Y29ycA
+  :cyc_name: Sport
+Type of:GPE:Country: 
+- :cyc_id: Mx4rvViIeZwpEbGdrcN5Y29ycA
+  :cyc_name: Country
+Type of:GPE:Other: 
+- :cyc_id: Mx4rvVjl2pwpEbGdrcN5Y29ycA
+  :cyc_name: GeopoliticalEntity
+Type of:GPE:State: 
+- :cyc_id: Mx4rvVjnqJwpEbGdrcN5Y29ycA
+  :cyc_name: State-Geopolitical
+Type of:GPE:Town / City / Village: 
+- :cyc_id: Mx4rvuXm9JwpEbGdrcN5Y29ycA
+  :cyc_name: Town
+- :cyc_id: Mx4rvVjnZ5wpEbGdrcN5Y29ycA
+  :cyc_name: City
+- :cyc_id: Mx4rv33BppwpEbGdrcN5Y29ycA
+  :cyc_name: Village
+Type of:Language: 
+- :cyc_id: Mx4rvVj0iZwpEbGdrcN5Y29ycA
+  :cyc_name: Language
+Type of:Life:Animal: 
+- :cyc_id: Mx4r5lNPkMLgQdeAzr878CoUZw
+  :cyc_name: NonHumanAnimal
+Type of:Life:Insect / Spider / Snail: 
+- :cyc_id: Mx4rvVi495wpEbGdrcN5Y29ycA
+  :cyc_name: Insect
+- :cyc_id: Mx4rvVjCnZwpEbGdrcN5Y29ycA
+  :cyc_name: Spider
+- :cyc_id: Mx4rvViUUJwpEbGdrcN5Y29ycA
+  :cyc_name: Snail
+Type of:Life:Other: 
+- :cyc_id: Mx4rvVjE1pwpEbGdrcN5Y29ycA
+  :cyc_name: Organism-Whole
+Type of:Life:Plant / Algae / Fungi: 
+- :cyc_id: Mx4rvVjG4ZwpEbGdrcN5Y29ycA
+  :cyc_name: Plant
+- :cyc_id: Mx4rvVkEeZwpEbGdrcN5Y29ycA
+  :cyc_name: Algae
+- :cyc_id: Mx4rvViZCZwpEbGdrcN5Y29ycA
+  :cyc_name: Fungus
+Type of:Life:Protein / Enzymes / Organic Compound: 
+- :cyc_id: Mx4rvVjM3pwpEbGdrcN5Y29ycA
+  :cyc_name: ProteinStuff
+- :cyc_id: Mx4rvfBoWZwpEbGdrcN5Y29ycA
+  :cyc_name: EnzymeMolecule
+- :cyc_id: Mx4rv7aNXJwpEbGdrcN5Y29ycA
+  :cyc_name: OrganicCompound
+Type of:Life:Virus / Bacteria: 
+- :cyc_id: Mx4rvViXQpwpEbGdrcN5Y29ycA
+  :cyc_name: Virus
+- :cyc_id: Mx4rvVjU-5wpEbGdrcN5Y29ycA
+  :cyc_name: Bacterium
+"Type of:Life: Genus etc":
+- :cyc_id: Mx4rvVian5wpEbGdrcN5Y29ycA
+  :cyc_name: BiologicalGenus
+Type of:Location: 
+- :cyc_id: Mx4rvVjORZwpEbGdrcN5Y29ycA
+  :cyc_name: TopographicalFeature
+Type of:Organisation:Corporation: 
+- :cyc_id: Mx4rvViS05wpEbGdrcN5Y29ycA
+  :cyc_name: CommercialOrganization
+Type of:Organisation:Educational:
+- :cyc_id: Mx4rvViNQZwpEbGdrcN5Y29ycA
+  :cyc_name: EducationalOrganization
+Type of:Organisation:Government:
+- :cyc_id: Mx4rwQrtFpwpEbGdrcN5Y29ycA
+  :cyc_name: RegionalGovernment
+Type of:Organisation:Hospital:
+- :cyc_id: Mx4rvViRwZwpEbGdrcN5Y29ycA
+  :cyc_name: Hospital
+Type of:Organisation:Hotel:
+- :cyc_id: Mx4rwHkLf5wpEbGdrcN5Y29ycA
+  :cyc_name: CommercialLodgingOrganization
+Type of:Organisation:Museum:
+- :cyc_id: Mx4rvViEOJwpEbGdrcN5Y29ycA
+  :cyc_name: Museum-Organization
+Type of:Organisation:Political / Union:
+- :cyc_id: Mx4rvViNy5wpEbGdrcN5Y29ycA
+  :cyc_name: PoliticalOrganization
+Type of:Organisation:Religious:
+- :cyc_id: Mx4rvVjbBJwpEbGdrcN5Y29ycA
+  :cyc_name: ReligiousOrganization
+Type of:Organisation:Other: 
+- :cyc_id: Mx4rvVjVT5wpEbGdrcN5Y29ycA
+  :cyc_name: Organization
+Type of:Person: 
+- :cyc_id: Mx4rvViAkpwpEbGdrcN5Y29ycA
+  :cyc_name: Person
+Type of:Process / Method / Procedure: 
+- :cyc_id: Mx4rvhe7XpwpEbGdrcN5Y29ycA
+  :cyc_name: ProcessingEvent
+- :cyc_id: Mx4r-c445joZQdeL9clHkSkN2A
+  :cyc_name: TechniqueType
+Type of:Product:Musical Instrument: 
+- :cyc_id: Mx4rvVjI6JwpEbGdrcN5Y29ycA
+  :cyc_name: MusicalInstrument
+Type of:Product:Software: 
+- :cyc_id: Mx4rwJxiRJwpEbGdrcN5Y29ycA
+  :cyc_name: ComputerProgram-CW
+Type of:Product:Vehicle: 
+- :cyc_id: Mx4rwLzhaZwpEbGdrcN5Y29ycA
+  :cyc_name: TransportationDevice-Vehicle
+Type of:Product:Weapon: 
+- :cyc_id: Mx4rvVj8V5wpEbGdrcN5Y29ycA
+  :cyc_name: Weapon
+Type of:Product:Website: 
+- :cyc_id: Mx4rJtdTVoJNQdeOqaFkQvl7dw
+  :cyc_name: WebSite
+Type of:Substance:Chemical / Element: 
+- :cyc_id: Mx4rvVjNlZwpEbGdrcN5Y29ycA
+  :cyc_name: ChemicalSubstanceType
+- :cyc_id: Mx4rvVkIMJwpEbGdrcN5Y29ycA
+  :cyc_name: ElementStuffTypeByNumberOfProtons
+Type of:Substance:Drug: 
+- :cyc_id: Mx4rv8FjPpwpEbGdrcN5Y29ycA
+  :cyc_name: DrugSubstance
+- :cyc_id: Mx4rwP1OWpwpEbGdrcN5Y29ycA
+  :cyc_name: PharmaceuticalType
+Type of:Substance:Food: 
+- :cyc_id: Mx4rvVi9i5wpEbGdrcN5Y29ycA
+  :cyc_name: Food
+Type of:Substance:Other: 
+- :cyc_id: Mx4rvVkKBZwpEbGdrcN5Y29ycA
+  :cyc_name: InorganicMaterial
+- :cyc_id: Mx4rvVjD0JwpEbGdrcN5Y29ycA
+  :cyc_name: OrganicMaterial
+- :cyc_id: Mx4rvVny6pwpEbGdrcN5Y29ycA
+  :cyc_name: ExistingStuffType
+Type of:Symbol: 
+- :cyc_id: Mx4rwKrQNpwpEbGdrcN5Y29ycA
+  :cyc_name: SymbolicThing
+Type of:Vessel: 
+- :cyc_id: Mx4rvVi-55wpEbGdrcN5Y29ycA
+  :cyc_name: Watercraft
+Type of:Work of Art: 
+- :cyc_id: Mx4rwClAZJwpEbGdrcN5Y29ycA
+  :cyc_name: ConceptualWork

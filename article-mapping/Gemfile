@@ -1,0 +1,19 @@
+source "http://rubygems.org"
+
+gem "rlp-wiki", :path => "../rlp"
+gem "slop"
+gem 'rod', :git => 'git://github.com/apohllo/rod.git', :tag => 'v0.7.2.4'
+gem 'rod-rest'
+gem 'syntax', :path => '../category-parsing/'
+gem 'rspec'
+gem 'colors'
+gem 'htmlentities'
+gem 'cycr'
+gem 'rr', '~> 1.1.2'
+gem 'net-http-persistent'
+gem 'progress', :git => 'git://github.com/djstrong/progress.git'
+gem 'rdf'
+gem 'cyc-mapping', :path => '../category-mapping/'
+gem 'iconv'
+gem 'typhoeus'
+gem 'concurrent-ruby-ext'
