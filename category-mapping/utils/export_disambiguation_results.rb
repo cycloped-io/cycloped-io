@@ -16,6 +16,7 @@ options = Slop.new do
   on :m=, :mapping, "File with results of automatic mapping", required: true, as: Array
   on :o=, :output, "Output file with mapping and MLE probabilities", required: true
   on :p=, :map_output, "Output file with mapping and MAP probabilities", required: true
+  on :w=, :winner_output, "Output file with mapping winner-takes-all", required: true
   on :l=, :limit, "Limit reading of concepts to first n entries", as: Integer, default: 0
 end
 
@@ -33,6 +34,8 @@ total = 0
 if options[:map_output]
   map_output = CSV.open(options[:map_output],"w")
 end
+winner_output = CSV.open(options[:winner_output],"w")
+
 CSV.open(options[:output],"w") do |output|
   options[:mapping].each do |file_name|
     puts "Processing #{file_name}"
@@ -47,6 +50,7 @@ CSV.open(options[:output],"w") do |output|
         if mapped_name == "_PLUS_ONE_"
           output << tuple
           map_output << tuple if map_output
+          winner_output << tuple
           next
         end
         candidates = []
@@ -72,13 +76,24 @@ CSV.open(options[:output],"w") do |output|
     if candidates.size >= 1
       output_tuple = [category_name]
       map_tuple = [category_name]
+
       candidates.sort_by{|c| - c.probability }.each do |candidate|
         output_tuple.concat(candidate.to_a(:mle_probability))
         map_tuple.concat(candidate.to_a(:map_probability))
       end
+
+      max_probability = candidates.max_by{|c| c.probability}.probability
+      winners = candidates.select{|c| c.probability==max_probability}
+      winner_tuple = [category_name]
+      winners.sort_by{|c| - c.probability }.each do |candidate|
+        winner_tuple.concat([candidate.cyc_id,candidate.cyc_name, 1.0/winners.size])
+      end
+
       output << output_tuple
       map_output << map_tuple if map_output
+      winner_output << winner_tuple
     end
   end
 end
 map_output.close if map_output
+winner_output.close
