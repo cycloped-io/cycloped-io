@@ -48,9 +48,10 @@ CSV.open(options[:output],"w") do |output|
         category_name = row.shift
         mapped_name = row.shift
         if mapped_name == "_PLUS_ONE_"
-          output << tuple
-          map_output << tuple if map_output
-          winner_output << tuple
+          new_row = [category_name]+row[0..2] #TODO
+          output << new_row
+          map_output << new_row if map_output
+          winner_output << new_row
           next
         end
         candidates = []
