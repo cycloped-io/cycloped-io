@@ -178,3 +178,11 @@ puts 'Categories without semantic parents and with regular and plural parent: '+
 #Statistics covers only regular and plural categories with at least one plural and regular parent.
 #Categories with at least one semantic parent: 574189
 #Categories without semantic parents and with regular and plural parent: 28742
+
+# Statistics covers only regular and plural categories with at least one plural and regular parent.
+#                                                                                               Categories with at least one semantic parent: 658611
+# Categories without semantic parents and with regular and plural parent: 31649
+#
+# real    116m40.225s
+# user    63m43.743s
+# sys     0m23.557s

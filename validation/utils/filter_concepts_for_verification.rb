@@ -42,6 +42,11 @@ CSV.open(options[:output], "w") do |output|
       next if !verification.include? article_name
       next if row.empty?
       output << row
+      verification.delete article_name
     end
+  end
+
+  verification.each do |name|
+    output << [name]
   end
 end

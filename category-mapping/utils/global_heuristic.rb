@@ -18,6 +18,7 @@ options = Slop.new do
 
   on :f=, :mapping, 'File with results of automatic mapping using local heuristics with support values from phase 1', required: true
   on :o=, :output, 'Output file'
+  on :d=, :database, 'ROD database', required: true
   on :h=, :host, 'Cyc host (localhost)'
   on :p=, :port, 'Cyc port (3601)', as: Integer
 end
@@ -48,17 +49,16 @@ def load_local_mapping(file)
     Progress.start(input.stat.size, 'Load mapping')
     input.each do |row|
       Progress.set(input.pos)
-      category_id = row.shift.to_i
+      category_name = row.shift
       full_name = (row.shift == 'true')
       results = []
-      row.each_slice(7) do |cyc_id, parents_count, children_count, instances_count, sum_parents_count, sum_children_count, sum_instances_count|
-        results << [cyc_id, parents_count.to_i, children_count.to_i, instances_count.to_i, sum_parents_count.to_i, sum_children_count.to_i, sum_instances_count.to_i]
+      row.each_slice(2) do |cyc_id,count|
+        results << [cyc_id,count.to_i]
       end
-      local_mapping[category_id] = mapping.new(full_name, results)
+      local_mapping[category_name] = mapping.new(full_name, results)
     end
     Progress.stop
   end
-
 
   return local_mapping
 end
@@ -83,7 +83,10 @@ def find_roots
     end
     Progress.stop
 
-    Marshal.dump(roots.map { |c| c.wiki_id }, File.open('roots.marshall', 'w'))
+
+    File.open('roots.marshall', 'w') do |output|
+      Marshal.dump(roots.map { |c| c.wiki_id }, output)
+    end
   end
   return roots
 end
@@ -116,12 +119,12 @@ def assign(root, stats, cyc, name_service)
 
     proposition_struct = Struct.new(:cyc, :support, :semantic_parent_mappings, :invalid_semantic_parent_mappings)
 
-    if stats.include?(category.wiki_id)
+    if stats.include?(category.name)
       propositions = []
 
-      stats[category.wiki_id].cyc_terms.each do |entry|
-        cyc_id, parents_count, children_count, instances_count, sum_parents_count, sum_children_count, sum_instances_count = entry
-        sum = parents_count + children_count+ instances_count+ sum_parents_count+ sum_children_count+ sum_instances_count
+      stats[category.name].cyc_terms.each do |entry|
+        cyc_id, count = entry
+        sum = count
 
         semantic_parent_mappings = 0
         invalid_semantic_parent_mappings = 0
@@ -131,7 +134,7 @@ def assign(root, stats, cyc, name_service)
           begin
             if cyc.genls?(name_service.find_by_id(cyc_id), name_service.find_by_id($mapping[parent.wiki_id].cyc))
 
-            elsif stats[category.wiki_id].full_name == false && cyc.genls?(name_service.find_by_id($mapping[parent.wiki_id].cyc), name_service.find_by_id(cyc_id))
+            elsif stats[category.name].full_name == false && cyc.genls?(name_service.find_by_id($mapping[parent.wiki_id].cyc), name_service.find_by_id(cyc_id))
               $statistics['child is generalization and is not full name'] += 1
               #TODO intersection
             else
@@ -289,7 +292,7 @@ def assign(root, stats, cyc, name_service)
       end
     end
 
-    category.get_semantic_children.each do |child|
+    category.semantic_children.each do |child|
       queue.unshift child
     end
 
@@ -297,6 +300,9 @@ def assign(root, stats, cyc, name_service)
 
 
 end
+
+#p local_mapping.size
+#p roots.size
 
 roots.with_progress do |root|
   assign(root, local_mapping, cyc, name_service)
@@ -307,7 +313,7 @@ end
 p $statistics
 
 
-phase2 = CSV.open('global_mapping_phase2.csv', 'w')
+phase2 = CSV.open(options[:output], 'w')
 $mapping.each do |k, v|
   phase2 << [k, v.cyc, v.support, v.inherited, v.description]
 end
@@ -342,3 +348,27 @@ phase2.close
 # "without Cyc proposition, with more than one parent with support == 0"=>3,
 # "without Cyc proposition, with one Cyc parent with support == 0"=>74,
 # "without Cyc proposition, with more than one parent without Cyc mapping"=>2}
+
+# {"root"=>51022,
+#  "root with support > 0"=>16449,
+#  "child is generalization and is not full name"=>16760,
+#  "only one valid with support > 0"=>320678,
+#  "all invalid with all parents, with support == 0"=>15728,
+#  "no propositions"=>62950,
+#  "root with support == 0 and one candidate"=>17779,
+#  "root with support == 0 and more than one candidate"=>16794,
+#  "only one valid with support == 0"=>137742,
+#  "no propositions and no semantic parents"=>10567,
+#  "all invalid with all parents, with support > 0"=>10355,
+#  "valid with some of parents, with support > 0"=>12180,
+#  "more than one valid with support > 0"=>3089,
+#  "only one valid but invalid with higher support"=>12948,
+#  "valid with some of parents, with support == 0"=>2253,
+#  "more than one valid with support == 0"=>144,
+#  "more than one valid but invalid with higher support"=>2,
+#  "without Cyc proposition, with more than one parent"=>3,
+#  "without Cyc proposition, with more than one parent with support > 0"=>2,
+#  "without Cyc proposition, with one parent"=>31,
+#  "without Cyc proposition, with one Cyc parent with support > 0"=>15,
+#  "without Cyc proposition, with more than one parent without Cyc mapping"=>1,
+#  "without Cyc proposition, with one parent without Cyc mapping"=>16}

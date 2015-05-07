@@ -57,12 +57,13 @@ CSV.open(options[:cycles]) do |file_cycles|
     decision=''
     category1=cycle[0]
     category2=cycle[1]
+
     if cycle.size==2
       if (categories[category1.wiki_id]&categories[category2.wiki_id]).size>0
         decision = 'The same parent - delete relation in both directions'
-      elsif not categories.include?(category1.wiki_id) || categories[category1.wiki_id].empty?
+      elsif !categories.include?(category1.wiki_id) || categories[category1.wiki_id].size<=1
         decision = category1.name+' would be orphaned'
-      elsif not categories.include?(category2.wiki_id) || categories[category2.wiki_id].empty?
+      elsif !categories.include?(category2.wiki_id) || categories[category2.wiki_id].size<=1
         decision = category2.name+' would be orphaned'
       end
     end

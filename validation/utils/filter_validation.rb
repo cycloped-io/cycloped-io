@@ -30,8 +30,9 @@ end
 validation = {}
 
 CSV.open(options[:input],'r:utf-8') do |input|
-  input.each do |decision, wiki_name, cyc_id, cyc_name|
-    validation[wiki_name] = [decision, wiki_name, cyc_id, cyc_name]
+  input.each do |row|
+    wiki_name = row[0]
+    validation[wiki_name] = row
   end
 end
 
@@ -40,7 +41,13 @@ CSV.open(options[:output], "w:utf-8") do |output|
   CSV.open(options[:regular], "r:utf-8") do |regular|
     regular.each do |wiki_name, cyc_id, cyc_name|
       row = validation[wiki_name]
+      next if row.nil?
+      validation.delete(wiki_name)
       output << row
     end
+  end
+
+  validation.each do |k,v|
+    output << v
   end
 end

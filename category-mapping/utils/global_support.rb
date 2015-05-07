@@ -45,13 +45,15 @@ def load_local_mapping(file, service)
   local_mapping = Hash.new
   CSV.open(file, 'r:utf-8') do |input|
     input.with_progress do |row|
-      category_id = row.shift.to_i
-      full_name = (row.shift == 'true')
+      category_name = row.shift
+      full_name = (row.shift == category_name)
       stats = []
-      row.each_slice(4) do |cyc_id, parents_count, children_count, instances_count|
-        stats << Mapping::Candidate.new(cyc_id, parents_count.to_i, children_count.to_i, instances_count.to_i,service)
+      row.each_slice(4) do |cyc_id, cyc_name, positive, total|
+        stats << Mapping::TypeCandidate.new(cyc_id, positive.to_i, service)
+      #row.each_slice(4) do |cyc_id, parents_count, children_count, instances_count|
+      #  stats << Mapping::Candidate.new(cyc_id, parents_count.to_i, children_count.to_i, instances_count.to_i,service)
       end
-      local_mapping[category_id] = MappingStruct.new(full_name, stats)
+      local_mapping[category_name] = MappingStruct.new(full_name, stats)
     end
   end
   local_mapping
@@ -111,21 +113,27 @@ queue = load_sorted_categories(options[:'category-dump'])
 visited=Set.new
 queue.with_progress do |category|
   visited.add(category)
-  next unless stats.include?(category.wiki_id)
+  #p category.name, 1
+  next unless stats.include?(category.name)
+  #p category.name, 2
   next if category.semantic_children.empty?
-  stats[category.wiki_id].cyc_terms.each do |candidate_entry|
+  #p category.name
+  stats[category.name].cyc_terms.each do |candidate_entry|
+    #p category.name, candidate_entry
     category.semantic_children.each do |child|
       if not visited.include?(child)
         puts 'error', child
       end
-      next unless stats.include?(child.wiki_id)
+      next unless stats.include?(child.name)
       max_count = 0
       max_entry = nil
 
       # TODO sort by sum and break if found
-      stats[child.wiki_id].cyc_terms.each do |child_entry|
+      stats[child.name].cyc_terms.each do |child_entry|
         begin
+          #p category.name, child_entry.cyc_term, child_entry
           if cyc.genls?(child_entry.cyc_term, candidate_entry.cyc_term) or cyc.genls?(candidate_entry.cyc_term, child_entry.cyc_term)
+            #p child_entry, candidate_entry
             if child_entry.total_count > max_count
               max_count = child_entry.total_count
               max_entry = child_entry
@@ -138,9 +146,11 @@ queue.with_progress do |category|
         end
       end
       if max_entry
-        candidate_entry.parents_count += max_entry.parents_count
-        candidate_entry.children_count += max_entry.children_count
-        candidate_entry.instances_count += max_entry.instances_count
+        #p category.name, candidate_entry.cyc_term, max_entry.cyc_term, max_entry.category_genls_count
+        candidate_entry.category_genls_count += max_entry.category_genls_count
+        #candidate_entry.parents_count += max_entry.parents_count
+        #candidate_entry.children_count += max_entry.children_count
+        #candidate_entry.instances_count += max_entry.instances_count
       end
     end
   end
@@ -148,8 +158,8 @@ end
 
 
 CSV.open(options[:output], 'w') do |output|
-  stats.each do |category_id, struct|
-    output << [category_id, struct.full_name, *struct.cyc_terms.map(&:to_a).map { |e| e[0..3] }.flatten]
+  stats.each do |category_name, struct|
+    output << [category_name, struct.full_name, *struct.cyc_terms.map(&:to_a).map { |e| e[0..3] }.flatten]
   end
 end
 

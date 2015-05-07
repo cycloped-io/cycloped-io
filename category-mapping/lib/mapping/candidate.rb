@@ -85,5 +85,9 @@ module Mapping
     def total_count
       self.category_genls_count
     end
+
+    def to_a
+      [self.cyc_id,self.category_genls_count]
+    end
   end
 end
