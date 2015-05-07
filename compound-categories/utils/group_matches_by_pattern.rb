@@ -25,15 +25,15 @@ end
 
 patterns = Hash.new{|h,e| h[e] = [] }
 CSV.open(options[:input],"r:utf-8") do |input|
-  input.with_progress do |category_name,*matches|
+  input.with_progress do |wiki_id,category_name,*matches|
     matches.each_slice(2) do |pattern,matched|
-      patterns[pattern] << category_name
+      patterns[pattern] << wiki_id
     end
     break if options[:count] && patterns.size > options[:count]
   end
 end
 CSV.open(options[:output],"w") do |output|
-  patterns.each do |pattern,categories|
-    output << categories.unshift(pattern)
+  patterns.each do |pattern,ids|
+    output << ids.unshift(ids.size).unshift(pattern)
   end
 end

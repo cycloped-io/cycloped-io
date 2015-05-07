@@ -79,7 +79,7 @@ CSV.open(options[:output],"w") do |output|
       end
     end while matched && pattern_start_index < super_patterns.size
     unless indices.empty?
-      output << [category.name] + indices.map{|i,m| [patterns_list[i].first,m] }.flatten
+      output << [category.wiki_id,category.name] + indices.map{|i,m| [patterns_list[i].first,m] }.flatten
       count += 1
     end
   end

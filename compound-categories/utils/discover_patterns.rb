@@ -13,6 +13,7 @@ options = Slop.new do
 
   on :f=, :input, "Input file with article name matches", required: true
   on :o=, :output, "Prefix of output files with pattern match results", required: true
+  on :m=, :mode, "Discovery mode: s - simple (default), c - concepts"
 end
 
 begin
@@ -36,8 +37,10 @@ CSV.open(options[:input],"r:utf-8") do |input|
       category_id,category_name,*tuples = row
       builder.build(category_name,tuples.each_slice(3).to_a,max_order) do |pattern,order,concepts|
         patterns[order][pattern] << category_id
-        concepts.each do |concept|
-          patterns[order][pattern] << concept
+        if options[:mode] == "c"
+          concepts.each do |concept|
+            patterns[order][pattern] << concept
+          end
         end
       end
     rescue Interrupt
@@ -51,7 +54,11 @@ Progress.stop
 (1..max_order).each do |order|
   CSV.open(options[:output] + "_#{order}.csv","w:utf-8") do |output|
     patterns[order].sort_by{|k,v| -v.size }.each do |pattern,ids_with_concepts|
-      output << ids_with_concepts.unshift(ids_with_concepts.size/(order+1)).unshift(pattern)
+      if options[:mode] == "c"
+        output << ids_with_concepts.unshift(ids_with_concepts.size/(order+1)).unshift(pattern)
+      else
+        output << ids_with_concepts.unshift(ids_with_concepts.size).unshift(pattern)
+      end
     end
   end
 end

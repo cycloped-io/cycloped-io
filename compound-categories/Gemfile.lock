@@ -46,6 +46,8 @@ GEM
     bsearch (1.5.0)
     builder (3.0.4)
     colors (0.0.7)
+    concurrent-ruby (0.8.0)
+      ref (~> 1.0, >= 1.0.5)
     cycr (0.2.5)
       ref (~> 1.0.0)
     diff-lcs (1.2.5)
@@ -56,6 +58,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     htmlentities (4.3.1)
     i18n (0.6.9)
+    iconv (1.0.4)
     json (1.8.1)
     json_pure (1.8.1)
     multi_json (1.9.0)
@@ -106,8 +109,10 @@ PLATFORMS
 DEPENDENCIES
   addressable
   colors
+  concurrent-ruby
   equivalent-xml
   htmlentities
+  iconv
   nokogiri
   progress!
   rdf-rdfxml (< 1.0.0)

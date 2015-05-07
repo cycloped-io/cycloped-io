@@ -37,7 +37,7 @@ CSV.open(options[:types]) do |input|
     mapping[cyc_id] = [mid_cyc_id, mid_cyc_name]
   end
 end
-
+errors = 0
 CSV.open(options[:input]) do |input|
   CSV.open(options[:output], "w") do |output|
     input.with_progress do |row|
@@ -47,7 +47,8 @@ CSV.open(options[:input]) do |input|
       row.each_slice(3) do |cyc_id, cyc_name, support|
         mid = mapping[cyc_id]
         if mid.nil?
-          p cyc_id, cyc_name
+          #p [cyc_id, cyc_name]
+          errors += 1
           next
         end
         types[mid]+=support.to_i
@@ -57,10 +58,8 @@ CSV.open(options[:input]) do |input|
       types.sort_by { |mid, support| support }.reverse.each do |mid, support|
         tuple << mid+[support]
       end
-
-
       output << header+tuple.flatten
-
     end
   end
 end
+puts errors

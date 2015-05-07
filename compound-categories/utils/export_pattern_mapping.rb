@@ -19,9 +19,7 @@ options = Slop.new do
   on :l=, :length, "Patterns count", as: Integer
   on :v, :verbose, "Verbose mode"
   on :s, :stats, "Output statistics"
-  on :e=, :entropy, "Maximum entropy value", as: Float, default: 0.5
   on :p=, :support, "Minimum support value for the mapping", as: Integer, default: 1
-  on :r=, :probability, "Minimum probability of the partition", as: Float, default: 0.1
   on :b=, :blacklist, "Blacklist of abstract type"
 end
 
@@ -63,29 +61,20 @@ CSV.open(options[:input]) do |input|
       candidates.each do |candidate|
         entropy -= candidate.probability * Math::log(candidate.probability)
       end
-      if output && entropy < options[:entropy]
-        output_tuple = [entity]
+      if output
+        output_tuple = [entity,entropy.round(5)]
         candidates.each do |candidate|
-          next if candidate.probability < options[:probability] || candidate.positive < options[:support]
-          output_tuple.concat(candidate.to_a)
+          next if candidate.positive < options[:support]
+          output_tuple.concat(candidate.to_a(:mle_probability))
         end
         output << output_tuple if output_tuple.size > 1
       end
       if options[:verbose]
         puts entity.hl(:blue)
-        if entropy < options[:entropy]
-          color = :green
-        else
-          color = :red
-        end
-        puts ("Entropy %.3f" % entropy).hl(color)
+        puts "Entropy %.3f" % entropy
         candidates.each do |candidate|
           str = ("- %.3f %s" % [candidate.probability,candidate.cyc_name])
-          if candidate.probability >= options[:probability]
-            puts str.hl(:purple)
-          else
-            puts str
-          end
+          puts str
         end
       end
       entropies << [entropy,total_support]
