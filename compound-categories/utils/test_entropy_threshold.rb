@@ -15,6 +15,7 @@ options = Slop.new do
 
   on :m=, :reference, 'Reference classification', required: true
   on :i=, :classification, 'Automatic (verified) classification with entropy (float) in second column', required: true
+  on :v=, :mode, 'Entropy (e) or probability (p) of the best', required: true
 end
 
 begin
@@ -45,15 +46,27 @@ classification = []
 CSV.open(options[:classification], "r:utf-8") do |input|
   input.with_progress do |name, entropy, *types|
     next if reference[name].nil?
-    type = types.each_slice(3).map { |cyc_id, cyc_name, probability| cyc_id }.first
-    classification << [name, entropy.to_f, type]
+    type = types.each_slice(3).first #.map { |cyc_id, cyc_name, probability| cyc_id }.first
+    cyc_id, cyc_name, probability = type
+
+    if options[:mode]=="e"
+      value=entropy.to_f
+      elsif options[:mode]=="p"
+        value=probability.to_f
+    end
+    classification << [name, value, cyc_id]
   end
 end
 
 puts "Coverage: %s" % classification.size
 
 scores = {}
-classification.sort_by { |name, entropy, type| entropy }.with_progress do |name, entropy, type|
+
+sorted_classification = classification.sort_by { |name, value, type| value }
+sorted_classification.reverse! if options[:mode]=="p"
+
+
+sorted_classification.with_progress do |name, entropy, type|
   reference_types = reference[name]
   next if reference_types.nil?
   reference_type = reference_types.first
@@ -70,11 +83,11 @@ end
 mismatch_file.close if mismatch_file
 
 
-puts '| %-25s | Entropy   | Precision | Recall     | F1          |' % " "
+puts '| %-25s | Value     | Precision | Recall     | F1          |' % " "
 puts '| %-25s | --------- | --------- | ---------- | ----------- |' % ("-" * 25)
 
-scores.each do |entropy,v|
-  true_positives,false_positives=v
+scores.sort_by{|value,tpfp| value}.each do |entropy,tpfp|
+  true_positives,false_positives=tpfp
   precision = (true_positives) / (true_positives + false_positives).to_f * 100
   recall = (true_positives) / reference.size.to_f * 100
   f1 = 2 * precision * recall / (precision + recall)
