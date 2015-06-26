@@ -18,10 +18,9 @@ options = Slop.new do
   on :f=, :input, "File with entities classification", required: true
   on :o=, :output, "File with classification to high-level concepts", required: true
   on :t=, :types, "Cyc high-level concepts classification", required: true
-  on :h=, :host, "Cyc host", default: "localhost"
-  on :p=, :port, "Cyc port", as: Integer, default: 3601
   on :m=, :method, "Voting method: f - frequency (default), e - probability error, s - probability sum, a - (frequency, probability sum), p - maximum probability", default: 'f'
   on :v, :verbose, "Turn on verbose mode"
+  on :s, :simple, "Read data in simple format without probability"
 end
 
 begin
@@ -32,21 +31,22 @@ rescue => ex
   exit
 end
 
-def convert_array_to_cyc(array)
-  -> { "'(" + array.map { |e| e.to_cyc(true) }.join(" ") + ')' }
-end
 
-cyc = Cyc::Client.new(cache: true, host: options[:host], port: options[:port])
-name_service = Mapping::Service::CycNameService.new(cyc)
 
 types_classification = {}
 CSV.open(options[:types]) do |input|
   input.with_progress do |collection_id, collection_name, sth, type_id, type_name|
     next if type_id.nil?
     types_classification[collection_id] = [type_id, type_name]
+    types_classification[type_id] = [type_id, type_name] # error in classification data?
   end
 end
 
+
+slices = 3
+if options[:simple]
+  slices = 2
+end
 
 stats = Hash.new(0)
 
@@ -57,12 +57,17 @@ CSV.open(options[:input], 'r:utf-8') do |input|
       probabilities = Hash.new { |h, k| h[k] = [] }
       map = Hash.new{|h,e| h[e] = [] }
 
-      row.each_slice(3) do |cyc_id, cyc_name, probability|
-        next if !types_classification.include?(cyc_id)
+      row.each_slice(slices) do |cyc_id, cyc_name, probability|
+        probability = 1.0 if options[:simple]
+        if !types_classification.include?(cyc_id)
+          #puts cyc_id, cyc_name
+          next
+        end
         probabilities[types_classification[cyc_id]] << probability.to_f
         map[types_classification[cyc_id]] << cyc_name
       end
       if probabilities.empty?
+        # p name, row
         stats['no candidates']+=1
         next
       end
