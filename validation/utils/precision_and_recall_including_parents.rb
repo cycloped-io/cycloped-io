@@ -65,6 +65,20 @@ class Score
   def preprocess(predicted, reference)
 
   end
+
+  def precision
+    return (@true_positives) / (@true_positives + @false_positives).to_f * 100
+  end
+
+  def recall
+    return (@true_positives) / (@true_positives + @false_negatives).to_f * 100
+
+  end
+
+  def f1
+    return 2 * precision * recall / (precision + recall)
+  end
+
 end
 
 class SimpleScore < Score
@@ -105,18 +119,13 @@ end
 
 
 reference = {}
-reference2 = {}
 CSV.open(options[:reference], "r:utf-8") do |input|
   input.with_progress do |name, *types|
-    reference2[name] = types
     types = types.each_slice(2).map{|cyc_id, cyc_name| cyc_id}
     reference[name] = types
   end
 end
 
-true_positives = 0
-false_positives = 0
-false_negatives = 0
 
 
 predicted = {}
@@ -137,18 +146,13 @@ measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormaliz
 scorer = measures[options[:score]].new(name_service)
 reference.with_progress do |name, reference_types|
   predicted_types = predicted[name]
-
-  tp,fp,fn=scorer.score(predicted_types, reference_types)
-
-  true_positives += tp
-  false_positives += fp
-  false_negatives += fn
+  scorer.score(predicted_types, reference_types)
 end
 
 
-precision = (true_positives) / (true_positives + false_positives).to_f * 100
-recall = (true_positives) / (true_positives + false_negatives).to_f * 100
-f1 = 2 * precision * recall / (precision + recall)
+precision = scorer.precision
+recall = scorer.recall
+f1 = scorer.f1
 
 puts '| %-25s | Precision | Recall     | F1          |' % " "
 puts '| %-25s | --------- | ---------- | ----------- |' % ("-" * 25)
