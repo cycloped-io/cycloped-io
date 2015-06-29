@@ -69,16 +69,22 @@ CSV.open(options[:classification], "r:utf-8") do |input|
     type = types.each_slice(3).first #.map { |cyc_id, cyc_name, probability| cyc_id }.first
     cyc_id, cyc_name, probability = type
 
+
     if options[:mode]=="e"
       value=entropy.to_f
     elsif options[:mode]=="p"
       value=probability.to_f
     end
+
+    # if probability.to_f < 0.5
+    #   cyc_id = Thing.id
+    # end
+
     classification[name] = [value, cyc_id]
   end
 end
 
-puts "Coverage: %s" % classification.size
+# puts "Coverage: %s" % classification.size
 
 scores = {}
 
@@ -109,7 +115,8 @@ end
 sorted_reference.with_progress do |name, reference_types|
   value, type=classification[name]
   if value.nil?
-    value=0.0 # ?
+    value=0.0 if options[:mode]=="p" # ?
+    value=5.0 if options[:mode]=="e"
   end
 
   tp,fp,fn,tp2,fp2,fn2 = double_scores[name]
@@ -124,17 +131,19 @@ sorted_reference.with_progress do |name, reference_types|
   scores[value]=[scorer1.precision, scorer1.recall, scorer1.f1]
 end
 
+# p scorer1.precision, scorer1.recall, scorer1.f1, scorer2.precision, scorer2.recall, scorer2.f1
 
 
 mismatch_file.close if mismatch_file
 
 
-puts '| %-25s | Value     | Precision | Recall     | F1          |' % " "
-puts '| %-25s | --------- | --------- | ---------- | ----------- |' % ("-" * 25)
+# puts '| %-25s | Value     | Precision | Recall     | F1          |' % " "
+# puts '| %-25s | --------- | --------- | ---------- | ----------- |' % ("-" * 25)
 
 scores.sort_by{|value,score| value}.each do |value,score|
   precision, recall, f1 =score
-  puts '| %-25s | %.3f      | %.1f      | %.1f       | %.1f        |' % [(" " * 25), value, precision, recall, f1]
+  # puts '| %-25s | %.3f      | %.1f      | %.1f       | %.1f        |' % [(" " * 25), value, precision, recall, f1]
+  puts '%f %f %f %f' % [value, precision, recall, f1]
 end
 
 
