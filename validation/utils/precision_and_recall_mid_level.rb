@@ -35,8 +35,8 @@ name_service = Mapping::Service::CycNameService.new(cyc)
 
 reference = {}
 CSV.open(options[:reference], "r:utf-8") do |input|
-  input.with_progress do |decision, name, cyc_id, cyc_name|
-    reference[name] = [decision, cyc_id, cyc_name]
+  input.with_progress do |name, cyc_id, cyc_name|
+    reference[name] = [cyc_id, cyc_name]
   end
 end
 
@@ -48,26 +48,19 @@ CSV.open(options[:errors], "w:utf-8") do |output|
   CSV.open(options[:classification], "r:utf-8") do |input|
     input.with_progress do |name, *types|
       next unless reference.has_key?(name)
-      decision, cyc_id, cyc_name = reference[name]
+      types = types.each_slice(2).map(&:first)
+      cyc_id, cyc_name = reference[name]
       matched = types.include?(cyc_id)
       if !matched
         cyc_term = name_service.find_by_id(cyc_id)
-        matched = types.each_slice(2).to_a.map{|k,v| k}.any?{|type| cyc.with_any_mt{|c| c.genls?(name_service.find_by_id(type),cyc_term) }}
+        #matched = types.any?{|type| cyc.with_any_mt{|c| c.genls?(name_service.find_by_id(type),cyc_term) }}
       end
-      if decision=='v'
-        if matched
-          true_positives+=1
-        else
-          false_negatives+=1
-          output << [name]+reference[name]+types
-        end
-      else # invalid
-        if matched
-          false_positives+=1
-          output << [name]+reference[name]+types
-        else
-          true_negatives+=1
-        end
+      if matched
+        true_positives += 1
+        false_positives += types.size - 1
+      else
+        false_positives += types.size
+        output << [name]+reference[name]+types
       end
     end
   end
@@ -76,12 +69,15 @@ end
 #p true_positives, false_positives, true_negatives, false_negatives
 
 precision = (true_positives) / (true_positives + false_positives).to_f * 100
-recall = (true_positives) / (true_positives + false_negatives).to_f * 100
+recall = (true_positives) / reference.size.to_f * 100
 f1 = 2 * precision * recall / (precision + recall)
-accuracy = (true_positives+ true_negatives).to_f / (true_positives+ false_positives+ true_negatives+ false_negatives) * 100
-coverage = (true_positives+ false_positives+ true_negatives+ false_negatives).to_f/reference.size*100
+accuracy = (true_positives+ true_negatives).to_f / (true_positives+ false_positives+ true_negatives+ false_negatives)
+coverage = (true_positives+ false_positives+ true_negatives+ false_negatives).to_f/reference.size
+recall_2 = accuracy * coverage * 100
+accuracy *= 100
+coverage *= 100
 f1_prim = 2 * accuracy * coverage / (accuracy + coverage)
 
-puts '| %-25s | Precision | Recall     | F1          | Accuracy   | Coverage | F1\' |' % " "
-puts '| %-25s | --------- | ---------- | ----------- | ---------- | -------- | ---- |' % ("-" * 25)
-puts '| %-25s | %.1f      | %.1f       | %.1f        | %.1f       | %.1f     | %.1f |' % [(" " * 25), precision, recall, f1, accuracy, coverage, f1_prim]
+puts '| %-25s | Precision | Recall     | F1          | Accuracy   | Coverage | F1\' | ' % " "
+#puts '| %-25s | --------- | ---------- | ----------- | ---------- | -------- | ---- |' % ("-" * 25)
+puts '| %-25s | %.1f      | %.1f       | %.1f        | %.1f       | %.1f     | %.1f | ' % [(" " * 25), precision, recall, f1, accuracy, coverage, f1_prim]
