@@ -13,7 +13,7 @@ options = Slop.new do
   on :f=, :input, "File with pattern mapping", required: true
   on :m=, :matches, "File with pattern matches", required: true
   on :o=, :output, "Output file with category mapping", required: true
-  on :e=, :entropy, "Maximum entropy value", as: Float, default: 0.5
+  on :e=, :entropy, "Maximum entropy of the partition", as: Float, default: 0.5
   on :r=, :probability, "Minimum probability of the partition", as: Float, default: 0.1
 end
 
@@ -27,9 +27,9 @@ end
 
 patterns = Hash.new{|h,e| h[e] = [] }
 CSV.open(options[:input],"r:utf-8") do |input|
-  input.with_progress do |pattern,entropy,*tuples|
+  input.with_progress do |pattern,support,entropy,*tuples|
     entropy = entropy.to_f
-    next if entropy < options[:entropy]
+    next if entropy > options[:entropy]
     tuples.each_slice(3) do |cyc_id,cyc_name,probability|
       break if probability.to_f < options[:probability]
       patterns[pattern] << [cyc_id,cyc_name,probability.to_f]

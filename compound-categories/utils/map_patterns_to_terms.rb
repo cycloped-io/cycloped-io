@@ -8,7 +8,7 @@ require 'csv'
 require 'rlp/wiki'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -d database -i patterns.csv -o mapping.csv [-m categories.csv] [-l limit] [-x offset] [-s services] [-z support]\n"+
+  banner "#{$PROGRAM_NAME} -d database -i patterns.csv -o mapping.csv [-m categories.csv] [-l limit] [-x offset] [-z support]\n"+
     "Map category name patterns to Cyc terms"
 
   on :d=, :database, "ROD database with Wikipedia data", required: true
@@ -70,8 +70,8 @@ CSV.open(options[:output],"w") do |output|
       Progress.step(1)
       begin
         pattern = row.shift
-        categories_count = row.shift.to_i
-        break if categories_count < options[:support]
+        pattern_support = row.shift.to_i
+        break if pattern_support < options[:support]
         if category_mapping
           counts = Hash.new{|h,e| h[e] = [] }
           row.each do |category_id|
@@ -85,7 +85,7 @@ CSV.open(options[:output],"w") do |output|
             #[key,1 - probabilities.map{|p| 1 - p }.inject(:*)]
             [key,probabilities.size]
           end.sort_by{|k,v| - v}.flatten
-          output << [pattern,categories_count,*mapping] if mapping.size > 0
+          output << [pattern,pattern_support,*mapping] if mapping.size > 0
         else
           categories = row.map do |category_id|
             Category.find_by_wiki_id(category_id.to_i)
@@ -110,7 +110,7 @@ CSV.open(options[:output],"w") do |output|
             to_remove.reverse.each{|i| categories.delete_at(i) }
             example_index += 1
           end
-          output << [pattern,categories_count,*counts.sort_by{|k,v| -v }.map{|k,v| [k.cyc_id,k.name,v]}.flatten]
+          output << [pattern,pattern_support,*counts.sort_by{|k,v| -v }.map{|k,v| [k.cyc_id,k.name,v]}.flatten]
         end
       rescue Interrupt
         break

@@ -2,7 +2,6 @@
 def get_params
   data = ENV['WIKI_DATA']
   db = ENV['WIKI_DB']
-  `mkdir -p #{data}/patterns`
   if data.nil?
     puts "WIKI_DATA has to be set"
     exit
@@ -11,6 +10,7 @@ def get_params
     puts "WIKI_DB has to be set"
     exit
   end
+  `mkdir -p #{data}/patterns`
   [data,db]
 end
 

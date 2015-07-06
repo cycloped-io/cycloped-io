@@ -12,11 +12,11 @@ require 'mapping'
 
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -f classification.csv -t types.csv -o new_classification.csv\n" +
-             "Assign Cyc high-level concepts (determined empirically) to the entities"
+  banner "#{$PROGRAM_NAME} -f mapping.csv -t types.csv -o new_mapping.csv\n" +
+             "Assign Cyc high-level concepts to pattern mapping"
 
-  on :f=, :input, "File with entities classification", required: true
-  on :o=, :output, "File with classification to high-level concepts", required: true
+  on :f=, :input, "File with pattern mapping", required: true
+  on :o=, :output, "File with mapping to high-level concepts", required: true
   on :t=, :types, "Cyc high-level concepts", required: true
   on :F=, :fields, "Number of header fields in each row", default: 2, as: Integer
 end
@@ -31,13 +31,13 @@ end
 
 
 mapping = {}
-
 CSV.open(options[:types]) do |input|
   input.each do |cyc_id, cyc_name, _, mid_cyc_id, mid_cyc_name|
     mapping[cyc_id] = [mid_cyc_id, mid_cyc_name]
   end
 end
-errors = 0
+
+errors = Hash.new(0)
 CSV.open(options[:input]) do |input|
   CSV.open(options[:output], "w") do |output|
     input.with_progress do |row|
@@ -47,8 +47,7 @@ CSV.open(options[:input]) do |input|
       row.each_slice(3) do |cyc_id, cyc_name, support|
         mid = mapping[cyc_id]
         if mid.nil?
-          #p [cyc_id, cyc_name]
-          errors += 1
+          errors[cyc_name] += 1
           next
         end
         types[mid]+=support.to_i
@@ -62,4 +61,6 @@ CSV.open(options[:input]) do |input|
     end
   end
 end
-puts errors
+errors.sort_by{|_,v| -v }.each do |k,v|
+  puts "#{k} : #{v} "
+end
