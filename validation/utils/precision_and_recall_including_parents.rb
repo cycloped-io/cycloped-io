@@ -39,8 +39,7 @@ Thing = name_service.find_by_name('Thing').first
 reference = {}
 CSV.open(options[:reference], "r:utf-8") do |input|
   input.with_progress do |name, *types|
-    types = types.each_slice(2).map{|cyc_id, cyc_name| cyc_id}
-    reference[name] = types
+    reference[name] = types.each_slice(2).map{|cyc_id, cyc_name| cyc_id}
   end
 end
 
@@ -48,13 +47,12 @@ end
 
 predicted = {}
 CSV.open(options[:classification],"r:utf-8") do |input|
-  input.with_progress do |name,*types2|
+  input.with_progress do |name,*types|
     reference_types = reference[name]
     if reference_types.nil?
       next
     end
-    types = types2.each_slice(2).map{|cyc_id, cyc_name| cyc_id}
-    predicted[name] = types
+    predicted[name] = types.each_slice(2).map{|cyc_id, cyc_name| cyc_id}
   end
 end
 

@@ -76,8 +76,9 @@ CSV.open(options[:classification], "r:utf-8") do |input|
       value=probability.to_f
     end
 
-    # if probability.to_f < 0.5
-    #   cyc_id = Thing.id
+    # apply threshold
+    # if probability.to_f < 0.6
+    #    cyc_id = Thing.id
     # end
 
     classification[name] = [value, cyc_id]
@@ -88,13 +89,20 @@ end
 
 scores = {}
 
-sorted_reference = reference.sort_by { |name, types|  classification[name].nil? ? 0.0 : classification[name][0] }
+if options[:mode]=="p"
+  worst = 0.0
+elsif options[:mode]=="e"
+  worst=5.0
+end
+
+
+sorted_reference = reference.sort_by { |name, types|  classification[name].nil? ? worst : classification[name][0] }
 sorted_reference.reverse! if options[:mode]=="e"
 
 
 measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized}
-scorer1 = measures[options[:score]].new(name_service)
-scorer2 = measures[options[:score]].new(name_service)
+accept_scorer = measures[options[:score]].new(name_service)
+reject_scorer = measures[options[:score]].new(name_service) # used to score example as it was rejected by threshold
 
 double_scores = {}
 
@@ -107,31 +115,34 @@ sorted_reference.with_progress do |name, reference_types|
     predicted_types = [type]
   end
 
-  tp,fp,fn = scorer1.score(predicted_types, [reference_type])
-  tp2,fp2,fn2 = scorer2.score([Thing.id], [reference_type])
-  double_scores[name] = [tp,fp,fn,tp2,fp2,fn2]
+  tp,fp,fn = accept_scorer.score(predicted_types, [reference_type])
+  tp_rejected,fp_rejected,fn_rejected = reject_scorer.score([Thing.id], [reference_type])
+  double_scores[name] = [tp,fp,fn,tp_rejected,fp_rejected,fn_rejected]
+
+  # if fp>0 || fn >0
+  #   p name, predicted_types.map{|c| cyc_names[c]}, cyc_names[reference_type]
+  # end
 end
 
 sorted_reference.with_progress do |name, reference_types|
   value, type=classification[name]
   if value.nil?
-    value=0.0 if options[:mode]=="p" # ?
-    value=5.0 if options[:mode]=="e"
+    value=worst
   end
 
-  tp,fp,fn,tp2,fp2,fn2 = double_scores[name]
+  tp,fp,fn,tp_rejected,fp_rejected,fn_rejected = double_scores[name]
 
-  scorer1.true_positives -= tp
-  scorer1.false_positives -= fp
-  scorer1.false_negatives -= fn
-  scorer1.true_positives += tp2
-  scorer1.false_positives += fp2
-  scorer1.false_negatives += fn2
+  accept_scorer.true_positives -= tp
+  accept_scorer.false_positives -= fp
+  accept_scorer.false_negatives -= fn
+  accept_scorer.true_positives += tp_rejected
+  accept_scorer.false_positives += fp_rejected
+  accept_scorer.false_negatives += fn_rejected
 
-  scores[value]=[scorer1.precision, scorer1.recall, scorer1.f1]
+  scores[value]=[accept_scorer.precision, accept_scorer.recall, accept_scorer.f1]
 end
 
-# p scorer1.precision, scorer1.recall, scorer1.f1, scorer2.precision, scorer2.recall, scorer2.f1
+# p accept_scorer.precision, accept_scorer.recall, accept_scorer.f1, reject_scorer.precision, reject_scorer.recall, reject_scorer.f1
 
 
 mismatch_file.close if mismatch_file
