@@ -114,7 +114,7 @@ namespace :mapping do
     pool = Concurrent::FixedThreadPool.new(thread_count)
     tasks = ranges.map do |offset,limit|
       Concurrent::Future.execute(executor: pool) do
-        puts `utils/local_support.rb -o #{wikipedia_path}/local_support.#{offset}.csv -d #{db_path} -c l:f:c:s:r:b -a l:f:b -b data/abstract_level.txt -h #{cyc_host} -l #{limit} -x #{offset} -s data/clients.yaml`
+        puts `utils/local_support.rb -o #{wikipedia_path}/local_support.#{offset}.csv -d #{db_path} -c l:f:c:s:r:b:d -a l:f:b -b data/abstract_level.txt -h #{cyc_host} -l #{limit} -x #{offset} -s data/clients.yaml`
       end
     end
     interrupted = false
