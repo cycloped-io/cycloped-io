@@ -59,7 +59,7 @@ CSV.open(options[:classification],"r:utf-8") do |input|
 end
 
 
-measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'c' => ClassScore}
+measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => ClassScore}
 
 scorer = measures[options[:score]].new(name_service)
 reference.with_progress do |name, reference_types|
@@ -67,12 +67,12 @@ reference.with_progress do |name, reference_types|
   scorer.score(predicted_types, reference_types)
 end
 
-
+accuracy = scorer.accuracy
 precision = scorer.precision
 recall = scorer.recall
 f1 = scorer.f1
 
-puts '| %-25s | Precision | Recall     | F1          |' % " "
-puts '| %-25s | --------- | ---------- | ----------- |' % ("-" * 25)
-puts '| %-25s | %.1f      | %.1f       | %.1f        |' % [(" " * 25),precision,recall,f1]
+puts '| %-25s | Precision | Recall     | F1          | Accuracy |' % " "
+puts '| %-25s | --------- | ---------- | ----------- | -------- |' % ("-" * 25)
+puts '| %-25s | %.1f      | %.1f       | %.1f        | %.1f     |' % [(" " * 25),precision,recall,f1, accuracy]
 

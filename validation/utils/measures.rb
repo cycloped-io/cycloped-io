@@ -39,6 +39,10 @@ class Score
     return (@true_positives) / (@true_positives + @false_negatives).to_f * 100
   end
 
+  def accuracy
+    return Float::NAN
+  end
+
   def f1
     return 2 * precision * recall / (precision + recall)
   end
@@ -79,7 +83,7 @@ class AprosioScoreNormalized < AprosioScore
 end
 
 class Errors
-  attr_accessor :tp, :fp, :fn, :tns
+  attr_accessor :tp, :fp, :fn, :tn
 
   def initialize
     @tp=0
@@ -92,10 +96,12 @@ end
 class ClassScore
   def initialize(name_service=nil)
     @scores = Hash.new {|hash,key| hash[key] = Errors.new}
+    @samples=0
     @name_service=name_service
   end
 
   def score(predicted, reference)
+    @samples+=1
     predicted,reference = preprocess(predicted, reference)
 
     (predicted&reference).each do |type|
@@ -149,5 +155,20 @@ class ClassScore
 
   def f1
     return 2 * precision * recall / (precision + recall)
+  end
+
+  def accuracy
+    sum = 0
+    acc=0.0
+    @scores.each do |type, errors|
+      errors.tn = @samples-(errors.tp+errors.fp+errors.fn)
+      acci=(errors.tp+errors.tn).to_f/(errors.tp+errors.fp+errors.fn+errors.tn)*(errors.tp+errors.fn)
+      if acci.nan?
+        acci=0.0
+      end
+      acc+=acci
+      sum+=(errors.tp+errors.fn)
+    end
+    return acc/sum*100
   end
 end
