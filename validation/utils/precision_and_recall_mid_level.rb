@@ -17,7 +17,9 @@ options = Slop.new do
 
   on :m=, :reference, 'Reference classification', required: true
   on :i=, :classification, 'Automatic (verified) classification', required: true
-  on :e=, :errors, 'False negatives and false positives', required: true
+  on :e=, :errors, 'False negatives and false positives'
+  on :g, :genls, 'Count genls relation as true positives'
+  on :c, :close, 'Count min-genls inclusion as true positives'
   on :h=, :host, "Cyc host", default: 'localhost'
   on :p=, :port, "Cyc port", as: Integer, default: 3601
 end
@@ -36,6 +38,7 @@ name_service = Mapping::Service::CycNameService.new(cyc)
 reference = {}
 CSV.open(options[:reference], "r:utf-8") do |input|
   input.with_progress do |name, cyc_id, cyc_name|
+    next if cyc_name == "Thing"
     reference[name] = [cyc_id, cyc_name]
   end
 end
@@ -44,27 +47,31 @@ true_positives = 0
 false_positives = 0
 true_negatives = 0
 false_negatives = 0
-CSV.open(options[:errors], "w:utf-8") do |output|
-  CSV.open(options[:classification], "r:utf-8") do |input|
-    input.with_progress do |name, *types|
-      next unless reference.has_key?(name)
-      types = types.each_slice(2).map(&:first)
-      cyc_id, cyc_name = reference[name]
-      matched = types.include?(cyc_id)
-      if !matched
-        cyc_term = name_service.find_by_id(cyc_id)
-        #matched = types.any?{|type| cyc.with_any_mt{|c| c.genls?(name_service.find_by_id(type),cyc_term) }}
-      end
-      if matched
-        true_positives += 1
-        false_positives += types.size - 1
-      else
-        false_positives += types.size
-        output << [name]+reference[name]+types
-      end
+errors = CSV.open(options[:errors], "w:utf-8") if options[:errors]
+CSV.open(options[:classification], "r:utf-8") do |input|
+  input.with_progress do |name, *types|
+    next unless reference.has_key?(name)
+    type_ids = types.each_slice(2).map(&:first)
+    reference_id, reference_name = reference[name]
+    cyc_term = name_service.find_by_id(reference_id)
+    if options[:genls]
+      matched = type_ids.map{|id| name_service.find_by_id(id) }.
+        select{|type| cyc.with_any_mt{|c| c.genls?(type,cyc_term) } || cyc.with_any_mt{|c| c.genls?(cyc_term,type)} }
+    elsif options[:close]
+      matched = type_ids.map{|id| name_service.find_by_id(id) }.
+        select{|type| cyc.with_any_mt{|c| c.min_genls(type) }.include?(cyc_term.to_ruby) ||
+          cyc.with_any_mt{|c| c.min_genls(cyc_term)}.include?(type.to_ruby) } + (type_ids & [reference_id])
+    else
+      matched = type_ids & [reference_id]
+    end
+    true_positives += matched.size
+    false_positives += type_ids.size - matched.size
+    if type_ids.size - matched.size > 0
+      output << [name,reference_name,types.each_slice(2).map(&:last)] if errors
     end
   end
 end
+errors.close if errors
 
 #p true_positives, false_positives, true_negatives, false_negatives
 
