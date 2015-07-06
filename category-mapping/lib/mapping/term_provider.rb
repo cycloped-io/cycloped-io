@@ -40,6 +40,12 @@ module Mapping
       @category_cache[category] = candidate_set
     end
 
+    # Return the candidate terms for a given +pattern+ which is exemplified
+    # by the +representative+. The result is a CandidateSet.
+    def pattern_candidates(pattern,representative)
+      candidate_set_for_syntax_trees(representative.head_trees,@category_filters,pattern)
+    end
+
     # Returns the candidate terms for the Wikipedia +article+.
     # The result is a CandidateSet.
     def article_candidates(article)
@@ -80,11 +86,19 @@ module Mapping
 
     private
     # Return the candidates for the given syntax +trees+. The results are filtered
-    # using the +filters+.
-    def candidate_set_for_syntax_trees(trees, filters)
+    # using the +filters+. If +pattern+ is given, it is used to filter out too
+    # simplified names based on the +trees+.
+    def candidate_set_for_syntax_trees(trees, filters,pattern=nil)
       candidate_set = @candidate_set_factory.new
       trees.each do |tree|
         names = @simplifier_factory.new(tree).simplify.to_a
+        if pattern
+          names.select! do |name|
+            # Pattern won't match too specific name, e.g.
+            # "X almumni" does not match /University alumni/
+            pattern =~ /#{name}/
+          end
+        end
         head_node = tree.find_head_noun
         next unless head_node
         head = head_node.content

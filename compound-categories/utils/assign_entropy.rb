@@ -10,8 +10,8 @@ require 'csv'
 require 'mapping/candidate'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -f partitions.csv\n"+
-    "Export results of pattern mapping."
+  banner "#{$PROGRAM_NAME} -f mapping.csv -o with_entropy.csv\n"+
+    "Assing entropy to pattern mapping"
 
   on :f=, :input, "File with centroids", required: true
   on :o=, :output, "File with mapping"
@@ -62,7 +62,7 @@ CSV.open(options[:input]) do |input|
         entropy -= candidate.probability * Math::log(candidate.probability)
       end
       if output
-        output_tuple = [entity,entropy.round(5)]
+        output_tuple = [entity,presumed_support,entropy.round(5)]
         candidates.each do |candidate|
           next if candidate.positive < options[:support]
           output_tuple.concat(candidate.to_a(:mle_probability))
