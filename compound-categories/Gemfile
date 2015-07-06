@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem "rlp-wiki", :path => "../rlp"
-gem "slop"
+gem "slop", '3.4.7'
 gem 'rod', :git => 'git://github.com/apohllo/rod.git', :tag => 'v0.7.2.4'
 gem 'syntax', :path => '../category-parsing/'
 gem 'progress', :git => 'git://github.com/djstrong/progress.git'
