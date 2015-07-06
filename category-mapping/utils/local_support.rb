@@ -26,7 +26,7 @@ options = Slop.new do
   on :x=, :offset, "Category offset (skip first n categories)", as: Integer, default: 0
   on :l=, :limit, "Category limit (limit processing to n categories)", as: Integer
   on :c=, :"category-filters", "Filters for categories: c - collection, s - most specific,\n" +
-    "n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list"
+    "n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list, d - ill-defined"
   on :a=, :"article-filters", "Filters for articles: as above"
   on :b=, :"black-list", "File with black list of Cyc abstract types"
   on :s=, :services, "File with addresses of ROD-rest services"
