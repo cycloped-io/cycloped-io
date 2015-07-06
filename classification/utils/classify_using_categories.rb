@@ -17,6 +17,7 @@ options = Slop.new do
   on :d=, :database, "Rod database", required: true
   on :f=, :input, "Input file with category mapping (CSV)", required: true
   on :o=, :output, "Output file with the classification", required: true
+  on :a=, :articles, "List of articles to classify (CSV)"
 end
 
 begin
@@ -40,21 +41,43 @@ end
 total = 0
 classified = 0
 CSV.open(options[:output],"w:utf-8") do |output|
-  Progress.start(Concept.count)
-  Concept.each do |concept|
-    Progress.step(1)
-    row = [concept.name]
-    total += 1
-    concept.categories.each do |category|
-      next unless mapping.has_key?(category.name)
-      row.concat(mapping[category.name])
+  if options[:articles]
+    Progress.start(`wc -l #{options[:articles]}`.to_i)
+    CSV.open(options[:articles]) do |input|
+      input.each do |title,*rest|
+        Progress.step(1)
+        row = [title]
+        concept = Concept.find_by_name(title)
+        next if concept.nil?
+        total += 1
+        concept.categories.each do |category|
+          next unless mapping.has_key?(category.name)
+          row.concat(mapping[category.name])
+        end
+        if row.size > 1
+          output << row
+          classified += 1
+        end
+      end
     end
-    if row.size > 1
-      output << row
-      classified += 1
+    Progress.stop
+  else
+    Progress.start(Concept.count)
+    Concept.each do |concept|
+      Progress.step(1)
+      row = [concept.name]
+      total += 1
+      concept.categories.each do |category|
+        next unless mapping.has_key?(category.name)
+        row.concat(mapping[category.name])
+      end
+      if row.size > 1
+        output << row
+        classified += 1
+      end
     end
+    Progress.stop
   end
-  Progress.stop
 end
 puts "classfied/total #{classified}/#{total}/%.1f" % [classified/total.to_f*100]
 

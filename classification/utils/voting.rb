@@ -21,6 +21,7 @@ options = Slop.new do
   on :m=, :method, "Voting method: f - frequency (default), e - probability error, s - probability sum, a - (frequency, probability sum), p - maximum probability", default: 'f'
   on :v, :verbose, "Turn on verbose mode"
   on :s, :simple, "Read data in simple format without probability"
+  on :c, :'classification-source', "Input data includes classification source"
 end
 
 begin
@@ -35,7 +36,7 @@ end
 
 types_classification = {}
 CSV.open(options[:types]) do |input|
-  input.with_progress do |collection_id, collection_name, sth, type_id, type_name|
+  input.with_progress do |collection_id, collection_name, _, type_id, type_name|
     next if type_id.nil?
     types_classification[collection_id] = [type_id, type_name]
     types_classification[type_id] = [type_id, type_name] # error in classification data?
@@ -54,6 +55,7 @@ CSV.open(options[:input], 'r:utf-8') do |input|
   CSV.open(options[:output], 'w:utf-8') do |output|
     input.with_progress do |row|
       name = row.shift
+      row.shift if options[:"classification-source"]
       probabilities = Hash.new { |h, k| h[k] = [] }
       map = Hash.new{|h,e| h[e] = [] }
 

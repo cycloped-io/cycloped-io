@@ -61,6 +61,8 @@ GEM
     colors (0.0.7)
     concurrent-ruby (0.8.0)
       ref (~> 1.0, >= 1.0.5)
+    concurrent-ruby-ext (0.8.0)
+      concurrent-ruby (~> 0.8.0)
     cycr (0.2.6)
       ref (~> 1.0.0)
     diff-lcs (1.2.4)
@@ -121,7 +123,7 @@ PLATFORMS
 
 DEPENDENCIES
   colors
-  concurrent-ruby
+  concurrent-ruby-ext
   cyc-mapping!
   cycr
   htmlentities
