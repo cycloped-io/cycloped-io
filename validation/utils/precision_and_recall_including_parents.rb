@@ -59,7 +59,7 @@ CSV.open(options[:classification],"r:utf-8") do |input|
 end
 
 
-measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized}
+measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'c' => ClassScore}
 
 scorer = measures[options[:score]].new(name_service)
 reference.with_progress do |name, reference_types|
