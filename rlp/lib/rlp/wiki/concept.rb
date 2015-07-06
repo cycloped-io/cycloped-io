@@ -33,7 +33,7 @@ module Rlp
       field :types, :object
 
       # The Cyc term derived from the DBpedia infobox mapping.
-      has_one :synonym, :class_name => "Rlp::Wiki::Term"
+      has_one :dbpedia_type, :class_name => "Rlp::Wiki::Term"
 
       # The parent concept that is supposed to be the semantic
       # category of this concept. It should appear in the definition
