@@ -100,7 +100,7 @@ sorted_reference = reference.sort_by { |name, types|  classification[name].nil? 
 sorted_reference.reverse! if options[:mode]=="e"
 
 
-measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized}
+measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => ClassScore}
 accept_scorer = measures[options[:score]].new(name_service)
 reject_scorer = measures[options[:score]].new(name_service) # used to score example as it was rejected by threshold
 
@@ -125,19 +125,20 @@ sorted_reference.with_progress do |name, reference_types|
 end
 
 sorted_reference.with_progress do |name, reference_types|
+  reference_type = reference_types.first
   value, type=classification[name]
+  if type.nil?
+    predicted_types = []
+  else
+    predicted_types = [type]
+  end
+
   if value.nil?
     value=worst
   end
 
-  tp,fp,fn,tp_rejected,fp_rejected,fn_rejected = double_scores[name]
-
-  accept_scorer.true_positives -= tp
-  accept_scorer.false_positives -= fp
-  accept_scorer.false_negatives -= fn
-  accept_scorer.true_positives += tp_rejected
-  accept_scorer.false_positives += fp_rejected
-  accept_scorer.false_negatives += fn_rejected
+  accept_scorer.minus(predicted_types, [reference_type])
+  accept_scorer.score([Thing.id], [reference_type])
 
   scores[value]=[accept_scorer.precision, accept_scorer.recall, accept_scorer.f1]
 end

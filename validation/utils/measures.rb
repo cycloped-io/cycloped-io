@@ -19,6 +19,17 @@ class Score
     return true_positives,false_positives,false_negatives
   end
 
+  def minus(predicted, reference)
+    predicted,reference = preprocess(predicted, reference)
+    true_positives,false_positives,false_negatives=example_score(predicted, reference)
+
+    @true_positives -= true_positives
+    @false_positives -= false_positives
+    @false_negatives -= false_negatives
+
+    return true_positives,false_positives,false_negatives
+  end
+
   def example_score(predicted, reference)
     true_positives=(predicted&reference).size
     false_positives=(predicted-reference).size
@@ -112,6 +123,21 @@ class ClassScore
     end
     (reference-predicted).each do |type|
       @scores[type].fn+=1
+    end
+  end
+
+  def minus(predicted, reference)
+    @samples+=1
+    predicted,reference = preprocess(predicted, reference)
+
+    (predicted&reference).each do |type|
+      @scores[type].tp-=1
+    end
+    (predicted-reference).each do |type|
+      @scores[type].fp-=1
+    end
+    (reference-predicted).each do |type|
+      @scores[type].fn-=1
     end
   end
 
