@@ -8,7 +8,7 @@ class Score
     @name_service=name_service
   end
 
-  def score(predicted, reference)
+  def score(predicted, reference, name=nil)
     predicted, reference = preprocess(predicted, reference)
     true_positives, false_positives, false_negatives=example_score(predicted, reference)
 
@@ -119,7 +119,7 @@ class WeightedAveraged
     @name_service=name_service
   end
 
-  def score(predicted, reference)
+  def score(predicted, reference, name=nil)
     @samples+=1
     predicted, reference = preprocess(predicted, reference)
 
@@ -264,7 +264,7 @@ end
 
 class ConfusionMatrix
   def initialize(name_service=nil)
-    @scores = Hash.new { |hash, key| hash[key] = Hash.new(0) }
+    @scores = Hash.new { |hash, key| hash[key] = Hash.new{ |hash, key| hash[key] = Set.new } }
     @samples=0
     @name_service=name_service
   end
@@ -279,22 +279,41 @@ class ConfusionMatrix
     return predicted, reference
   end
 
-  def score(predicted, reference)
+  def score(predicted, reference, name=nil)
     predicted, reference = preprocess(predicted, reference)
 
 
     (predicted&reference).each do |type|
-      @scores[type][type]+=1
+      @scores[type][type] << name
     end
     (predicted-reference).each do |type|
       reference.each do |reference_type|
-        @scores[reference_type][type]+=1
+        @scores[reference_type][type]<< name
       end
     end
     (reference-predicted).each do |reference_type|
       predicted.each do |predicted_type|
-        @scores[reference_type][predicted_type]+=1
+        @scores[reference_type][predicted_type]<< name
       end
+    end
+  end
+
+  def print(verbose=true)
+    @scores.sort_by{|reference_type, predicted_types| -predicted_types.map{|predicted_type, names| names.size}.inject{|sum,x| sum + x }}.each do |reference_type, predicted_types|
+      sum = predicted_types.map{|predicted_type, names| names.size}.inject{|sum,x| sum + x }
+      reference_type_name=@name_service.find_by_id(reference_type).name
+      puts '%s %s' % [reference_type_name, sum]
+      predicted_types.sort_by{|type,names| -names.size}.each do |predicted_type, names|
+        predicted_type_name=@name_service.find_by_id(predicted_type).name
+        count=names.size
+        puts "- %s %s (%.1f%%)" % [reference_type_name==predicted_type_name ? '*'+predicted_type_name : predicted_type_name, count, count/sum.to_f*100]
+        if verbose && reference_type_name!=predicted_type_name
+          names.each do |name|
+            puts '  - %s' % [name]
+          end
+        end
+      end
+      puts
     end
   end
 end

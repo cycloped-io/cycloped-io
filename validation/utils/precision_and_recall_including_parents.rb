@@ -57,12 +57,18 @@ CSV.open(options[:classification],"r:utf-8") do |input|
 end
 
 
-measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => WeightedAveraged, 'ma' => MacroAveraged}
+measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => WeightedAveraged, 'ma' => MacroAveraged, 'cm' => ConfusionMatrix}
 
 scorer = measures[options[:score]].new(name_service)
 reference.with_progress do |name, reference_types|
   predicted_types = predicted[name]
-  scorer.score(predicted_types, reference_types)
+  scorer.score(predicted_types, reference_types, name=name)
+end
+
+begin
+  scorer.print
+  exit
+rescue NoMethodError
 end
 
 accuracy = scorer.accuracy
