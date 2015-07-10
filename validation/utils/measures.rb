@@ -9,25 +9,25 @@ class Score
   end
 
   def score(predicted, reference)
-    predicted,reference = preprocess(predicted, reference)
-    true_positives,false_positives,false_negatives=example_score(predicted, reference)
+    predicted, reference = preprocess(predicted, reference)
+    true_positives, false_positives, false_negatives=example_score(predicted, reference)
 
     @true_positives += true_positives
     @false_positives += false_positives
     @false_negatives += false_negatives
 
-    return true_positives,false_positives,false_negatives
+    return true_positives, false_positives, false_negatives
   end
 
   def minus(predicted, reference)
-    predicted,reference = preprocess(predicted, reference)
-    true_positives,false_positives,false_negatives=example_score(predicted, reference)
+    predicted, reference = preprocess(predicted, reference)
+    true_positives, false_positives, false_negatives=example_score(predicted, reference)
 
     @true_positives -= true_positives
     @false_positives -= false_positives
     @false_negatives -= false_negatives
 
-    return true_positives,false_positives,false_negatives
+    return true_positives, false_positives, false_negatives
   end
 
   def example_score(predicted, reference)
@@ -35,7 +35,7 @@ class Score
     false_positives=(predicted-reference).size
     false_negatives=(reference-predicted).size
 
-    return true_positives,false_positives,false_negatives
+    return true_positives, false_positives, false_negatives
   end
 
   def preprocess(predicted, reference)
@@ -60,7 +60,7 @@ class Score
 
 end
 
-class SimpleScore < Score
+class SimpleScore < Score # MicroAveraged
   def preprocess(predicted, reference)
     if predicted.nil?
       predicted = []
@@ -75,18 +75,19 @@ class AprosioScore < Score
     if predicted.nil?
       predicted_genls = [Thing]
     else
-      predicted_genls = predicted.map{|cyc_id|  @name_service.cyc.all_genls(@name_service.find_by_id(cyc_id))}.flatten.uniq
+      predicted_genls = predicted.map { |cyc_id| @name_service.cyc.all_genls(@name_service.find_by_id(cyc_id)) }.flatten.uniq
     end
-    reference_genls =reference.map{|cyc_id| @name_service.cyc.all_genls(@name_service.find_by_id(cyc_id))}.flatten.uniq
+    reference_genls =reference.map { |cyc_id| @name_service.cyc.all_genls(@name_service.find_by_id(cyc_id)) }.flatten.uniq
 
-    return predicted_genls,reference_genls
+    return predicted_genls, reference_genls
   end
 end
 
 class AprosioScoreNormalized < AprosioScore
   alias aprosio_example_score example_score
+
   def example_score(predicted, reference)
-    tp,fp,fn=aprosio_example_score(predicted, reference)
+    tp, fp, fn=aprosio_example_score(predicted, reference)
     sum = (tp+fp+fn).to_f
 
     return tp/sum, fp/sum, fn/sum
@@ -104,16 +105,16 @@ class Errors
   end
 end
 
-class ClassScore
+class WeightedAveraged
   def initialize(name_service=nil)
-    @scores = Hash.new {|hash,key| hash[key] = Errors.new}
+    @scores = Hash.new { |hash, key| hash[key] = Errors.new }
     @samples=0
     @name_service=name_service
   end
 
   def score(predicted, reference)
     @samples+=1
-    predicted,reference = preprocess(predicted, reference)
+    predicted, reference = preprocess(predicted, reference)
 
     (predicted&reference).each do |type|
       @scores[type].tp+=1
@@ -128,7 +129,7 @@ class ClassScore
 
   def minus(predicted, reference)
     @samples+=1
-    predicted,reference = preprocess(predicted, reference)
+    predicted, reference = preprocess(predicted, reference)
 
     (predicted&reference).each do |type|
       @scores[type].tp-=1
@@ -145,8 +146,8 @@ class ClassScore
     if predicted.nil?
       predicted = []
     end
-    predicted.reject!{|t| t==Thing.id}
-    reference.reject!{|t| t==Thing.id}
+    predicted.reject! { |t| t==Thing.id }
+    reference.reject! { |t| t==Thing.id }
 
     return predicted, reference
   end
@@ -196,5 +197,92 @@ class ClassScore
       sum+=(errors.tp+errors.fn)
     end
     return acc/sum*100
+  end
+
+end
+
+class MacroAveraged < WeightedAveraged
+  def precision
+    sum = 0
+    pr=0.0
+    @scores.each do |type, errors|
+      pri=errors.tp.to_f/(errors.tp+errors.fp)
+      if pri.nan?
+        pri=0.0
+        next
+      end
+      pr+=pri
+      sum+=1
+    end
+    return pr/sum*100
+  end
+
+  def recall
+    sum = 0
+    rc=0.0
+    @scores.each do |type, errors|
+      rci=errors.tp.to_f/(errors.tp+errors.fn)
+      if rci.nan?
+        rci=0.0
+        next
+      end
+      rc+=rci
+      sum+=1
+    end
+    return rc/sum*100
+  end
+
+  def accuracy
+    sum = 0
+    acc=0.0
+    @scores.each do |type, errors|
+      errors.tn = @samples-(errors.tp+errors.fp+errors.fn)
+      acci=(errors.tp+errors.tn).to_f/(errors.tp+errors.fp+errors.fn+errors.tn)
+      if acci.nan?
+        acci=0.0
+        next
+      end
+      acc+=acci
+      sum+=1
+    end
+    return acc/sum*100
+  end
+end
+
+
+class ConfusionMatrix
+  def initialize(name_service=nil)
+    @scores = Hash.new { |hash, key| hash[key] = Hash.new(0) }
+    @samples=0
+    @name_service=name_service
+  end
+
+  def preprocess(predicted, reference)
+    if predicted.nil?
+      predicted = []
+    end
+    predicted.reject! { |t| t==Thing.id }
+    reference.reject! { |t| t==Thing.id }
+
+    return predicted, reference
+  end
+
+  def score(predicted, reference)
+    predicted, reference = preprocess(predicted, reference)
+
+
+    (predicted&reference).each do |type|
+      @scores[type][type]+=1
+    end
+    (predicted-reference).each do |type|
+      reference.each do |reference_type|
+        @scores[reference_type][type]+=1
+      end
+    end
+    (reference-predicted).each do |reference_type|
+      predicted.each do |predicted_type|
+        @scores[reference_type][predicted_type]+=1
+      end
+    end
   end
 end

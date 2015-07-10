@@ -66,6 +66,7 @@ CSV.open(options[:classification], "r:utf-8") do |input|
     types.each_slice(3) do |cyc_id, cyc_name, proba|
       cyc_names[cyc_id]=cyc_name
     end
+    #TODO sort
     type = types.each_slice(3).first #.map { |cyc_id, cyc_name, probability| cyc_id }.first
     cyc_id, cyc_name, probability = type
 
@@ -100,7 +101,7 @@ sorted_reference = reference.sort_by { |name, types|  classification[name].nil? 
 sorted_reference.reverse! if options[:mode]=="e"
 
 
-measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => ClassScore}
+measures = {'s' => SimpleScore, 'a' => AprosioScore, 'n' => AprosioScoreNormalized, 'w' => WeightedAveraged}
 accept_scorer = measures[options[:score]].new(name_service)
 reject_scorer = measures[options[:score]].new(name_service) # used to score example as it was rejected by threshold
 
