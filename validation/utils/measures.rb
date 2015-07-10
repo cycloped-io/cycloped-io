@@ -65,6 +65,13 @@ class SimpleScore < Score # MicroAveraged
     if predicted.nil?
       predicted = []
     end
+    predicted.reject! { |t| t==Thing.id }
+    reference.reject! { |t| t==Thing.id }
+
+    if predicted.size==0 && reference.size==0
+      predicted = [Thing.id]
+      reference = [Thing.id]
+    end
 
     return predicted, reference
   end
@@ -148,6 +155,11 @@ class WeightedAveraged
     end
     predicted.reject! { |t| t==Thing.id }
     reference.reject! { |t| t==Thing.id }
+
+    if predicted.size==0 && reference.size==0
+      predicted = [Thing.id]
+      reference = [Thing.id]
+    end
 
     return predicted, reference
   end
