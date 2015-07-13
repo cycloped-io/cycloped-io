@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
-require 'experiment_arguments_log/auto'
+
 
 require 'bundler/setup'
 $:.unshift "../category-mapping/lib"
@@ -12,6 +12,7 @@ require 'colors'
 require 'cycr'
 require 'mapping'
 require './utils/measures'
+require 'experiment_arguments_log/auto'
 
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -m reference.csv -i classification.csv -s [s,a,n,w,ma,cm]\n" +
