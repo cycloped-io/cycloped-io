@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
+require 'experiment_arguments_log/auto'
 
 require 'bundler/setup'
 $:.unshift "../category-mapping/lib"
@@ -13,12 +14,12 @@ require 'mapping'
 require './utils/measures'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -m reference.csv -i classification.csv -s [san]\n" +
+  banner "#{$PROGRAM_NAME} -m reference.csv -i classification.csv -s [s,a,n,w,ma,cm]\n" +
              "Counts precision, recall and F1 measure."
 
   on :m=, :reference, 'Reference classification', required: true
   on :i=, :classification, 'Automatic (verified) classification', required: true
-  on :s=, :score, 'Scoring measure: s - simple, a - aprosio, n - aprosio normalized', required: true
+  on :s=, :score, 'Scoring measure: s - simple (micro), a - aprosio, n - aprosio normalized, ma - macro, w - weighted, cm - confusion matrix', required: true
   on :h=, :host, "Cyc host", default: 'localhost'
   on :p=, :port, "Cyc port", as: Integer, default: 3601
 end
@@ -67,6 +68,8 @@ end
 
 begin
   scorer.print
+  puts 'INVERTED'
+  scorer.print(inverted=true)
   exit
 rescue NoMethodError
 end

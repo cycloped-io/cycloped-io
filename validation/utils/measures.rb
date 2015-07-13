@@ -5,11 +5,16 @@ class Score
     @true_positives = 0
     @false_positives = 0
     @false_negatives = 0
+
+    @samples = 0
+    @unique_types = Set.new
     @name_service=name_service
   end
 
   def score(predicted, reference, name=nil)
+    @samples+=1
     predicted, reference = preprocess(predicted, reference)
+    @unique_types.merge(predicted+reference)
     true_positives, false_positives, false_negatives=example_score(predicted, reference)
 
     @true_positives += true_positives
@@ -20,6 +25,7 @@ class Score
   end
 
   def minus(predicted, reference)
+    @samples-=1
     predicted, reference = preprocess(predicted, reference)
     true_positives, false_positives, false_negatives=example_score(predicted, reference)
 
@@ -51,7 +57,10 @@ class Score
   end
 
   def accuracy
-    return Float::NAN
+    sum = @true_positives + @false_negatives +@false_negatives
+    tn = @samples*@unique_types.size - sum
+
+    return (tn+@true_positives).to_f/(tn +@true_positives + @false_negatives +@false_negatives)*100
   end
 
   def f1
@@ -135,7 +144,7 @@ class WeightedAveraged
   end
 
   def minus(predicted, reference)
-    @samples+=1
+    @samples-=1
     predicted, reference = preprocess(predicted, reference)
 
     (predicted&reference).each do |type|
@@ -264,7 +273,7 @@ end
 
 class ConfusionMatrix
   def initialize(name_service=nil)
-    @scores = Hash.new { |hash, key| hash[key] = Hash.new{ |hash, key| hash[key] = Set.new } }
+    @scores = Hash.new { |hash, key| hash[key] = Hash.new { |hash, key| hash[key] = Set.new } }
     @samples=0
     @name_service=name_service
   end
@@ -298,12 +307,30 @@ class ConfusionMatrix
     end
   end
 
-  def print(verbose=true)
-    @scores.sort_by{|reference_type, predicted_types| -predicted_types.map{|predicted_type, names| names.size}.inject{|sum,x| sum + x }}.each do |reference_type, predicted_types|
-      sum = predicted_types.map{|predicted_type, names| names.size}.inject{|sum,x| sum + x }
+  def invert_confusion_matrix
+    @inverted_confusion_matrix = Hash.new { |hash, key| hash[key] = Hash.new { |hash, key| hash[key] = Set.new } }
+    @scores.each do |reference_type, predicted_types|
+      predicted_types.each do |predicted_type, names|
+        @inverted_confusion_matrix[predicted_type][reference_type] = names
+      end
+    end
+  end
+
+  def print(inverted=false, verbose=true)
+    if inverted
+      invert_confusion_matrix
+      print_confusion_matrix(@inverted_confusion_matrix, verbose)
+    else
+      print_confusion_matrix(@scores, verbose)
+    end
+  end
+
+  def print_confusion_matrix(confusion_matrix, verbose)
+    confusion_matrix.sort_by { |reference_type, predicted_types| -predicted_types.map { |predicted_type, names| names.size }.inject { |sum, x| sum + x } }.each do |reference_type, predicted_types|
+      sum = predicted_types.map { |predicted_type, names| names.size }.inject { |sum, x| sum + x }
       reference_type_name=@name_service.find_by_id(reference_type).name
       puts '%s %s' % [reference_type_name, sum]
-      predicted_types.sort_by{|type,names| -names.size}.each do |predicted_type, names|
+      predicted_types.sort_by { |type, names| -names.size }.each do |predicted_type, names|
         predicted_type_name=@name_service.find_by_id(predicted_type).name
         count=names.size
         puts "- %s %s (%.1f%%)" % [reference_type_name==predicted_type_name ? '*'+predicted_type_name : predicted_type_name, count, count/sum.to_f*100]
