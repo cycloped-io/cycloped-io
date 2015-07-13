@@ -73,7 +73,7 @@ CSV.open(options[:input]) do |input|
         tuple = [*header]
         cyc.with_any_mt{|c| c.min_cols(convert_array_to_cyc(parents)) }.each do |term|
           id = cyc.compact_hl_external_id_string(term)
-          output << header + [id,term]
+          # output << header + [id,term]
           tuple << id << term
         end
       rescue Interrupt
