@@ -26,15 +26,8 @@ require './utils/graph_libs.rb'
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -m reference.csv -i classification.csv -s [s,a,n,w,ma,cm]\n" +
              "Generates all phrases for denotation mapping."
-
-  # on :m=, :reference, 'Reference classification', required: true
-  # on :i=, :classification, 'Automatic (verified) classification', required: true
-  # on :s=, :score, 'Scoring measure: s - simple (micro), a - aprosio, n - aprosio normalized, ma - macro, w - weighted, cm - confusion matrix', required: true
   on :h=, :host, "Cyc host", default: 'localhost'
   on :p=, :port, "Cyc port", as: Integer, default: 3601
-  on :c=, :"category-filters", "Filters for categories: c - collection, s - most specific,\n" +
-            "n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list", default: 'c:r:f:l:d'
-  on :g=, :"genus-filters", "Filters for genus proximum types: (as above)", default: 'c:r:f:l:d'
 end
 
 begin
@@ -58,6 +51,11 @@ $article_candidates = DBM.open('joined')
 #TODO infer categories, e.g. Boston Bruins players
 
 recalculate = DBM.open('recalcualte')
+recalculate.each_key do |key|
+  recalculate[key]='X'
+end
+#TODO change everything to X
+
 $assigned = DBM.open('assigned3')
 q = FastContainers::PriorityQueue.new(:max)
 
@@ -65,6 +63,7 @@ CSV.open('results.csv') do |input|
   input.with_progress do |row|
     name, information_name, cyc_id, cyc_name, max_value, count, value = row
     # pq.push([value, row])
+    next if !$assigned[[name, information_name].to_s].nil?
     q.push([name, information_name, cyc_id], value.to_f)
   end
 end
@@ -73,11 +72,12 @@ CSV.open('results2.csv') do |input|
   input.with_progress do |row|
     name, information_name, cyc_id, cyc_name, max_value, count, value = row
     # pq.push([value, row])
+    next if !$assigned[[name, information_name].to_s].nil?
     q.push([name, information_name, cyc_id], value.to_f)
   end
 end
 
-CSV.open('results_multi2.csv', 'w') do |output|
+CSV.open('results_multi2.csv', 'a') do |output|
   Progress.start(q.size)
   while !q.empty? do
 
@@ -85,34 +85,45 @@ CSV.open('results_multi2.csv', 'w') do |output|
     value = q.top_key
     q.pop
 
+
+
     #sprawdz czy trzeba przeliczyc
-    if recalculate.include?([name, information_name].to_s)
+    recalulate_value = recalculate[[name, information_name].to_s]
+
+
+    if recalulate_value.nil?
+
+    elsif recalulate_value=='X'
       # recalculate and next
       if name.start_with?('Category:')
         node=build_graph_for_category(name[9..-1])
       else
         node=build_graph_for_article(name)
       end
-      node.score_informations(name_service, information_name)
+      node.score_informations(name_service)
 
-      p ['recalculated', name]
+      # p ['recalculated', name]
       node.information_nodes.each do |information_node|
-        next if information_name!=information_node.name
+        # next if information_name!=information_node.name
         # cyc_name = information_node.best_candidate.cyc_term(name_service).to_ruby.to_s
         # output << ['Category:'+node.name, information_node.name, information_node.best_candidate.cyc_id, cyc_name, information_node.best_candidate.score.max_value,  information_node.best_candidate.score.count,  information_node.best_candidate.score.value]
         if !information_node.assigned_type.nil?
           next
         end
         q.push([name, information_node.name, information_node.best_candidate.cyc_id], information_node.best_candidate.score.value)
-        recalculate.delete([name, information_node.name].to_s) #TODO zapisywac aktualne value dla wszystkich
+        recalculate[[name, information_node.name].to_s] = information_node.best_candidate.score.value
       end
 
       #usun z recalc
+      next
+    elsif recalulate_value.to_f!=value
       next
     end
 
     Progress.step
     $assigned[[name, information_name].to_s]= cyc_id
+    recalculate.delete([name, information_name].to_s)
+
     #TODO mark nodes for recalc
     output << [name, information_name, cyc_id, value]
 
@@ -121,6 +132,9 @@ CSV.open('results_multi2.csv', 'w') do |output|
     else
       node=build_graph_for_article(name)
     end
+
+
+
     node.relations.each do |relation|
       relation.node.information_nodes.each do |information_node|
         next if !information_node.assigned_type.nil?
@@ -150,3 +164,4 @@ end
 # wydaje sie, ze przypisanie typuob cos psuj
 # Category:British diplomats,name,Mx8Ngx4rwEcGC5wpEbGdrcN5Y29ycB4rvVj_jpwpEbGdrcN5Y29ycB4rv5VvH5wpEbGdrcN5Y29ycA,1242864.000000005
 # Category:British diplomats,head0,Mx8Ngx4rwEcGC5wpEbGdrcN5Y29ycB4rvVj_jpwpEbGdrcN5Y29ycB4rv5VvH5wpEbGdrcN5Y29ycA,1240587.800000005
+

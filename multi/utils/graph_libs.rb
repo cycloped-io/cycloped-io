@@ -159,7 +159,7 @@ class Candidate
         disjoint+=1
       end
 
-      break if genls>0 && disjoint>0
+      break if genls>0
     end
 
 
@@ -186,7 +186,7 @@ class Candidate
 
     if scores.size>0
       score.count=1
-      score.min_value=scores.min
+      # score.min_value=scores.min
       score.max_value=scores.max
     end
 
@@ -201,17 +201,17 @@ class Candidate
 end
 
 class Score
-  attr_accessor :max_value, :min_value, :count
+  attr_accessor :max_value, :count
 
   def initialize
     @max_value=0.0
-    @min_value=0.0
+    # @min_value=0.0
     @count=0
   end
 
   def add(score)
     @max_value += score.max_value
-    @min_value += score.min_value
+    # @min_value += score.min_value
     @count += score.count
   end
 
