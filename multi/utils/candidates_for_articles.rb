@@ -3,7 +3,7 @@
 
 
 require 'bundler/setup'
-$:.unshift "../category-mapping/lib"
+$:.unshift '../category-mapping/lib'
 require 'rlp/wiki'
 require 'progress'
 require 'csv'
@@ -19,9 +19,12 @@ require 'yajl'
 require 'auto_serializer'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} \n" +
-             "Assign candidates to articles."
+  banner "#{$PROGRAM_NAME} -i phrase_candidates.csv -o article_candidates.csv \n" +
+             'Assign candidates to articles.'
 
+  on :i=, :input, 'CSV list of phrases with Cyc candidates', required: true
+  on :o=, :output, 'Articles with assigned candidates', required: true
+  on :d=, :database, 'ROD database path'
 end
 
 begin
@@ -52,7 +55,7 @@ Database.instance.open_database(options[:database] || '../../en-2013/')
 
 def read_phrase_candidates
   phrase_candidates = {}
-  CSV.open('phrase_candidates.csv') do |input|
+  CSV.open(options[:input]) do |input|
     input.with_progress do |phrase, *candidates|
       phrase_candidates[phrase] = candidates.each_slice(2).to_a
     end
@@ -67,7 +70,7 @@ simplifier = Syntax::Stanford::Simplifier
 
 
 
-CSV.open('article_candidates.csv', 'w') do |output|
+CSV.open(options[:output], 'w') do |output|
   Concept.with_progress do |concept|
     tuple = {}
     concept.types_trees.each_with_index do |tree, tree_index|

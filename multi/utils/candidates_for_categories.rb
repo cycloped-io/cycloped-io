@@ -3,7 +3,7 @@
 
 
 require 'bundler/setup'
-$:.unshift "../category-mapping/lib"
+$:.unshift '../category-mapping/lib'
 require 'rlp/wiki'
 require 'progress'
 require 'csv'
@@ -19,14 +19,18 @@ require 'yajl'
 require 'auto_serializer'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} \n" +
-             "Assign candidates to categories."
+  banner "#{$PROGRAM_NAME} -i phrase_candidates.csv -o category_candidates.csv \n" +
+             'Assign candidates to categories.'
 
-  on :h=, :host, "Cyc host", default: 'localhost'
-  on :p=, :port, "Cyc port", as: Integer, default: 3601
-  on :c=, :"category-filters", "Filters for categories: c - collection, s - most specific,\n" +
-            "n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list", default: 'c:r:f:l:d'
-  on :g=, :"genus-filters", "Filters for genus proximum types: (as above)", default: 'c:r:f:l:d'
+  on :i=, :input, 'CSV list of phrases with Cyc candidates', required: true
+  on :o=, :output, 'Categories with assigned candidates', required: true
+
+  on :h=, :host, 'Cyc host', default: 'localhost'
+  on :p=, :port, 'Cyc port', as: Integer, default: 3601
+  on :d=, :database, 'ROD database path'
+  on :c=, :'category-filters', "Filters for categories: c - collection, s - most specific,\n" +
+            'n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list', default: 'c:r:f:l:d'
+  on :g=, :'genus-filters', 'Filters for genus proximum types: (as above)', default: 'c:r:f:l:d'
 end
 
 begin
@@ -71,15 +75,15 @@ name_service = Mapping::Service::CycNameService.new(cyc)
 
 Thing = name_service.find_by_term_name('Thing')
 
-black_list_reader = Mapping::BlackListReader.new(options[:"black-list"])
+black_list_reader = Mapping::BlackListReader.new(options[:'black-list'])
 name_service = Mapping::Service::CycNameService.new(cyc)
 filter_factory = Mapping::Filter::Factory.new(cyc: cyc, black_list: black_list_reader.read)
 term_provider = Mapping::TermProvider.
     new(cyc: cyc, name_service: name_service,
-        category_filters: filter_factory.filters(options[:"category-filters"]),
-        genus_filters: filter_factory.filters(options[:"genus-filters"]))
+        category_filters: filter_factory.filters(options[:'category-filters']),
+        genus_filters: filter_factory.filters(options[:'genus-filters']))
 
-filters = filter_factory.filters(options[:"genus-filters"])
+filters = filter_factory.filters(options[:'genus-filters'])
 
 include Rlp::Wiki
 Database.instance.open_database(options[:database] || '../../en-2013/')
@@ -88,7 +92,7 @@ Database.instance.open_database(options[:database] || '../../en-2013/')
 
 def read_phrase_candidates
   phrase_candidates = {}
-  CSV.open('phrase_candidates.csv') do |input|
+  CSV.open(options[:input]) do |input|
     input.with_progress do |phrase, *candidates|
       phrase_candidates[phrase] = candidates.each_slice(2).to_a
     end
@@ -102,11 +106,12 @@ simplifier = Syntax::Stanford::Simplifier
 
 def uncapitalize(s)
   return nil if s.nil?
-  s[0, 1].downcase + s[1..-1]
+  return '' if s==''
+  s[0,1].downcase + s[1..-1]
 end
 
 last_name=nil
-CSV.open('category_candidatesc.csv') do |input|
+CSV.open(options[:output]) do |input|
   input.with_progress do |row|
     last_name=row.first
   end
@@ -115,7 +120,7 @@ end
 p last_name
 # utworzyc loalna reprezentacje grafowa i na tym metryki
 omit=true
-CSV.open('category_candidatesc.csv', 'a') do |output|
+CSV.open(options[:output], 'a') do |output|
   Category.with_progress do |category|
     #TODO only regular?
 

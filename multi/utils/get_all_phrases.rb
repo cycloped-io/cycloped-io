@@ -17,11 +17,10 @@ require 'syntax'
 require 'nouns/nouns'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -i phrases.csv -o phrase_candidates.csv \n" +
-             'Assign term candidates to phrases.'
+  banner "#{$PROGRAM_NAME} -o phrases.csv \n" +
+             'Generates all phrases for denotation mapping.'
 
-  on :i=, :input, 'CSV list of phrases', required: true
-  on :o=, :output, 'CSV list of phrases with Cyc candidates', required: true
+  on :o=, :output, 'CSV list of phrases', required: true
 
   on :h=, :host, 'Cyc host', default: 'localhost'
   on :p=, :port, 'Cyc port', as: Integer, default: 3601
@@ -55,41 +54,48 @@ term_provider = Mapping::TermProvider.
 include Rlp::Wiki
 Database.instance.open_database(options[:database] || '../../en-2013/')
 
+used_names = Set.new
 
-filters = filter_factory.filters(options[:'genus-filters'])
-
-last = nil
-CSV.open('phrase_candidates.csv') do |input|
-  input.with_progress do |row|
-    last = row.first
+CSV.open('phrases.csv') do |input|
+  input.each do |row|
+    used_names << row.first
   end
 end
 
-p last
 
-omit=true
-CSV.open('phrase_candidates.csv', 'a') do |output|
-  CSV.open('phrases.csv') do |input|
-    input.with_progress do |row|
-      phrase = row.first
 
-      if last.nil? || phrase==last
-        omit=false
-        if phrase==last
-          next
-        end
+simplifier = Syntax::Stanford::Simplifier
+
+def generate_phrases(tree, simplifier, used_names, term_provider, output)
+  names = simplifier.new(tree).simplify.to_a
+
+  head_node = tree.find_head_noun
+  if head_node
+    head = head_node.content
+    names.each do |name|
+      next if used_names.include?(name)
+      used_names << name
+      simplified_names = (term_provider.singularize_name_nouns(name, head) + term_provider.singularize_name_nouns(uncapitalize(name), uncapitalize(head))).uniq
+      simplified_names.each do |simplified_name|
+        output << [simplified_name]
       end
-      next if omit
-
-      begin
-        candidates = term_provider.candidates_for_name(phrase, filters)
-      rescue NoMethodError
-        p phrase
-        candidates = []
-      end
-
-      output << [phrase]+candidates.map { |candidate| [candidate.id,candidate.name] }.flatten
     end
   end
 end
 
+CSV.open('phrases.csv', 'a') do |output|
+  Concept.with_progress do |concept|
+    concept.types_trees.each do |tree|
+      generate_phrases(tree, simplifier, used_names, term_provider, output)
+    end
+  end
+end
+
+
+CSV.open('phrases.csv', 'a') do |output|
+  Category.with_progress do |category|
+    category.head_trees.each do |tree|
+      generate_phrases(tree, simplifier, used_names, term_provider, output)
+    end
+  end
+end
