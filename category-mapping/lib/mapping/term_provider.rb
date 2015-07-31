@@ -17,10 +17,12 @@ module Mapping
       @article_filters = options[:article_filters] || []
       @genus_filters = options[:genus_filters] || []
 
-      @category_cache = Ref::WeakKeyMap.new
-      @article_cache = Ref::WeakKeyMap.new
-      @concept_types_cache = Ref::WeakKeyMap.new
-      @term_cache = Ref::WeakKeyMap.new
+      @category_cache = Ref::WeakValueMap.new
+      @article_cache = Ref::WeakValueMap.new
+      @concept_types_cache = Ref::WeakValueMap.new
+      @term_cache = Ref::WeakValueMap.new
+
+      @nouns = Nouns.new
     end
 
     # Returns the candidate terms for the Wikipedia +category+.
@@ -84,6 +86,52 @@ module Mapping
       @term_cache[cyc_id] = create_candidate_set("",[@name_service.find_by_id(cyc_id)])
     end
 
+    # Return the candidates for the given syntax +trees+. The results are filtered
+    # using the +filters+. If +pattern+ is given, it is used to filter out too
+    # simplified names based on the +trees+. Do not break on first hit.
+    def all_candidate_set_for_syntax_tree(tree)
+      filters=@genus_filters
+
+      names = @simplifier_factory.new(tree).simplify.to_a
+      candidate_set = @candidate_set_factory.new
+      head_node = tree.find_head_noun
+      if head_node
+        head = head_node.content
+        names.each do |name|
+          simplified_names = singularize_name_nouns(name, head)
+          simplified_names.each do |simplified_name|
+            candidates = candidates_for_name(simplified_name, filters)
+            unless candidates.empty?
+              candidate_set.add(name,candidates)
+              # break
+            end
+          end
+        end
+      end
+      candidate_set
+    end
+
+    # Singularize using Wiktionary data
+    def singularize_name_nouns(name, head)
+      names = [name]
+      singularized_heads = @nouns.singularize(head)
+      if not singularized_heads.nil?
+        singularized_heads.each do |singularized_head|
+          names << name.sub(/\b#{Regexp.quote(head)}\b/, singularized_head)
+        end
+      end
+      names
+    end
+
+    # Return candidates for the given +name+ and apply the +filters+ to the
+    # result.
+    def candidates_for_name(name, filters)
+      candidates = @name_mapper.find_terms(name)
+      filters.inject(candidates) do |terms, filter|
+        filter.apply(terms)
+      end
+    end
+
     private
     # Return the candidates for the given syntax +trees+. The results are filtered
     # using the +filters+. If +pattern+ is given, it is used to filter out too
@@ -114,14 +162,9 @@ module Mapping
       candidate_set
     end
 
-    # Return candidates for the given +name+ and apply the +filters+ to the
-    # result.
-    def candidates_for_name(name, filters)
-      candidates = @name_mapper.find_terms(name)
-      filters.inject(candidates) do |terms, filter|
-        filter.apply(terms)
-      end
-    end
+
+
+
 
     # Should be moved elswhere.
     def singularize_name(name, head)
@@ -135,6 +178,8 @@ module Mapping
         name
       end
     end
+
+
 
     def remove_parentheses(name)
       return name if name !~ /\(/ || name =~ /^\(/
