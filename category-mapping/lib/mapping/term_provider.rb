@@ -143,6 +143,13 @@ module Mapping
       end
     end
 
+    # Create a candidate set for single group of candidates.
+    def create_candidate_set(name,candidates)
+      result = @candidate_set_factory.new
+      result.add(name,candidates) unless candidates.empty?
+      result
+    end
+
     private
     # Return the candidates for the given syntax +trees+. The results are filtered
     # using the +filters+. If +pattern+ is given, it is used to filter out too
@@ -202,11 +209,6 @@ module Mapping
       type ? type[1..-2] : ""
     end
 
-    # Create a candidate set for single group of candidates.
-    def create_candidate_set(name,candidates)
-      result = @candidate_set_factory.new
-      result.add(name,candidates) unless candidates.empty?
-      result
-    end
+
   end
 end
