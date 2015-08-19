@@ -14,6 +14,7 @@ require 'syntax'
 require 'mapping'
 require 'typhoeus'
 require 'typhoeus/adapters/faraday'
+require 'nouns/nouns'
 
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -d database -o mapping.csv [-p port] [-h host] [-x offset] [-l limit] [-c c:s:n]\n"+

@@ -42,6 +42,17 @@ module Mapping
       @category_cache[category] = candidate_set
     end
 
+    # Returns the candidate terms for the Wikipedia +category+ using whole category name.
+    # The results is a CandidateSet.
+    def core_category_candidates(category)
+      candidates = []
+      singularize_name_nouns(category.name, category.head).each do |phrase|
+        candidates.concat(candidates_for_name(phrase, @category_filters))
+
+      end
+      candidate_set = create_candidate_set(category.name,candidates.uniq)
+    end
+
     # Return the candidate terms for a given +pattern+ which is exemplified
     # by the +representative+. The result is a CandidateSet.
     def pattern_candidates(pattern,representative)
