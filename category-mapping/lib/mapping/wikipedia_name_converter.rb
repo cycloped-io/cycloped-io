@@ -8,14 +8,28 @@ module Mapping
     end
 
     # Converts the Wikipedia category name to Cyc-like name.
+    # E.g. Antique (band) albums -> AntiqueAlbums
+    # Album (music) - Albums-Music
     def to_cyc(options={})
-      head, qualifier = @name.split("(")
-      head = capitalize_and_sqeeze_words(head)
-      if qualifier && !options[:skip_qualifier]
-        "#{head}-" + capitalize_and_sqeeze_words(qualifier.sub(")",""))
+
+
+      if @name.end_with?(')')
+        head, qualifier = @name.split("(")
+        head = capitalize_and_sqeeze_words(head)
+        if qualifier && !options[:skip_qualifier]
+          "#{head}-" + capitalize_and_sqeeze_words(qualifier.sub(")",""))
+        else
+          head
+        end
       else
-        head
+        if options[:skip_qualifier]
+          name = @name.gsub(/\(.*?\)/, '')
+        else
+          name = @name.gsub(/[()]/, ' ')
+        end
+        capitalize_and_sqeeze_words(name)
       end
+
     end
 
     private
