@@ -56,7 +56,7 @@ module Mapping
                               @cyc.isa?(t,c) || @cyc.isa?(c,t) })
 
             positive, negative = sum_counts(counts)
-            row.concat([term.id,term.to_ruby,positive,positive+negative])
+            row.concat([term.id,term.to_ruby.to_s,positive,positive+negative])
           end
         end
         row
@@ -88,20 +88,20 @@ module Mapping
             counts = []
             counts.concat(number_of_matched_candidates(parent_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(t,c) })
             counts.concat(number_of_matched_candidates(child_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(c,t) })
-            counts.concat(number_of_matched_candidates(instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.isa?(c,t) } })
+            counts.concat(number_of_matched_candidates(instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.isa?(c,t)} || @cyc.genls?(c,t) })
             # Alcohol case
             counts.concat(number_of_matched_candidates(type_candidate_sets,term,"DBPEDIA_TYPE"){|t,c| @cyc.genls?(t,c) || @cyc.genls?(c,t) ||
                               @cyc.isa?(t,c) || @cyc.isa?(c,t) })
 
             counts.concat(number_of_matched_candidates(grand_parent_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(t,c) })
             counts.concat(number_of_matched_candidates(grand_child_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(c,t) })
-            counts.concat(number_of_matched_candidates(child_instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.isa?(c,t) } })
+            counts.concat(number_of_matched_candidates(child_instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.isa?(c,t)} || @cyc.with_any_mt{|cyc| cyc.genls?(c,t)}})
             counts.concat(number_of_matched_candidates(child_type_candidate_sets,term,"DBPEDIA_TYPE"){|t,c| @cyc.genls?(t,c) || @cyc.genls?(c,t) ||
                               @cyc.isa?(t,c) || @cyc.isa?(c,t) })
 
 
             positive, negative = sum_counts(counts)
-            row.concat([term.id,term.to_ruby,positive,positive+negative])
+            row.concat([term.id,term.to_ruby.to_s,positive,positive+negative])
           end
         end
         row
