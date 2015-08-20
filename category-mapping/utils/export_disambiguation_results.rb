@@ -91,7 +91,7 @@ CSV.open(options[:output],"w") do |output|
       max_probability = candidates.max_by{|c| c.probability}.probability
       winners = candidates.select{|c| c.probability==max_probability}
       best = winners.map do |candidate|
-        [candidate,JaroWinkler.r_distance(candidate.cyc_name,label,ignore_case: true)]
+        [candidate,JaroWinkler.r_distance(candidate.cyc_name,category_name,ignore_case: true)]
       end.compact.sort_by{|c,d| -d }.first
       best = best.first
       output << [category_name,best.cyc_id,best.cyc_name,best.probability]
