@@ -42,7 +42,7 @@ end
 
 include Rlp::Wiki
 
-cyc = Cyc::Client.new(port: options[:port], host: options[:host], cache: true)
+cyc = Cyc::Client.new(port: options[:port], host: options[:host], cache: true, debug: false)
 name_service = Mapping::Service::CycNameService.new(cyc)
 black_list_reader = Mapping::BlackListReader.new(options[:'black-list'])
 filter_factory = Mapping::Filter::Factory.new(cyc: cyc, black_list: black_list_reader.read)
@@ -59,7 +59,7 @@ if options[:services]
     services[id] = Rod::Rest::Client.new(http_client: connection, proxy_cache: cache)
   end
 end
-context_provider = Mapping::ContextProvider.new(rlp_services: services)
+context_provider = Mapping::ContextProvider.new(rlp_services: services, distance: 2)
 
 merger = Mapping::Service::TermMerger.new(cyc: cyc)
 mulitiplier = Mapping::CandidateMultiplier.new(merger: merger, black_list: black_list_reader.read, name_service: name_service)
@@ -80,7 +80,7 @@ CSV.open(options[:output], 'w') do |output|
         candidate_set = term_provider.create_candidate_set(category_name, candidates)
 
         category = Category.find_by_name(category_name)
-        output << mapping_service.support_for_category_candidate_set_distance_2(category, candidate_set)
+        output << mapping_service.support_for_category_candidate_set(category, candidate_set)
       rescue Interrupt
         puts
         break
