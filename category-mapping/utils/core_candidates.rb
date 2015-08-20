@@ -13,6 +13,7 @@ require 'rod/rest'
 require 'syntax'
 require 'mapping'
 require 'nouns/nouns'
+require 'yajl'
 
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -o core_candidates.csv -d database_path\n"+
@@ -57,8 +58,12 @@ CSV.open(options[:output], 'w') do |output|
     next unless category.plural?
 
     candidate_set = term_provider.core_category_candidates(category)
-    candidates = candidate_set.all_candidates.flatten.uniq
-    output << [category.name] + candidates.map{|cyc_term| [cyc_term.id, cyc_term.to_ruby.to_s]}.flatten if !candidates.empty?
+
+    candidates_dict = {}
+    candidate_set.each do |phrase, candidates|
+      candidates_dict[phrase] = candidates.map{|cyc_term| [cyc_term.id, cyc_term.to_ruby.to_s]}
+    end
+    output << [category.name, Yajl::Encoder.encode(candidates_dict)] if !candidates_dict.empty?
   end
 end
 
