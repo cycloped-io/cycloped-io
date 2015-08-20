@@ -5,8 +5,10 @@ require 'bundler/setup'
 $:.unshift "lib"
 require 'slop'
 require 'csv'
+require 'cycr'
 require 'progress'
-require 'mapping/candidate'
+require 'jaro_winkler'
+require 'mapping'
 
 
 options = Slop.new do
@@ -14,10 +16,12 @@ options = Slop.new do
     "Export results of disambiguation with local heuristics"
 
   on :m=, :mapping, "File with results of automatic mapping", required: true, as: Array
-  on :o=, :output, "Output file with mapping and MLE probabilities", required: true
-  on :p=, :map_output, "Output file with mapping and MAP probabilities", required: true
-  on :w=, :winner_output, "Output file with mapping winner-takes-all", required: true
+  on :o=, :output, "Output file with mapping for winner-takes-all", required: true
+  on :a=, :map_output, "Output file with mapping and MAP probabilities"
+  on :e=, :mle_output, "Output file with mapping MLE probabilities"
   on :l=, :limit, "Limit reading of concepts to first n entries", as: Integer, default: 0
+  on :p=, :port, "Cyc port", as: Integer, default: 3601
+  on :h=, :host, "Cyc host", default: 'localhost'
 end
 
 begin
@@ -28,13 +32,17 @@ rescue Exception => ex
   exit
 end
 
+cyc = Cyc::Client.new(port: options[:port], host: options[:host], cache: true)
+name_service = Mapping::Service::CycNameService.new(cyc)
 mapping = {}
 total = 0
 
 if options[:map_output]
   map_output = CSV.open(options[:map_output],"w")
 end
-winner_output = CSV.open(options[:winner_output],"w")
+if options[:mle_output]
+  mle_output = CSV.open(options[:mle_output],"w")
+end
 
 CSV.open(options[:output],"w") do |output|
   options[:mapping].each do |file_name|
@@ -51,18 +59,20 @@ CSV.open(options[:output],"w") do |output|
           new_row = [category_name]+row[0..2] #TODO
           output << new_row
           map_output << new_row if map_output
-          winner_output << new_row
+          mle_output << new_row
           next
         end
         candidates = []
         row.each_slice(4) do |tuple|
           candidate = Mapping::Candidate.new(*tuple)
-          if candidate.probability > 0
+          #if candidate.probability > 0
             candidates << candidate
             total += 1
-          end
+          #end
         end
-        mapping[[category_name,mapped_name]] = candidates
+        # The mapping may contain duplicate entries
+        # TODO we should handle that !!!
+        mapping[[category_name,mapped_name]] ||= candidates
       end
     end
   end
@@ -73,28 +83,36 @@ CSV.open(options[:output],"w") do |output|
 
   puts "alpha / beta %.2f %.2f" % [Mapping::Candidate.alpha,Mapping::Candidate.beta]
 
-  mapping.each do |(category_name,mapped_name),candidates|
+  mapping.each.with_progress do |(category_name,mapped_name),candidates|
     if candidates.size >= 1
-      output_tuple = [category_name]
+      mle_tuple = [category_name]
       map_tuple = [category_name]
 
       candidates.sort_by{|c| - c.probability }.each do |candidate|
-        output_tuple.concat(candidate.to_a(:mle_probability))
+        mle_tuple.concat(candidate.to_a(:mle_probability))
         map_tuple.concat(candidate.to_a(:map_probability))
       end
 
       max_probability = candidates.max_by{|c| c.probability}.probability
       winners = candidates.select{|c| c.probability==max_probability}
-      winner_tuple = [category_name]
-      winners.sort_by{|c| - c.probability }.each do |candidate|
-        winner_tuple.concat([candidate.cyc_id,candidate.cyc_name, 1.0/winners.size])
+      best = winners.map do |candidate|
+        label = name_service.canonical_label(name_service.find_by_id(candidate.cyc_id))
+        if label.nil?
+          nil
+        else
+          [candidate,JaroWinkler.r_distance(category_name,label,ignore_case: true)]
+        end
+      end.compact.sort_by{|c,d| -d }.first
+      if best
+        best = best.first
+      else
+        best = winners.first
       end
-
-      output << output_tuple
+      output << [category_name,best.cyc_id,best.cyc_name,best.probability]
       map_output << map_tuple if map_output
-      winner_output << winner_tuple
+      mle_output << winner_tuple if mle_output
     end
   end
 end
 map_output.close if map_output
-winner_output.close
+mle_output.close if mle_output
