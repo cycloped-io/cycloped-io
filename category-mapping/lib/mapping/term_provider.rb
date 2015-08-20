@@ -150,6 +150,11 @@ module Mapping
       result
     end
 
+    # Create empty candidate set.
+    def create_empty_candidate_set
+      @candidate_set_factory.new
+    end
+
     private
     # Return the candidates for the given syntax +trees+. The results are filtered
     # using the +filters+. If +pattern+ is given, it is used to filter out too

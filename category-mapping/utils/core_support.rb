@@ -13,6 +13,7 @@ require 'rod/rest'
 require 'syntax'
 require 'mapping'
 require 'nouns/nouns'
+require 'yajl'
 
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -i core_candidates.csv -o core_support.csv -d database_path \n"+
@@ -74,11 +75,13 @@ CSV.open(options[:output], 'w') do |output|
   CSV.open(options[:input]) do |input|
     input.with_progress do |row|
       category_name = row.shift
+      yajl = Yajl::Parser.parse(row.shift)
 
       begin
-        candidates = row.each_slice(2).map { |cyc_id, cyc_name| name_service.find_by_id(cyc_id) }
-        candidate_set = term_provider.create_candidate_set(category_name, candidates)
-
+        candidate_set = term_provider.create_empty_candidate_set
+        yajl.each do |phrase, candidates|
+          candidate_set.add(phrase, candidates.map{|cyc_id, cyc_name| name_service.find_by_id(cyc_id)})
+        end
         category = Category.find_by_name(category_name)
         output << mapping_service.support_for_category_candidate_set(category, candidate_set)
       rescue Interrupt
