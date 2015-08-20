@@ -5,7 +5,6 @@ require 'bundler/setup'
 $:.unshift "lib"
 require 'slop'
 require 'csv'
-require 'cycr'
 require 'progress'
 require 'jaro_winkler'
 require 'mapping'
@@ -20,8 +19,6 @@ options = Slop.new do
   on :a=, :map_output, "Output file with mapping and MAP probabilities"
   on :e=, :mle_output, "Output file with mapping MLE probabilities"
   on :l=, :limit, "Limit reading of concepts to first n entries", as: Integer, default: 0
-  on :p=, :port, "Cyc port", as: Integer, default: 3601
-  on :h=, :host, "Cyc host", default: 'localhost'
 end
 
 begin
@@ -32,8 +29,6 @@ rescue Exception => ex
   exit
 end
 
-cyc = Cyc::Client.new(port: options[:port], host: options[:host], cache: true)
-name_service = Mapping::Service::CycNameService.new(cyc)
 mapping = {}
 total = 0
 
