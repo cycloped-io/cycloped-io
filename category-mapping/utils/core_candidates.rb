@@ -28,6 +28,7 @@ options = Slop.new do
   on :a=, :'article-filters', 'Filters for articles: as above', default: 'c|i:r:f:l:d'
   on :b=, :'black-list', 'File with black list of Cyc abstract types'
   on :r, :return_all, 'Return all candidates'
+  on :e, :core, 'only exact label candidates (core)'
 end
 
 begin
@@ -56,7 +57,11 @@ CSV.open(options[:output], 'w') do |output|
     next unless category.regular?
     next unless category.plural?
 
-    candidate_set = term_provider.core_category_candidates(category)
+    if !!options[:core]
+      candidate_set = term_provider.core_category_candidates(category)
+    else
+      candidate_set = term_provider.category_candidates(category)
+    end
 
     candidates_dict = {}
     candidate_set.each do |phrase, candidates|

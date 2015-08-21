@@ -62,7 +62,7 @@ end
 context_provider = Mapping::ContextProvider.new(rlp_services: services, distance: options[:distance])
 
 merger = Mapping::Service::TermMerger.new(cyc: cyc)
-mulitiplier = Mapping::CandidateMultiplier.new(merger: merger, black_list: black_list_reader.read, name_service: name_service)
+multiplier = Mapping::CandidateMultiplier.new(merger: merger, black_list: black_list_reader.read, name_service: name_service)
 mapping_service = Mapping::Service::CategoryMappingService.
     new(term_provider: term_provider, context_provider: context_provider, cyc: cyc, multiplier: mulitiplier,
         verbose: options[:verbose], talkative: options[:talkative])
@@ -74,14 +74,16 @@ CSV.open(options[:output], 'w') do |output|
   CSV.open(options[:input]) do |input|
     input.with_progress do |row|
       category_name = row.shift
+      category = Category.find_by_name(category_name)
+      next if category.nil?
+
       yajl = Yajl::Parser.parse(row.shift)
 
       begin
         candidate_set = term_provider.create_empty_candidate_set
         yajl.each do |phrase, candidates|
-          candidate_set.add(phrase, candidates.map{|cyc_id, cyc_name| name_service.find_by_id(cyc_id)})
+          candidate_set.add(phrase, candidates.map { |cyc_id, cyc_name| name_service.find_by_id(cyc_id) })
         end
-        category = Category.find_by_name(category_name)
         output << mapping_service.support_for_category_candidate_set(category, candidate_set)
       rescue Interrupt
         puts
