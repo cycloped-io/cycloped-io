@@ -72,7 +72,7 @@ module Mapping
             articles_context.each do |distance, entities|
               instance_candidate_sets = related_article_candidates(entities.uniq)
               type_candidate_sets = related_type_candidates(entities.uniq)
-              counts.concat(number_of_matched_candidates(instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.isa?(c,t)} || @cyc.genls?(c,t) })
+              counts.concat(number_of_matched_candidates(instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.cor{|cyc| cyc.isa?(c,t)}; @cyc.genls?(c,t)} })
               counts.concat(number_of_matched_candidates(type_candidate_sets,term,"DBPEDIA_TYPE"){|t,c| @cyc.genls?(t,c) || @cyc.genls?(c,t) ||
                                 @cyc.isa?(t,c) || @cyc.isa?(c,t) })
             end
