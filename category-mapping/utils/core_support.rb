@@ -64,7 +64,7 @@ context_provider = Mapping::ContextProvider.new(rlp_services: services, distance
 merger = Mapping::Service::TermMerger.new(cyc: cyc)
 multiplier = Mapping::CandidateMultiplier.new(merger: merger, black_list: black_list_reader.read, name_service: name_service)
 mapping_service = Mapping::Service::CategoryMappingService.
-    new(term_provider: term_provider, context_provider: context_provider, cyc: cyc, multiplier: mulitiplier,
+    new(term_provider: term_provider, context_provider: context_provider, cyc: cyc, multiplier: multiplier,
         verbose: options[:verbose], talkative: options[:talkative])
 
 

@@ -37,7 +37,7 @@ module Mapping
 
       # Support given candidate set.
       def support_for_category_candidate_set(category, candidate_set)
-        row = [category.name,candidate_set.full_name]
+        row = [category.name, candidate_set.full_name]
         report(category.name.hl(:blue))
         if candidate_set.size > 1
           report(candidate_set.all_candidates.to_s.hl(:purple))
@@ -53,7 +53,7 @@ module Mapping
 
           parents_context = context.get_parents
           children_context = context.get_children
-          articles_context =  context.get_articles
+          articles_context = context.get_articles
 
           # matched relations computation
           candidates.each do |term|
@@ -61,25 +61,25 @@ module Mapping
 
             parents_context.each do |distance, entities|
               candidate_sets = related_category_candidates(entities.uniq)
-              counts.concat(number_of_matched_candidates(candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(t,c) })
+              counts.concat(number_of_matched_candidates(candidate_sets, term, candidate_set.full_name) { |t, c| @cyc.genls?(t, c) })
             end
 
             children_context.each do |distance, entities|
               candidate_sets = related_category_candidates(entities.uniq)
-              counts.concat(number_of_matched_candidates(candidate_sets,term,candidate_set.full_name){|t,c| @cyc.genls?(c,t) })
+              counts.concat(number_of_matched_candidates(candidate_sets, term, candidate_set.full_name) { |t, c| @cyc.genls?(c, t) })
             end
 
             articles_context.each do |distance, entities|
               instance_candidate_sets = related_article_candidates(entities.uniq)
               type_candidate_sets = related_type_candidates(entities.uniq)
-              counts.concat(number_of_matched_candidates(instance_candidate_sets,term,candidate_set.full_name){|t,c| @cyc.with_any_mt{|cyc| cyc.cor{|cyc| cyc.isa?(c,t)}; @cyc.genls?(c,t)} })
-              counts.concat(number_of_matched_candidates(type_candidate_sets,term,"DBPEDIA_TYPE"){|t,c| @cyc.genls?(t,c) || @cyc.genls?(c,t) ||
-                                @cyc.isa?(t,c) || @cyc.isa?(c,t) })
+              counts.concat(number_of_matched_candidates(instance_candidate_sets, term, candidate_set.full_name) { |t, c| @cyc.with_any_mt { |cyc| cyc.cor { |cyc| cyc.isa?(c, t); cyc.genls?(c, t) } } })
+              counts.concat(number_of_matched_candidates(type_candidate_sets, term, "DBPEDIA_TYPE") { |t, c| @cyc.genls?(t, c) || @cyc.genls?(c, t) ||
+                                @cyc.isa?(t, c) || @cyc.isa?(c, t) })
             end
 
 
             positive, negative = sum_counts(counts)
-            row.concat([term.id,term.to_ruby.to_s,positive,positive+negative])
+            row.concat([term.id, term.to_ruby.to_s, positive, positive+negative])
           end
         end
         row
@@ -87,12 +87,12 @@ module Mapping
 
       #Counts positive and negative signals.
       def sum_counts(counts)
-        positive = counts.map.with_index{|e,i| e if i % 2 == 0 }.compact.inject(0){|e,s| e + s }
-        negative = counts.map.with_index{|e,i| e if i % 2 != 0 }.compact.inject(0){|e,s| e + s }
+        positive = counts.map.with_index { |e, i| e if i % 2 == 0 }.compact.inject(0) { |e, s| e + s }
+        negative = counts.map.with_index { |e, i| e if i % 2 != 0 }.compact.inject(0) { |e, s| e + s }
         report do |reporter|
           if positive > 0
             count_string = "  %-20s p:%i/%i,c:%i/%i,i:%i/%i,t:%i/%i -> %i/%i/%.1f" %
-                [term.to_ruby,*counts,positive,positive+negative,(positive/(positive+negative).to_f*100)]
+                [term.to_ruby, *counts, positive, positive+negative, (positive/(positive+negative).to_f*100)]
             reporter.call(count_string.hl(:green))
           else
             reporter.call("  #{term.to_ruby}".hl(:red))
