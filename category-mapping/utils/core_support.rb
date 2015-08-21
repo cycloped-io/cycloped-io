@@ -16,7 +16,7 @@ require 'nouns/nouns'
 require 'yajl'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -i core_candidates.csv -o core_support.csv -d database_path \n"+
+  banner "#{$PROGRAM_NAME} -i core_candidates.csv -o core_support.csv -d database_path -x 2 \n"+
              'Count support of 2 level for categories.'
 
   on :d=, :database, 'ROD database with Wikipedia data', required: true
@@ -29,8 +29,7 @@ options = Slop.new do
   on :a=, :'article-filters', 'Filters for articles: as above', default: 'c|i:r:f:l:d'
   on :b=, :'black-list', 'File with black list of Cyc abstract types'
   on :s=, :services, 'File with addresses of ROD-rest services'
-  on :v, :verbose, 'Display verbose messages (progress is suppresed)'
-  on :V, :talkative, 'Display detailed messages about potential and matched links (isa/genls)'
+  on :x=, :distance, 'Context distance', required: true, as: Integer
 end
 
 begin
@@ -60,7 +59,7 @@ if options[:services]
     services[id] = Rod::Rest::Client.new(http_client: connection, proxy_cache: cache)
   end
 end
-context_provider = Mapping::ContextProvider.new(rlp_services: services, distance: 2)
+context_provider = Mapping::ContextProvider.new(rlp_services: services, distance: options[:distance])
 
 merger = Mapping::Service::TermMerger.new(cyc: cyc)
 mulitiplier = Mapping::CandidateMultiplier.new(merger: merger, black_list: black_list_reader.read, name_service: name_service)
