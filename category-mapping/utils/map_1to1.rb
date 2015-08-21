@@ -35,39 +35,19 @@ rescue => ex
 end
 
 cyc = Cyc::Client.new(port: options[:port], host: options[:host], cache: true)
-$name_service = Mapping::Service::CycNameService.new(cyc)
+name_service = Mapping::Service::CycNameService.new(cyc)
 
-def read_cyc_to_wiki(path)
-  cyc_to_wiki = Hash.new { |hash, key| hash[key] = [] }
-  CSV.open(path) do |input|
-    input.with_progress do |name, phrase, *types|
-      types = types.each_slice(4).to_a
-      types.each do |cyc_id, cyc_name, support, signals|
-        cyc_to_wiki[cyc_id] << [name, support.to_i, signals.to_i]
-      end
+
+cyc_to_wiki = Hash.new { |hash, key| hash[key] = [] }
+CSV.open(options[:input]) do |input|
+  input.with_progress do |name, phrase, *types|
+    types = types.each_slice(4).to_a
+    types.each do |cyc_id, cyc_name, support, signals|
+      cyc_to_wiki[cyc_id] << [name, support.to_i, signals.to_i]
     end
   end
-  cyc_to_wiki.default = nil
-  return cyc_to_wiki
 end
 
-def exact_mapping(path)
-  cyc_to_wiki = AutoSerializer.auto(:read_cyc_to_wiki, path,)
-
-  cyc_to_wiki_filtered = {}
-  cyc_to_wiki.with_progress do |cyc_id, wikis|
-    cyc_term = $name_service.find_by_id(cyc_id)
-    labels = $name_service.labels(cyc_term).map { |label| label.downcase } #+ [name_service.canonical_label(cyc_term)]
-    wikis.reject! { |name, support, signals| !labels.include?(name.downcase) }
-    if !wikis.empty?
-      cyc_to_wiki_filtered[cyc_id] = wikis
-    end
-  end
-
-  return cyc_to_wiki_filtered
-end
-
-cyc_to_wiki = AutoSerializer.auto(:exact_mapping, options[:input])
 
 
 supports = Hash.new
@@ -109,14 +89,14 @@ wiki_stats = Hash.new { |hash, key| hash[key] = [] }
 CSV.open(options[:wiki_output], 'w') do |wiki_output|
   CSV.open(options[:output], 'w') do |output|
     assigned.each do |cyc_id, wikis|
-      output << [cyc_id, $name_service.find_by_id(cyc_id).to_ruby.to_s]+wikis
+      output << [cyc_id, name_service.find_by_id(cyc_id).to_ruby.to_s]+wikis
       stats[wikis.size]+=1
       if wikis.size>1
-        p $name_service.find_by_id(cyc_id), wikis
+        p name_service.find_by_id(cyc_id), wikis
       end
       wikis.each do |wiki|
         wiki_stats[wiki] << cyc_id
-        wiki_output << [wiki, cyc_id, $name_service.find_by_id(cyc_id).to_ruby.to_s]
+        wiki_output << [wiki, cyc_id, name_service.find_by_id(cyc_id).to_ruby.to_s]
       end
     end
   end
@@ -130,7 +110,7 @@ c=0
 wiki_stats.each do |wiki, cyc_ids|
   if cyc_ids.size>1
     c+=1
-    p wiki, cyc_ids.map { |cyc_id| $name_service.find_by_id(cyc_id) }
+    p wiki, cyc_ids.map { |cyc_id| name_service.find_by_id(cyc_id) }
   end
 end
 puts 'Categories assigned to more than one Cyc term: %s' % [c]
