@@ -53,12 +53,7 @@ CSV.open(options[:reference], "r:utf-8") do |input|
   end
 end
 
-
-
 mismatch_file = CSV.open(options[:mismatch], "w") if options[:mismatch]
-
-
-
 classification = {}
 CSV.open(options[:classification], "r:utf-8") do |input|
   input.with_progress do |name, entropy, *types|

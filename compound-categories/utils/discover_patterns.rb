@@ -8,7 +8,7 @@ require 'csv'
 require 'compound/pattern_builder'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -f entity_matches.csv -o patterns [-n] [-l order]\n"+
+  banner "#{$PROGRAM_NAME} -f entity_matches.csv -o patterns\n"+
     "Discover patterns in category names."
 
   on :f=, :input, "Input file with article name matches", required: true
