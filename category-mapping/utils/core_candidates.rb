@@ -16,7 +16,7 @@ require 'nouns/nouns'
 require 'yajl'
 
 options = Slop.new do
-  banner "#{$PROGRAM_NAME} -o core_candidates.csv -d database_path\n"+
+  banner "#{$PROGRAM_NAME} -o core_candidates.csv -d database_path -r\n"+
              'Generate candidates for core categories'
 
   on :d=, :database, 'ROD database with Wikipedia data', required: true
@@ -27,8 +27,7 @@ options = Slop.new do
             'n - noun, r - rewrite of, l - lower case, f - function, c|i - collection or individual, b - black list, d - ill-defined', default: 'c:r:f:l:d'
   on :a=, :'article-filters', 'Filters for articles: as above', default: 'c|i:r:f:l:d'
   on :b=, :'black-list', 'File with black list of Cyc abstract types'
-  on :v, :verbose, 'Display verbose messages (progress is suppresed)'
-  on :V, :talkative, 'Display detailed messages about potential and matched links (isa/genls)'
+  on :r, :return_all, 'Return all candidates'
 end
 
 begin
@@ -48,7 +47,7 @@ filter_factory = Mapping::Filter::Factory.new(cyc: cyc, black_list: black_list_r
 term_provider = Mapping::TermProvider.
     new(cyc: cyc, name_service: name_service,
         category_filters: filter_factory.filters(options[:'category-filters']),
-        article_filters: filter_factory.filters(options[:'article-filters']))
+        article_filters: filter_factory.filters(options[:'article-filters']), name_mapper: Mapping::NameMapper.new(cyc: cyc, name_service: name_service, return_all: !!options[:return_all]))
 
 Database.instance.open_database(options[:database])
 
