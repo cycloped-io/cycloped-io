@@ -12,8 +12,9 @@ require 'set'
 require 'rod/rest'
 require 'syntax'
 require 'mapping'
-require 'nouns/nouns'
+# require 'nouns/nouns'
 require 'yajl'
+require 'wiktionary/noun'
 
 options = Slop.new do
   banner "#{$PROGRAM_NAME} -o core_candidates.csv -d database_path -r\n"+

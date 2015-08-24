@@ -22,7 +22,7 @@ module Mapping
       @concept_types_cache = Ref::WeakValueMap.new
       @term_cache = Ref::WeakValueMap.new
 
-      @nouns = Nouns.new
+      @nouns = Wiktionary::Noun.new
     end
 
     # Returns the candidate terms for the Wikipedia +category+.
