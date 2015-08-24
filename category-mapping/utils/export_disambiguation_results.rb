@@ -96,7 +96,7 @@ CSV.open(options[:output],"w") do |output|
       best = best.first
       output << [category_name,best.cyc_id,best.cyc_name,best.probability]
       map_output << map_tuple if map_output
-      mle_output << winner_tuple if mle_output
+      mle_output << mle_tuple if mle_output
     end
   end
 end
