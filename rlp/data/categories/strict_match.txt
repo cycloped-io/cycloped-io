@@ -1,9 +1,0 @@
-articles
-lists
-categories
-(?<!code )pages
-images
-scope
-scopes
-navigational boxes
-afc
