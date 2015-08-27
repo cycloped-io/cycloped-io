@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require 'rlp/wiki'
 $:.unshift 'lib'
 require 'slop'
 require 'csv'
